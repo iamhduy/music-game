@@ -20,3 +20,12 @@ int main()
 //    }
 //
 //}
+
+//If we had a Game and Item class we could do something like this
+//to move an image to a desired location
+//
+//void Game::Add(std::shared_ptr<Item> item, double startX, double startY)
+//{
+//    item->SetLocation(startX, startY);
+//    mItems.push_back(item);
+//}
