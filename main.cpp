@@ -1,10 +1,13 @@
-#include <iostream>
+/**
+ * @file main.cpp
+ * @author phamhoan
+ */
 
-int main()
-{
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
+#include "pch.h"
+#include "GameApp.h"
+
+wxIMPLEMENT_APP(GameApp);
+
 
 //If we had scoreboard class, could do something like
 //this to keep score

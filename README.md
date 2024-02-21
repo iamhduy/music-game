@@ -1,5 +1,5 @@
 # Class Diagram:
-![Design](https://gitlab.msu.edu/phamhoan/project1/blob/master/Project1VP.png?raw=true)
+![Design](img/Project1VP.png)
 # Project Description:
 
 https://facweb.cse.msu.edu/cbowen/cse335/project1-ss24/description.php
