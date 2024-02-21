@@ -64,6 +64,8 @@ public:
      * @return Pointer to Level object
      */
     Level *GetGame() { return mLevel;  }
+
+    void XmlLoad(wxXmlNode *node);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEM_H

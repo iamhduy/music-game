@@ -3,6 +3,7 @@
  * @author Milo Baran
  */
 
+#include "pch.h"
 #include "Item.h"
 using namespace std;
 
@@ -37,4 +38,15 @@ Item::Item(Level *level, const std::wstring &filename) : mLevel(level)
 {
     mItemImage = make_unique<wxImage>(filename, wxBITMAP_TYPE_ANY);
     mItemBitmap = make_unique<wxBitmap>(*mItemImage);
+}
+
+/**
+ * Load the position attribute for an item node.
+ *
+ * @param node The Xml node we are loading the item from
+ */
+void Item::XmlLoad(wxXmlNode *node)
+{
+    node->GetAttribute(L"x", L"0").ToDouble(&mX);
+    node->GetAttribute(L"y", L"0").ToDouble(&mY);
 }
