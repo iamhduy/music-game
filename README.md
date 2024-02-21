@@ -1,4 +1,4 @@
-# Class Diagram
+# Class Diagram:
 ![Design](https://gitlab.msu.edu/phamhoan/project1/blob/master/Project1VP.png?raw=true)
 # Project Description:
 
