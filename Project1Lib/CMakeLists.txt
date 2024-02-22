@@ -8,7 +8,9 @@ set(SOURCE_FILES
         GameView.h
         ids.h
         Item.cpp
-        Item.h)
+        Item.h
+        Game.cpp
+        Game.h)
 
 set(wxBUILD_PRECOMP OFF)
 find_package(wxWidgets COMPONENTS core base xrc html xml REQUIRED)

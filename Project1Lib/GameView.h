@@ -10,10 +10,13 @@
 /**
  * View class for our game
  */
+
+#include "Game.h"
+
 class GameView : public wxWindow
 {
 private:
-
+    Game mGame;
 public:
     void Initialize(wxFrame* parent);
     void OnGoToLevel0(wxCommandEvent &event);
