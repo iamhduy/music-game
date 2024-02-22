@@ -13,6 +13,8 @@ private:
 
 public:
     bool OnInit() override;
+
+    int OnExit() override;
 };
 
 #endif //PROJECT1__GAMEAPP_H
