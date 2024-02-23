@@ -9,7 +9,7 @@
 #define PROJECT1_PROJECT1LIB_SOUND_H
 
 #include <string>
-#include "C:\Users\Admin\project1\cmake-build-debug\_deps\miniaudio-src\miniaudio.h"
+#include <miniaudio.h>
 #include "Item.h"
 
 class Sound : public Item
