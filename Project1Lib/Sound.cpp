@@ -4,6 +4,7 @@
  */
 #include "pch.h"
 #include "Sound.h"
+
 /// Directory that contains the audio files
 const std::wstring AudioDirectory = L"audio";
 

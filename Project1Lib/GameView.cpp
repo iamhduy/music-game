@@ -16,6 +16,8 @@ void GameView::Initialize(wxFrame *parent)
     Create(parent, wxID_ANY);
     SetBackgroundColour(wxBG_STYLE_PAINT);
 
+    Bind(wxEVT_PAINT, &GameView::OnPaint, this);
+
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel0 ,this, IDM_LEVEL0);
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel1,this, IDM_LEVEL1);
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel2,this, IDM_LEVEL2);
@@ -24,12 +26,27 @@ void GameView::Initialize(wxFrame *parent)
 }
 
 /**
+ * Paint event, draws the window.
+ * @param event Paint event object
+ */
+void GameView::OnPaint(wxPaintEvent &event)
+{
+    wxAutoBufferedPaintDC dc(this);
+    wxBrush background(*wxWHITE);
+    dc.SetBackground(background);
+    dc.Clear();
+
+    mGame.OnDraw(&dc);
+}
+
+
+/**
  * Menu hander for Level>Level0
  * @param event Mouse event
  */
 void GameView::OnGoToLevel0(wxCommandEvent &event)
 {
-
+    mGame.Load("level0.xml");
 }
 
 /**

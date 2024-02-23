@@ -24,6 +24,7 @@ public:
     void OnGoToLevel2(wxCommandEvent &event);
     void OnGoToLevel3(wxCommandEvent &event);
     void OnAutoPlay(wxCommandEvent &event);
+    void OnPaint(wxPaintEvent &event);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAMEVIEW_H

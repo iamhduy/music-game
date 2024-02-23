@@ -16,7 +16,13 @@ set(SOURCE_FILES
         Soundboard.cpp
         Soundboard.h
         Game.cpp
-        Game.h)
+        Game.h
+        Meter.cpp
+        Meter.h
+        Scoreboard.cpp
+        Scoreboard.h
+        Puck.cpp
+        Puck.h)
 
 set(wxBUILD_PRECOMP OFF)
 find_package(wxWidgets COMPONENTS core base xrc html xml REQUIRED)

@@ -27,7 +27,7 @@ const double TopClearance = 0.1;
 const double KeyRow = 0.85;
 
 const wstring ImageName = L"images/sound-board.png";
-const wstring CoverName = L"images/cover.png";
+const wstring CoverName = L"images/sound-board-cover.png";
 
 Soundboard::Soundboard(Level *Level) : Item(Level, ImageName)
 {
@@ -40,6 +40,13 @@ void Soundboard::XmlLoad(wxXmlNode *node)
 
     node->GetAttribute(L"image", &mImageFile);
     node->GetAttribute(L"cover", &mCoverFile);
+
+    string size = node->GetAttribute(L"size", L"0,0").ToStdString();
+    auto index = size.find(',');
+    mSizeX = stoi(size.substr(index));
+    mSizeY = stoi(size.substr(index+1, size.size()));
+
+    Item::XmlLoad(node);
 }
 
 
