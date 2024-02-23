@@ -7,7 +7,7 @@
 
 #ifndef PROJECT1_PROJECT1LIB_ITEM_H
 #define PROJECT1_PROJECT1LIB_ITEM_H
-
+#include <wx/xml/xml.h>
 class Level;
 
 class Item
@@ -27,7 +27,7 @@ private:
     std::unique_ptr<wxBitmap> mItemBitmap;
 
 protected:
-    Item(Level* aquarium, const std::wstring &filename);
+    Item(Level* level, const std::wstring &filename);
 
 public:
     /// Default constructor (disabled)
@@ -63,9 +63,9 @@ public:
      * Get the pointer to the Level object
      * @return Pointer to Level object
      */
-    Level *GetGame() { return mLevel;  }
+    Level *GetGame() { return mLevel; }
 
-    void XmlLoad(wxXmlNode *node);
+    virtual void XmlLoad(wxXmlNode *node);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEM_H

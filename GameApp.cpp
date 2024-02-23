@@ -6,12 +6,6 @@
 #include "GameApp.h"
 #include <MainFrame.h>
 
-#define MINIAUDIO_IMPLEMENTATION
-#include "miniaudio.h"
-
-/// The audio engine for miniaudio
-ma_engine mAudioEngine;
-
 bool GameApp::OnInit()
 {
     if (!wxApp::OnInit())
@@ -33,8 +27,13 @@ bool GameApp::OnInit()
     return true;
 }
 
+/**
+ * Exit the application. Time to shut down services such as miniaudio
+ * @return Normal program exit code
+ */
 int GameApp::OnExit()
 {
     ma_engine_uninit(&mAudioEngine);
     return wxAppBase::OnExit();
 }
+

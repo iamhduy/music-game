@@ -2,7 +2,7 @@
  * @file Item.cpp
  * @author Milo Baran
  */
-
+#include "pch.h"
 #include "pch.h"
 #include "Item.h"
 using namespace std;
@@ -41,7 +41,11 @@ Item::Item(Level *level, const std::wstring &filename) : mLevel(level)
 }
 
 /**
- * Load the position attribute for an item node.
+ * Load the attributes for an item node.
+ *
+ * This is the  base class version that loads the attributes
+ * common to all items. Override this to load custom attributes
+ * for specific items.
  *
  * @param node The Xml node we are loading the item from
  */

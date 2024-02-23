@@ -9,6 +9,12 @@ set(SOURCE_FILES
         ids.h
         Item.cpp
         Item.h
+        Sound.cpp
+        Sound.h
+        Level.cpp
+        Level.h
+        Soundboard.cpp
+        Soundboard.h
         Game.cpp
         Game.h)
 
