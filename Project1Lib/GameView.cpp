@@ -16,7 +16,7 @@ void GameView::Initialize(wxFrame *parent)
     Create(parent, wxID_ANY);
     SetBackgroundColour(wxBG_STYLE_PAINT);
 
-    Bind(wxEVT_PAINT, &GameView::OnPaint, this);
+    //Bind(wxEVT_PAINT, &GameView::OnPaint, this);
 
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel0 ,this, IDM_LEVEL0);
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel1,this, IDM_LEVEL1);

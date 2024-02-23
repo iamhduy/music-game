@@ -9,7 +9,7 @@ using namespace std;
 
 Game::Game()
 {
-    mBackground = make_unique<wxBitmap>(L"img/background1.png", wxBITMAP_TYPE_ANY);
+    //mBackground = make_unique<wxBitmap>(L"img/background1.png", wxBITMAP_TYPE_ANY);
 }
 
 /**
@@ -28,7 +28,7 @@ void Game::Clear()
  */
 void Game::OnDraw(wxDC *dc)
 {
-    dc->DrawBitmap(*mBackground, 0, 0);
+    //dc->DrawBitmap(*mBackground, 0, 0);
 
     for (auto const item : mItems)
     {
