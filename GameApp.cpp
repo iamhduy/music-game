@@ -6,12 +6,15 @@
 #include "GameApp.h"
 #include <MainFrame.h>
 
+#define MINIAUDIO_IMPLEMENTATION
+#include "miniaudio.h"
+
 bool GameApp::OnInit()
 {
     if (!wxApp::OnInit())
         return false;
     auto frame = new MainFrame();
-    frame->Initialize();
+    frame->Initialize(&mAudioEngine);
     frame->Show(true);
 
     // Initialize the audio engine

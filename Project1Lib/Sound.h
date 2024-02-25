@@ -12,7 +12,7 @@
 #include <miniaudio.h>
 #include "Item.h"
 
-class Sound : public Item
+class Sound
 {
 private:
     /// Name of the sound
@@ -43,6 +43,10 @@ public:
     void LoadSound(ma_engine* audioEngine);
 
     void XmlLoad(wxXmlNode *node);
+
+    void SetAudioFile(wxString audioFile) {mAudioFile = audioFile;};
+
+    void SetVolume(double volume) {mVolume = volume;};
 };
 
 #endif //PROJECT1_PROJECT1LIB_SOUND_H

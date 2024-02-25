@@ -10,11 +10,14 @@
 
 #include <memory>
 #include "Item.h"
+#include "miniaudio.h"
 
 class Game
 {
 private:
 // keep level objects for level 0,1,2,3?
+
+    ma_engine* mAudioEngine;
 
     std::unique_ptr<wxBitmap> mBackground; ///< Background image to use
 
@@ -23,13 +26,16 @@ private:
 
     void XmlItem(wxXmlNode *node);
 public:
-    Game();
+    Game(ma_engine *PEngine);
 
     void Load(const wxString &filename);
 
     void Clear();
     void OnDraw(wxDC *dc);
     void Add(std::shared_ptr<Item> item);
+
+    ma_engine* GetAudioEngine() {return mAudioEngine;};
+
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

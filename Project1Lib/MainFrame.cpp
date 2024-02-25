@@ -11,7 +11,7 @@
 /**
  * Initialize the MainFrame window.
  */
-void MainFrame::Initialize()
+void MainFrame::Initialize(ma_engine *PEngine)
 {
     Create(nullptr, wxID_ANY, L"Spartan Hero",
            wxDefaultPosition,  wxSize( 1000,800 ));
@@ -21,7 +21,7 @@ void MainFrame::Initialize()
     auto sizer = new wxBoxSizer( wxVERTICAL );
 
     // Create the view class object as a child of MainFrame
-    auto gameView = new GameView();
+    auto gameView = new GameView(PEngine);
     gameView->Initialize(this);
 
     // Add it to the sizer

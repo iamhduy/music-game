@@ -58,10 +58,12 @@ void Sound::PlaySound()
 {
     if(mLoaded)
     {
+        std::cout << "LOADED" << std::endl;
         // If the sound is already playing, stop it first
         if(ma_sound_is_playing(&mSound))
         {
             ma_sound_stop(&mSound);
+            std::cout << "?" << std::endl;
         }
 
         // Always rewind to the beginning before playing
@@ -77,12 +79,15 @@ void Sound::PlaySound()
  */
 void Sound::PlayEnd()
 {
+    std::cout << "START" << std::endl;
     if(mLoaded)
     {
+        std::cout << ma_sound_is_playing(&mSound) << std::endl;
         // If the sound is already playing, stop it first
         if(ma_sound_is_playing(&mSound))
         {
             ma_sound_stop(&mSound);
+            std::cout << ma_sound_is_playing(&mSound) << std::endl;
         }
     }
 }

@@ -5,8 +5,6 @@
 
 #include "pch.h"
 #include "GameApp.h"
-#define MINIAUDIO_IMPLEMENTATION
-#include "miniaudio.h"
 
 wxIMPLEMENT_APP(GameApp);
 

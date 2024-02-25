@@ -13,6 +13,17 @@ find_package(wxWidgets COMPONENTS core base xrc html xml REQUIRED)
 # Include the wxWidgets use file to initialize various settings
 include(${wxWidgets_USE_FILE})
 
+# Fetch spartanhero-resources from GitHub
+include(FetchContent)
+FetchContent_Declare(
+        spartanhero-resources
+        GIT_REPOSITORY https://github.com/charles-owen/spartanhero-resources.git
+        GIT_TAG origin/main
+)
+FetchContent_MakeAvailable(spartanhero-resources)
+# Copy resources into output directory
+file(COPY ${spartanhero-resources_SOURCE_DIR}/resources/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+
 # Fetch miniaudio from GitHub
 include(FetchContent)
 FetchContent_Declare(
@@ -23,20 +34,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(miniaudio)
 include_directories(${miniaudio_SOURCE_DIR})
-
-
-# Fetch spartanhero-resources from GitHub
-include(FetchContent)
-FetchContent_Declare(
-        spartanhero-resources
-        GIT_REPOSITORY https://github.com/charles-owen/spartanhero-resources.git
-        GIT_TAG origin/main
-)
-
-FetchContent_MakeAvailable(spartanhero-resources)
-
-# Copy resources into output directory
-file(COPY ${spartanhero-resources_SOURCE_DIR}/resources/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 
 add_subdirectory(${APPLICATION_LIBRARY})
 include_directories(${APPLICATION_LIBRARY})

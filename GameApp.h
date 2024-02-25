@@ -6,6 +6,7 @@
 
 #ifndef PROJECT1__GAMEAPP_H
 #define PROJECT1__GAMEAPP_H
+
 #include "miniaudio.h"
 
 class GameApp : public wxApp

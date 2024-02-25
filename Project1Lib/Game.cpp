@@ -7,9 +7,8 @@
 #include <wx/xml/xml.h>
 using namespace std;
 
-Game::Game()
+Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
-    //mBackground = make_unique<wxBitmap>(L"img/background1.png", wxBITMAP_TYPE_ANY);
 }
 
 /**
