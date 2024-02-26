@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "GameView.h"
 #include <wx/dcbuffer.h>
+#include <wx/event.h>
 #include "ids.h"
 #include "Sound.h"
 
@@ -48,8 +49,52 @@ void GameView::Initialize(wxFrame *parent)
  */
 void GameView::OnKeyDown(wxKeyEvent& event)
 {
+    wxChar key = event.GetKeyCode();
+    // A = 65, S = 83, D = 68, F = 70
+    // J = 74, K = 75, L = 76, ; = 59
     Sound sound;
-    sound.SetAudioFile(L"piano/D4-long.mp3");
+
+    switch(key)
+    {
+        case(wxChar(65)):
+            sound.SetAudioFile(L"trumpet/C4.wav");
+            std::cout << "A" << std::endl;
+            break;
+        case(wxChar(83)):
+            sound.SetAudioFile(L"trumpet/Db4.wav");
+            std::cout << "S" << std::endl;
+            break;
+        case(wxChar(68)):
+            sound.SetAudioFile(L"trumpet/Eb4.wav");
+            std::cout << "D" << std::endl;
+            break;
+        case(wxChar(70)):
+            sound.SetAudioFile(L"trumpet/E4.wav");
+            std::cout << "F" << std::endl;
+            break;
+
+        case(wxChar(74)):
+            sound.SetAudioFile(L"trumpet/C5.wav");
+            std::cout << "J" << std::endl;
+            break;
+        case(wxChar(75)):
+            sound.SetAudioFile(L"trumpet/Db5.wav");
+            std::cout << "K" << std::endl;
+            break;
+        case(wxChar(76)):
+            sound.SetAudioFile(L"trumpet/Eb5.wav");
+            std::cout << "L" << std::endl;
+            break;
+        case(wxChar(59)):
+            sound.SetAudioFile(L"trumpet/E5.wav");
+            std::cout << ";" << std::endl;
+            break;
+
+        default:
+            sound.SetAudioFile(L"trumpet/B4.wav");
+            std::cout << "Not a key" << std::endl;
+            break;
+    }
     sound.SetVolume(0.5);
     sound.LoadSound(mGame.GetAudioEngine());
 
