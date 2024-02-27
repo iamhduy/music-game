@@ -1,19 +1,19 @@
 /**
- * @file Meter.cpp
+ * @file ScoreBoard.cpp
  * @author hduy
  */
+
 #include "pch.h"
+#include "ScoreBoard.h"
 #include <string>
-#include "Meter.h"
+
 using namespace std;
 
-const wstring ImageFile = L"images/meter.png";
-
-Meter::Meter(Level *Level) : Item(Level, ImageFile)
+ScoreBoard::ScoreBoard(Game *game) : Item(game)
 {
 }
 
-void Meter::XmlLoad(wxXmlNode *node)
+void ScoreBoard::XmlLoad(wxXmlNode *node)
 {
     node->GetAttribute(L"id", &mId);
     node->GetAttribute(L"top-width", "300").ToInt(&mTopWidth);

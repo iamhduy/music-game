@@ -1,10 +1,10 @@
 /**
- * @file Soundboard.cpp
+ * @file SoundBoard.cpp
  * @author hduy
  */
 
 #include "pch.h"
-#include "Soundboard.h"
+#include "SoundBoard.h"
 #include <string>
 using namespace std;
 /// The maximum number of tracks
@@ -26,14 +26,12 @@ const double TopClearance = 0.1;
 /// disappear.
 const double KeyRow = 0.85;
 
-const wstring ImageName = L"images/sound-board.png";
-const wstring CoverName = L"images/sound-board-cover.png";
 
-Soundboard::Soundboard(Level *Level) : Item(Level, ImageName)
+SoundBoard::SoundBoard(Game* game) : Item(game)
 {
 }
 
-void Soundboard::XmlLoad(wxXmlNode *node)
+void SoundBoard::XmlLoad(wxXmlNode *node)
 {
     node->GetAttribute(L"id", &mId);
     node->GetAttribute(L"top-width", "300").ToInt(&mTopWidth);

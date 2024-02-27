@@ -7,11 +7,11 @@
 #include "Puck.h"
 #include <string>
 using namespace std;
-const wstring ImageDir= L"images/puck-a";
 
-Puck::Puck(Level *Level) : Item(Level, ImageDir)
+Puck::Puck(Game *game) : Item(game)
 {
 }
+
 void Puck::XmlLoad(wxXmlNode *node)
 {
     node->GetAttribute(L"id", &mId);

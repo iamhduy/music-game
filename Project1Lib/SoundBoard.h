@@ -1,15 +1,15 @@
 /**
- * @file Meter.h
+ * @file SoundBoard.h
  * @author hduy
  *
  *
  */
 
-#ifndef PROJECT1_PROJECT1LIB_METER_H
-#define PROJECT1_PROJECT1LIB_METER_H
-
+#ifndef PROJECT1_PROJECT1LIB_SOUNDBOARD_H
+#define PROJECT1_PROJECT1LIB_SOUNDBOARD_H
 #include "Item.h"
-class Meter : public Item
+
+class SoundBoard : public Item
 {
 private:
     wxString mId;
@@ -26,20 +26,19 @@ private:
 
     wxString mCoverFile;
 
-    wxString mNeedleFile;
 public:
     /// Default constructor (disabled)
-    Meter() = delete;
+    SoundBoard() = delete;
 
     /// Copy constructor (disabled)
-    Meter(const Meter &) = delete;
+    SoundBoard(const SoundBoard &) = delete;
 
     /// Assignment operator
-    void operator=(const Meter &) = delete;
+    void operator=(const SoundBoard &) = delete;
 
-    Meter(Level* Level);
+    SoundBoard(Game* game);
 
     void XmlLoad(wxXmlNode *node) override;
 };
 
-#endif //PROJECT1_PROJECT1LIB_METER_H
+#endif //PROJECT1_PROJECT1LIB_SOUNDBOARD_H

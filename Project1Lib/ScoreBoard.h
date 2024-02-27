@@ -1,5 +1,5 @@
 /**
- * @file Scoreboard.h
+ * @file ScoreBoard.h
  * @author hduy
  *
  *
@@ -9,7 +9,7 @@
 #define PROJECT1_PROJECT1LIB_SCOREBOARD_H
 
 #include "Item.h"
-class Scoreboard : public Item
+class ScoreBoard : public Item
 {
 private:
     wxString mId;
@@ -23,15 +23,15 @@ private:
     wxString mImageFile;
 public:
     /// Default constructor (disabled)
-    Scoreboard() = delete;
+    ScoreBoard() = delete;
 
     /// Copy constructor (disabled)
-    Scoreboard(const Scoreboard &) = delete;
+    ScoreBoard(const ScoreBoard &) = delete;
 
     /// Assignment operator
-    void operator=(const Scoreboard &) = delete;
+    void operator=(const ScoreBoard &) = delete;
 
-    Scoreboard(Level* Level);
+    ScoreBoard(Game* game);
 
     void XmlLoad(wxXmlNode *node) override;
 

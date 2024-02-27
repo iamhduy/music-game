@@ -24,11 +24,8 @@ private:
     std::set <char> key_pressed;
 public:
     void Initialize(wxFrame* parent);
-    void OnGoToLevel0(wxCommandEvent &event);
-    void OnGoToLevel1(wxCommandEvent &event);
-    void OnGoToLevel2(wxCommandEvent &event);
-    void OnGoToLevel3(wxCommandEvent &event);
-    void OnAutoPlay(wxCommandEvent &event);
+    void OnGoToLevel(wxCommandEvent &event);
+
     void OnPaint(wxPaintEvent &event);
 
     GameView(ma_engine *audioEngine);

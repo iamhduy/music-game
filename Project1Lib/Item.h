@@ -8,13 +8,15 @@
 #ifndef PROJECT1_PROJECT1LIB_ITEM_H
 #define PROJECT1_PROJECT1LIB_ITEM_H
 #include <wx/xml/xml.h>
-class Level;
+class Game;
 
 class Item
 {
 private:
     /// The game this item is contained in
-    Level   *mLevel;
+    Game   *mGame;
+
+    wxString mId;
 
     // Item location in the game
     double  mX = 0;     ///< X location for the center of the item
@@ -27,7 +29,7 @@ private:
     std::unique_ptr<wxBitmap> mItemBitmap;
 
 protected:
-    Item(Level* level, const std::wstring &filename);
+    Item(Game* game);
 
 public:
     /// Default constructor (disabled)
@@ -36,7 +38,7 @@ public:
     /// Copy constructor (disabled)
     Item(const Item &) = delete;
 
-    ~Item();
+    virtual ~Item();
 
     /**
      * The X location of the item
@@ -57,13 +59,13 @@ public:
      */
     virtual void SetLocation(double x, double y) { mX = x; mY = y; }
 
-    virtual void Draw(wxDC *dc);
+//    virtual void Draw(wxDC *dc);
 
     /**
      * Get the pointer to the Level object
      * @return Pointer to Level object
      */
-    Level *GetGame() { return mLevel; }
+    Game *GetGame() { return mGame; }
 
     virtual void XmlLoad(wxXmlNode *node);
 };

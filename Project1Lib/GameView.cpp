@@ -34,11 +34,11 @@ void GameView::Initialize(wxFrame *parent)
     Bind(wxEVT_KEY_DOWN, &GameView::OnKeyDown, this);
     Bind(wxEVT_KEY_UP, &GameView::OnKeyUp, this);
 
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel0 ,this, IDM_LEVEL0);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel1,this, IDM_LEVEL1);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel2,this, IDM_LEVEL2);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel3,this, IDM_LEVEL3);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnAutoPlay,this, IDM_AUTOPLAY);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL0);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL1);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL2);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL3);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_AUTOPLAY);
 
 
 }
@@ -109,7 +109,27 @@ void GameView::OnKeyDown(wxKeyEvent& event)
  */
 void GameView::OnKeyUp(wxKeyEvent& event)
 {
+    switch(event.GetId())
+    {
+        case IDM_LEVEL0:
+            mGame.Load("levels/level0.xml");
+            break;
 
+        case IDM_LEVEL1:
+            mGame.Load("levels/level1.xml");
+            break;
+
+        case IDM_LEVEL2:
+            mGame.Load("levels/level2.xml");
+            break;
+
+        case IDM_LEVEL3:
+            mGame.Load("levels/level3.xml");
+            break;
+
+        case IDM_AUTOPLAY:
+            break;
+    }
 }
 
 
@@ -129,46 +149,11 @@ void GameView::OnPaint(wxPaintEvent &event)
 
 
 /**
- * Menu hander for Level>Level0
+ * Menu hander for Level>all
  * @param event Mouse event
  */
-void GameView::OnGoToLevel0(wxCommandEvent &event)
-{
-    mGame.Load("level0.xml");
-}
-
-/**
- * Menu hander for Level>Level1
- * @param event Mouse event
- */
-void GameView::OnGoToLevel1(wxCommandEvent &event)
+void GameView::OnGoToLevel(wxCommandEvent &event)
 {
 
-}
-
-/**
- * Menu hander for Level>Level2
- * @param event Mouse event
- */
-void GameView::OnGoToLevel2(wxCommandEvent &event)
-{
-
-}
-
-/**
- * Menu hander for Level>Level3
- * @param event Mouse event
- */
-void GameView::OnGoToLevel3(wxCommandEvent &event)
-{
-
-}
-
-/**
- * Menu hander for Level>Auto Play
- * @param event Mouse event
- */
-void GameView::OnAutoPlay(wxCommandEvent &event)
-{
 
 }

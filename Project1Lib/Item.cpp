@@ -16,28 +16,26 @@ Item::~Item()
 }
 
 
-/**
- * Draw a item
- * @param dc Device context to draw on
- */
-void Item::Draw(wxDC *dc)
-{
-    double wid = mItemBitmap->GetWidth();
-    double hit = mItemBitmap->GetHeight();
-    dc->DrawBitmap(*mItemBitmap,
-                   int(GetX() - wid / 2),
-                   int(GetY() - hit / 2));
-}
+///**
+// * Draw a item
+// * @param dc Device context to draw on
+// */
+//void Item::Draw(wxDC *dc)
+//{
+//    double wid = mItemBitmap->GetWidth();
+//    double hit = mItemBitmap->GetHeight();
+//    dc->DrawBitmap(*mItemBitmap,
+//                   int(GetX() - wid / 2),
+//                   int(GetY() - hit / 2));
+//}
 
 /**
  * Constructor
  * @param level The level this item is a member of
  * @param filename The name of the file to display for this item
  */
-Item::Item(Level *level, const std::wstring &filename) : mLevel(level)
+Item::Item(Game *game) : mGame(game)
 {
-    mItemImage = make_unique<wxImage>(filename, wxBITMAP_TYPE_ANY);
-    mItemBitmap = make_unique<wxBitmap>(*mItemImage);
 }
 
 /**
@@ -51,6 +49,10 @@ Item::Item(Level *level, const std::wstring &filename) : mLevel(level)
  */
 void Item::XmlLoad(wxXmlNode *node)
 {
-    node->GetAttribute(L"x", L"0").ToDouble(&mX);
-    node->GetAttribute(L"y", L"0").ToDouble(&mY);
+    node->GetAttribute(L"id", &mId);
+
+    string size = node->GetAttribute(L"p", L"0,0").ToStdString();
+    auto index = size.find(',');
+    mX = stoi(size.substr(index));
+    mY = stoi(size.substr(index+1, size.size()));
 }

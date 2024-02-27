@@ -34,7 +34,7 @@ public:
     /// Assignment operator
     void operator=(const Puck &) = delete;
 
-    Puck(Level* Level);
+    Puck(Game* game);
 
     void XmlLoad(wxXmlNode *node) override;
 };

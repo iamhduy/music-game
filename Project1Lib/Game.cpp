@@ -4,11 +4,16 @@
  */
 #include "pch.h"
 #include "Game.h"
-#include <wx/xml/xml.h>
+#include "Image.h"
+#include "SoundBoard.h"
+#include "ScoreBoard.h"
+#include "ItemMeter.h"
+
 using namespace std;
 
 Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
+    //mBackground = make_unique<wxBitmap>(L"img/background1.png", wxBITMAP_TYPE_ANY);
 }
 
 /**
@@ -29,10 +34,10 @@ void Game::OnDraw(wxDC *dc)
 {
     //dc->DrawBitmap(*mBackground, 0, 0);
 
-    for (auto const item : mItems)
-    {
-        item->Draw(dc);
-    }
+//    for (auto const item : mItems)
+//    {
+//        item->Draw(dc);
+//    }
 }
 
 /**
@@ -73,12 +78,30 @@ void Game::XmlItem(wxXmlNode *node)
 {
     shared_ptr<Item> item;
 
-    //todo Load specific item here?
+    // We have an item. What type?
+    auto name = node->GetName();
+
+    if (name == L"image")
+    {
+        item = make_shared<Image>(this);
+    }
+    else if (name == L"sound-board")
+    {
+        item = make_shared<SoundBoard>(this);
+    }
+    else if (name == L"score-board")
+    {
+        item = make_shared<ScoreBoard>(this);
+    }
+    else if (name == L"meter")
+    {
+        item = make_shared<ItemMeter>(this);
+    }
 
     if (item != nullptr)
     {
-        Add(item);
         item->XmlLoad(node);
+        Add(item);
     }
 }
 
