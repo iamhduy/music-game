@@ -10,12 +10,17 @@
 #include <wx/xml/xml.h>
 class Game;
 
+/**
+ * Item Base Class
+ *
+ */
 class Item
 {
 private:
     /// The game this item is contained in
     Game   *mGame;
 
+    /// Item's id
     wxString mId;
 
     // Item location in the game

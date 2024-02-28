@@ -11,20 +11,32 @@
 #include <memory>
 #include "Item.h"
 #include "miniaudio.h"
+#include "Declaration.h"
 
+/**
+ * Game Class
+ *
+ */
 class Game
 {
 private:
 // keep level objects for level 0,1,2,3?
 
+    /// Audio Engine of the Game
     ma_engine* mAudioEngine;
 
-    std::unique_ptr<wxBitmap> mBackground; ///< Background image to use
+    /// Background image to use
+    std::unique_ptr<wxBitmap> mBackground;
 
     /// holding the item
     std::vector<std::shared_ptr<Item>> mItems;
 
+    ///holding the declaration
+    std::vector<std::shared_ptr<Declaration>> mDeclarations;
+
     void XmlItem(wxXmlNode *node);
+
+    void XmlDeclaration(wxXmlNode *node);
 public:
     Game(ma_engine *PEngine);
 
@@ -32,10 +44,14 @@ public:
 
     void Clear();
     void OnDraw(wxDC *dc);
-    void Add(std::shared_ptr<Item> item);
+    void AddItem(std::shared_ptr<Item> item);
+    void AddDeclaration(std::shared_ptr<Declaration> declaration);
 
+    /**
+     * Get the audio engine object
+     * @return Pointer to the audio engine object
+     */
     ma_engine* GetAudioEngine() {return mAudioEngine;};
-
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

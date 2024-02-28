@@ -10,7 +10,8 @@
 
 #include <wx/wxprec.h>
 
-/*
+/**
+ *
  * ID values for our program.
  */
 enum IDs {

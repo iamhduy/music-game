@@ -3,4 +3,5 @@
  * @author hduy
  */
 
+#include "pch.h"
 #include "Audio.h"

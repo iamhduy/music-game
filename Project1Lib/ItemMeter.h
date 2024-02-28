@@ -9,6 +9,11 @@
 #define PROJECT1_PROJECT1LIB_ITEMMETER_H
 
 #include "Item.h"
+
+/**
+ * Meter Class derived from Item
+ *
+ */
 class ItemMeter : public Item
 {
 private:
@@ -24,7 +29,6 @@ public:
     void operator=(const ItemMeter &) = delete;
 
     ItemMeter(Game* game);
-
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMMETER_H

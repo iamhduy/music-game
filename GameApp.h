@@ -9,6 +9,9 @@
 
 #include "miniaudio.h"
 
+/**
+ * Main application class
+ */
 class GameApp : public wxApp
 {
 private:

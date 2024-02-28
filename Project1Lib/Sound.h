@@ -12,6 +12,10 @@
 #include <miniaudio.h>
 #include "Item.h"
 
+/**
+ * Sound Class derived from Audio
+ *
+ */
 class Sound
 {
 private:
@@ -44,8 +48,16 @@ public:
 
     void XmlLoad(wxXmlNode *node);
 
+    /**
+     * Set audio file directory
+     * @param audioFile
+     */
     void SetAudioFile(wxString audioFile) {mAudioFile = audioFile;};
 
+    /**
+     * Set audio volume directory
+     * @param volume
+     */
     void SetVolume(double volume) {mVolume = volume;};
 };
 

@@ -8,6 +8,10 @@
 /// Directory that contains the audio files
 const std::wstring AudioDirectory = L"audio";
 
+/**
+ * Load the attributes for an audio node.
+ * @param node The Xml node we are loading the audio from
+ */
 void Sound::XmlLoad(wxXmlNode* node)
 {
     node->GetAttribute(L"name", &mName);
@@ -15,6 +19,10 @@ void Sound::XmlLoad(wxXmlNode* node)
     node->GetAttribute(L"volume", L"1.0").ToDouble(&mVolume);
 }
 
+/**
+ * Load the sound with its directory
+ * @param audioEngine audio engine of the game
+ */
 void Sound::LoadSound(ma_engine* audioEngine)
 {
     if(audioEngine != nullptr)

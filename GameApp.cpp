@@ -9,6 +9,10 @@
 #define MINIAUDIO_IMPLEMENTATION
 #include "miniaudio.h"
 
+/**
+ * Initialize the application.
+ * @return
+ */
 bool GameApp::OnInit()
 {
     if (!wxApp::OnInit())

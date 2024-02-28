@@ -4,17 +4,31 @@
  */
 #include "pch.h"
 #include "Game.h"
-#include "Image.h"
-#include "SoundBoard.h"
-#include "ScoreBoard.h"
+#include "ItemImage.h"
+#include "ItemSoundBoard.h"
+#include "ItemScoreBoard.h"
 #include "ItemMeter.h"
+#include "DeclarationImage.h"
+#include "DeclarationSoundBoard.h"
+#include "DeclarationScoreBoard.h"
+#include "DeclarationMeter.h"
+#include "DeclarationNote.h"
+
+/// Image Directory
+const std::wstring ImageDir = L"images";
 
 using namespace std;
 
+/**
+ * Game Constructor
+ * @param PEngine audio engine
+ */
 Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
-    //mBackground = make_unique<wxBitmap>(L"img/background1.png", wxBITMAP_TYPE_ANY);
+    //auto imageFile = ImageDir + L"/" + L"guitar-guy-1.png";
+    //mBackground = make_unique<wxBitmap>(imageFile, wxBITMAP_TYPE_ANY);
 }
+
 
 /**
  * Clear the aquarium data.
@@ -32,7 +46,7 @@ void Game::Clear()
  */
 void Game::OnDraw(wxDC *dc)
 {
-    //dc->DrawBitmap(*mBackground, 0, 0);
+    dc->DrawBitmap(*mBackground, 0, 0);
 
 //    for (auto const item : mItems)
 //    {
@@ -72,8 +86,17 @@ void Game::Load(const wxString &filename)
         {
             XmlItem(child);
         }
+        else if (name == L"declaration")
+        {
+            XmlDeclaration(child);
+        }
     }
 }
+
+/**
+ * Handle a node of type item.
+ * @param node XML node
+ */
 void Game::XmlItem(wxXmlNode *node)
 {
     shared_ptr<Item> item;
@@ -83,15 +106,15 @@ void Game::XmlItem(wxXmlNode *node)
 
     if (name == L"image")
     {
-        item = make_shared<Image>(this);
+        item = make_shared<ItemImage>(this);
     }
     else if (name == L"sound-board")
     {
-        item = make_shared<SoundBoard>(this);
+        item = make_shared<ItemSoundBoard>(this);
     }
     else if (name == L"score-board")
     {
-        item = make_shared<ScoreBoard>(this);
+        item = make_shared<ItemScoreBoard>(this);
     }
     else if (name == L"meter")
     {
@@ -101,17 +124,66 @@ void Game::XmlItem(wxXmlNode *node)
     if (item != nullptr)
     {
         item->XmlLoad(node);
-        Add(item);
+        AddItem(item);
     }
 }
 
 /**
- * Add an item to the aquarium
+ * Handle a node of type declaration.
+ * @param node XML node
+ */
+void Game::XmlDeclaration(wxXmlNode* node)
+{
+    shared_ptr<Declaration> declaration;
+
+    // We have an item. What type?
+    auto name = node->GetName();
+
+    if (name == L"image")
+    {
+        declaration = make_shared<DeclarationImage>(this);
+    }
+    else if (name == L"sound-board")
+    {
+        declaration = make_shared<DeclarationSoundBoard>(this);
+    }
+    else if (name == L"score-board")
+    {
+        declaration = make_shared<DeclarationScoreBoard>(this);
+    }
+    else if (name == L"meter")
+    {
+        declaration = make_shared<DeclarationMeter>(this);
+    }
+    else if (name == L"note")
+    {
+        declaration = make_shared<DeclarationNote>(this);
+    }
+
+    if (declaration != nullptr)
+    {
+        declaration->XmlLoad(node);
+        AddDeclaration(declaration);
+    }
+}
+
+/**
+ * AddItem an item to the game
  * @param item New item to add
  */
-void Game::Add(std::shared_ptr<Item> item)
+void Game::AddItem(std::shared_ptr<Item> item)
 {
     // Change the location later
     item->SetLocation(250, 250);
     mItems.push_back(item);
+}
+
+/**
+ * AddDeclaration an declaration to the game
+ * @param declaration New declaration to add
+ */
+void Game::AddDeclaration(std::shared_ptr<Declaration> declaration)
+{
+    // Change the location later
+    mDeclarations.push_back(declaration);
 }

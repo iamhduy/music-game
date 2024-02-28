@@ -10,6 +10,7 @@
 
 /**
  * Initialize the MainFrame window.
+ * @param PEngine audio engine of the game
  */
 void MainFrame::Initialize(ma_engine *PEngine)
 {
@@ -24,7 +25,7 @@ void MainFrame::Initialize(ma_engine *PEngine)
     auto gameView = new GameView(PEngine);
     gameView->Initialize(this);
 
-    // Add it to the sizer
+    // AddItem it to the sizer
     sizer->Add(gameView,1, wxEXPAND | wxALL );
 
     // Set the sizer for this frame

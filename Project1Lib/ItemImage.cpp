@@ -1,20 +1,15 @@
 /**
- * @file ItemMeter.cpp
+ * @file ItemImage.cpp
  * @author hduy
  */
 #include "pch.h"
-#include "ItemMeter.h"
-
-using namespace std;
+#include "ItemImage.h"
 
 /**
  * Constructor
  * @param game The level this item is a member of
  *
  */
-ItemMeter::ItemMeter(Game *game) : Item(game)
+ItemImage::ItemImage(Game *game) : Item(game)
 {
 }
-
-
-

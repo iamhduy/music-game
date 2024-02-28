@@ -1,9 +1,10 @@
 /**
- * @file ItemMeter.cpp
+ * @file ItemScoreBoard.cpp
  * @author hduy
  */
+
 #include "pch.h"
-#include "ItemMeter.h"
+#include "ItemScoreBoard.h"
 
 using namespace std;
 
@@ -12,9 +13,7 @@ using namespace std;
  * @param game The level this item is a member of
  *
  */
-ItemMeter::ItemMeter(Game *game) : Item(game)
+ItemScoreBoard::ItemScoreBoard(Game *game) : Item(game)
 {
 }
-
-
 

@@ -1,39 +1,25 @@
 /**
- * @file Item.cpp
- * @author Milo Baran
+ * @file Declaration.cpp
+ * @author hduy
  */
+
 #include "pch.h"
-#include "Item.h"
+#include "Declaration.h"
 using namespace std;
 
 /**
  * Destructor
  */
-Item::~Item()
+Declaration::~Declaration()
 {
-
 }
-
-
-///**
-// * Draw a item
-// * @param dc Device context to draw on
-// */
-//void Item::Draw(wxDC *dc)
-//{
-//    double wid = mItemBitmap->GetWidth();
-//    double hit = mItemBitmap->GetHeight();
-//    dc->DrawBitmap(*mItemBitmap,
-//                   int(GetX() - wid / 2),
-//                   int(GetY() - hit / 2));
-//}
 
 /**
  * Constructor
  * @param game The level this item is a member of
  *
  */
-Item::Item(Game *game) : mGame(game)
+Declaration::Declaration(Game *game) : mGame(game)
 {
 }
 
@@ -46,12 +32,14 @@ Item::Item(Game *game) : mGame(game)
  *
  * @param node The Xml node we are loading the item from
  */
-void Item::XmlLoad(wxXmlNode *node)
+void Declaration::XmlLoad(wxXmlNode* node)
 {
     node->GetAttribute(L"id", &mId);
 
     string size = node->GetAttribute(L"p", L"0,0").ToStdString();
     auto index = size.find(',');
-    mX = stoi(size.substr(index));
-    mY = stoi(size.substr(index+1, size.size()));
+    mSizeX = stoi(size.substr(index));
+    mSizeY = stoi(size.substr(index+1, size.size()));
+
+    node->GetAttribute(L"image", &mImageFile);
 }

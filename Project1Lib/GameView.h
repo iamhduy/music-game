@@ -18,9 +18,10 @@
 class GameView : public wxWindow
 {
 private:
+    /// An object that describes the game
     Game mGame;
 
-    //can use to handle repeating key down events
+    ///used to handle repeating key down events
     std::set <char> key_pressed;
 public:
     void Initialize(wxFrame* parent);

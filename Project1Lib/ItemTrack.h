@@ -7,21 +7,27 @@
 
 #ifndef PROJECT1_PROJECT1LIB_ITEMTRACK_H
 #define PROJECT1_PROJECT1LIB_ITEMTRACK_H
-#include "SoundBoard.h"
+#include "ItemSoundBoard.h"
 #include "Item.h"
-class SoundBoard;
+class ItemSoundBoard;
 
+/**
+ * Track Class derived from Item
+ *
+ */
 class ItemTrack : public Item
 {
 private:
+    /// Track Number
     int mTrack;
 
+    /// Key Image File
     wxString mKeyImageFile;
 
-    int mSizeX;
+    int mSizeX = 0; ///< X size for the center of the item
+    int mSizeY = 0; ///< Y size for the center of the item
 
-    int mSizeY;
-
+    /// Key value for this Track
     wxString mKeyValue;
 
 public:
