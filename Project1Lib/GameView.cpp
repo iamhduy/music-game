@@ -53,54 +53,60 @@ void GameView::OnKeyDown(wxKeyEvent& event)
     // A = 65, S = 83, D = 68, F = 70
     // J = 74, K = 75, L = 76, ; = 59
     Sound sound;
+    bool validKey = false;
 
     switch(key)
     {
         case(wxChar(65)):
             sound.SetAudioFile(L"trumpet/C4.wav");
-            std::cout << "A" << std::endl;
+            validKey = true;
             break;
         case(wxChar(83)):
             sound.SetAudioFile(L"trumpet/Db4.wav");
-            std::cout << "S" << std::endl;
+            validKey = true;
             break;
         case(wxChar(68)):
             sound.SetAudioFile(L"trumpet/Eb4.wav");
-            std::cout << "D" << std::endl;
+            validKey = true;
             break;
         case(wxChar(70)):
             sound.SetAudioFile(L"trumpet/E4.wav");
-            std::cout << "F" << std::endl;
+            validKey = true;
             break;
 
         case(wxChar(74)):
             sound.SetAudioFile(L"trumpet/C5.wav");
-            std::cout << "J" << std::endl;
+            validKey = true;
             break;
         case(wxChar(75)):
             sound.SetAudioFile(L"trumpet/Db5.wav");
-            std::cout << "K" << std::endl;
+            validKey = true;
             break;
         case(wxChar(76)):
             sound.SetAudioFile(L"trumpet/Eb5.wav");
-            std::cout << "L" << std::endl;
+            validKey = true;
             break;
         case(wxChar(59)):
             sound.SetAudioFile(L"trumpet/E5.wav");
-            std::cout << ";" << std::endl;
-            break;
-
-        default:
-            sound.SetAudioFile(L"trumpet/B4.wav");
-            std::cout << "Not a key" << std::endl;
+            validKey = true;
             break;
     }
+
+    if(not validKey)
+    {
+        //break if the key given is invalid.
+        return;
+    }
+
     sound.SetVolume(0.5);
     sound.LoadSound(mGame.GetAudioEngine());
 
     sound.PlaySound();
-    std::this_thread::sleep_for(std::chrono::seconds(2)); //pauses for 2 seconds
+    std::this_thread::sleep_for(std::chrono::seconds(1)); //pauses for 1 second
     sound.PlayEnd();
+
+    mGame.AddScore(scoreValue);
+    std::cout << "Current Score: " << mGame.GetScore() << std::endl;
 }
 
 /**
