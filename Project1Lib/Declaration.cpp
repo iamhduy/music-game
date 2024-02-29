@@ -36,10 +36,9 @@ void Declaration::XmlLoad(wxXmlNode* node)
 {
     node->GetAttribute(L"id", &mId);
 
-    string size = node->GetAttribute(L"p", L"0,0").ToStdString();
-    auto index = size.find(',');
-    mSizeX = stoi(size.substr(index));
-    mSizeY = stoi(size.substr(index+1, size.size()));
+    wxString size = node->GetAttribute(L"size", L"0,0").ToStdWstring();
+    size.BeforeFirst(',').ToInt(&mSizeX);
+    size.AfterFirst(',').ToInt(&mSizeY);
 
     node->GetAttribute(L"image", &mImageFile);
 }

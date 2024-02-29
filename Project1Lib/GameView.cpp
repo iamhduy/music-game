@@ -34,12 +34,11 @@ void GameView::Initialize(wxFrame *parent)
     Bind(wxEVT_KEY_DOWN, &GameView::OnKeyDown, this);
     Bind(wxEVT_KEY_UP, &GameView::OnKeyUp, this);
 
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL0);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL1);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL2);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_LEVEL3);
-    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel,this, IDM_AUTOPLAY);
-
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_LEVEL0);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_LEVEL1);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_LEVEL2);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_LEVEL3);
+    parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_AUTOPLAY);
 
 }
 
@@ -47,7 +46,7 @@ void GameView::Initialize(wxFrame *parent)
  * Handle a key press event
  * @param event Keypress event
  */
-void GameView::OnKeyDown(wxKeyEvent& event)
+void GameView::OnKeyDown(wxKeyEvent &event)
 {
     wxChar key = event.GetKeyCode();
     // A = 65, S = 83, D = 68, F = 70
@@ -57,42 +56,40 @@ void GameView::OnKeyDown(wxKeyEvent& event)
 
     switch(key)
     {
-        case(wxChar(65)):
+        case (wxChar(65)):
             sound.SetAudioFile(L"trumpet/C4.wav");
             validKey = true;
             break;
-        case(wxChar(83)):
+        case (wxChar(83)):
             sound.SetAudioFile(L"trumpet/Db4.wav");
             validKey = true;
             break;
-        case(wxChar(68)):
+        case (wxChar(68)):
             sound.SetAudioFile(L"trumpet/Eb4.wav");
             validKey = true;
             break;
-        case(wxChar(70)):
+        case (wxChar(70)):
             sound.SetAudioFile(L"trumpet/E4.wav");
             validKey = true;
             break;
-
-        case(wxChar(74)):
+        case (wxChar(74)):
             sound.SetAudioFile(L"trumpet/C5.wav");
             validKey = true;
             break;
-        case(wxChar(75)):
+        case (wxChar(75)):
             sound.SetAudioFile(L"trumpet/Db5.wav");
             validKey = true;
             break;
-        case(wxChar(76)):
+        case (wxChar(76)):
             sound.SetAudioFile(L"trumpet/Eb5.wav");
             validKey = true;
             break;
-        case(wxChar(59)):
+        case (wxChar(59)):
             sound.SetAudioFile(L"trumpet/E5.wav");
             validKey = true;
             break;
     }
-
-    if(not validKey)
+    if(!validKey)
     {
         //break if the key given is invalid.
         return;
@@ -105,7 +102,7 @@ void GameView::OnKeyDown(wxKeyEvent& event)
     std::this_thread::sleep_for(std::chrono::seconds(1)); //pauses for 1 second
     sound.PlayEnd();
 
-    mGame.AddScore(scoreValue);
+    mGame.AddScore(mScoreValue);
     std::cout << "Current Score: " << mGame.GetScore() << std::endl;
 }
 
@@ -113,7 +110,29 @@ void GameView::OnKeyDown(wxKeyEvent& event)
  * Handle a key release event
  * @param event Key release event
  */
-void GameView::OnKeyUp(wxKeyEvent& event)
+void GameView::OnKeyUp(wxKeyEvent &event)
+{
+}
+
+/**
+ * Paint event, draws the window.
+ * @param event Paint event object
+ */
+void GameView::OnPaint(wxPaintEvent &event)
+{
+    wxAutoBufferedPaintDC dc(this);
+    wxBrush background(*wxWHITE);
+    dc.SetBackground(background);
+    dc.Clear();
+
+    mGame.OnDraw(&dc);
+}
+
+/**
+ * Menu hander for Level>all
+ * @param event Mouse event
+ */
+void GameView::OnGoToLevel(wxCommandEvent &event)
 {
     switch(event.GetId())
     {
@@ -136,30 +155,4 @@ void GameView::OnKeyUp(wxKeyEvent& event)
         case IDM_AUTOPLAY:
             break;
     }
-}
-
-
-/**
- * Paint event, draws the window.
- * @param event Paint event object
- */
-void GameView::OnPaint(wxPaintEvent &event)
-{
-    wxAutoBufferedPaintDC dc(this);
-    wxBrush background(*wxWHITE);
-    dc.SetBackground(background);
-    dc.Clear();
-
-    mGame.OnDraw(&dc);
-}
-
-
-/**
- * Menu hander for Level>all
- * @param event Mouse event
- */
-void GameView::OnGoToLevel(wxCommandEvent &event)
-{
-
-
 }

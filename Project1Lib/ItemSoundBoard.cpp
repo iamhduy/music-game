@@ -5,6 +5,7 @@
 
 #include "pch.h"
 #include "ItemSoundBoard.h"
+#include "ItemTrack.h"
 #include <string>
 using namespace std;
 /// The maximum number of tracks
@@ -35,14 +36,7 @@ ItemSoundBoard::ItemSoundBoard(Game* game) : Item(game)
 {
 }
 
-/**
- * Load the attributes for an item node.
- * @param node The Xml node we are loading the item from
- */
-void ItemSoundBoard::XmlLoad(wxXmlNode *node)
-{
-    Item::XmlLoad(node);
 
-}
+
 
 

@@ -50,8 +50,7 @@ void Item::XmlLoad(wxXmlNode *node)
 {
     node->GetAttribute(L"id", &mId);
 
-    string size = node->GetAttribute(L"p", L"0,0").ToStdString();
-    auto index = size.find(',');
-    mX = stoi(size.substr(index));
-    mY = stoi(size.substr(index+1, size.size()));
+    wxString size = node->GetAttribute(L"p", L"0,0").ToStdWstring();
+    size.BeforeFirst(',').ToDouble(&mX);
+    size.AfterFirst(',').ToDouble(&mY);
 }

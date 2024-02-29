@@ -25,7 +25,7 @@ private:
     std::set <char> key_pressed;
 
     /// Placeholder score value to test keydown events.
-    int scoreValue = 2;
+    int mScoreValue = 2;
 public:
     void Initialize(wxFrame* parent);
     void OnGoToLevel(wxCommandEvent &event);

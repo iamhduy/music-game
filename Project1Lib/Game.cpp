@@ -25,8 +25,7 @@ using namespace std;
  */
 Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
-    //auto imageFile = ImageDir + L"/" + L"guitar-guy-1.png";
-    //mBackground = make_unique<wxBitmap>(imageFile, wxBITMAP_TYPE_ANY);
+    //mBackground = make_unique<wxBitmap>(L"images/background1", wxBITMAP_TYPE_ANY);
 }
 
 
@@ -47,11 +46,9 @@ void Game::Clear()
  */
 void Game::OnDraw(wxDC *dc)
 {
-    dc->DrawBitmap(*mBackground, 0, 0);
-
 //    for (auto const item : mItems)
 //    {
-//        item->Draw(dc);
+//           item->Draw(dc);
 //    }
 }
 
@@ -83,13 +80,21 @@ void Game::Load(const wxString &filename)
     for( ; child; child=child->GetNext())
     {
         auto name = child->GetName();
-        if(name == L"item")
+        if(name == L"items")
         {
-            XmlItem(child);
+            auto childItem = child->GetChildren();
+            for( ; childItem; childItem=childItem->GetNext())
+            {
+                XmlItem(childItem);
+            }
         }
-        else if (name == L"declaration")
+        else if (name == L"declarations")
         {
-            XmlDeclaration(child);
+            auto childDeclaration = child->GetChildren();
+            for( ; childDeclaration; childDeclaration=childDeclaration->GetNext())
+            {
+                XmlDeclaration(childDeclaration);
+            }
         }
     }
 }
