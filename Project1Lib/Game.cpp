@@ -38,6 +38,7 @@ Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 void Game::Clear()
 {
     mItems.clear();
+    mScore = 0;
 }
 
 /**
@@ -186,4 +187,9 @@ void Game::AddDeclaration(std::shared_ptr<Declaration> declaration)
 {
     // Change the location later
     mDeclarations.push_back(declaration);
+}
+
+void Game::AddScore(int value)
+{
+    mScore += value;
 }
