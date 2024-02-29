@@ -34,6 +34,8 @@ private:
     ///holding the declaration
     std::vector<std::shared_ptr<Declaration>> mDeclarations;
 
+    int mScore = 0;
+
     void XmlItem(wxXmlNode *node);
 
     void XmlDeclaration(wxXmlNode *node);
@@ -52,6 +54,10 @@ public:
      * @return Pointer to the audio engine object
      */
     ma_engine* GetAudioEngine() {return mAudioEngine;};
+
+    int GetScore() {return mScore;};
+
+    void AddScore(int value);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H
