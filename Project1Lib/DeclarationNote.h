@@ -34,6 +34,8 @@ public:
     DeclarationNote(Game* game);
 
     void XmlLoad(wxXmlNode *node) override;
+
+    void Draw(wxDC* dc, double x, double y) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONNOTE_H

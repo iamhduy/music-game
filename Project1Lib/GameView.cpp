@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "GameView.h"
 #include <wx/dcbuffer.h>
+#include <wx/stdpaths.h>
 #include <wx/event.h>
 #include "ids.h"
 #include "Sound.h"
@@ -13,6 +14,7 @@
 #include <thread>
 #include <chrono>
 
+using namespace std;
 /**
  * Constructor
  * @param audioEngine The audio engine to use
@@ -28,9 +30,15 @@ GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine)
 void GameView::Initialize(wxFrame *parent)
 {
     Create(parent, wxID_ANY);
-    SetBackgroundColour(wxBG_STYLE_PAINT);
+    SetBackgroundStyle(wxBG_STYLE_PAINT);
 
-    //Bind(wxEVT_PAINT, &GameView::OnPaint, this);
+    // Determine where the images are stored
+    //auto standardPaths = wxStandardPaths::Get();
+    wxStandardPaths &standardPaths = wxStandardPaths::Get();
+    std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
+    mGame.SetImagesDirectory(resourcesDir);
+
+    Bind(wxEVT_PAINT, &GameView::OnPaint, this);
     Bind(wxEVT_KEY_DOWN, &GameView::OnKeyDown, this);
     Bind(wxEVT_KEY_UP, &GameView::OnKeyUp, this);
 
@@ -121,7 +129,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
 void GameView::OnPaint(wxPaintEvent &event)
 {
     wxAutoBufferedPaintDC dc(this);
-    wxBrush background(*wxWHITE);
+    wxBrush background(*wxBLACK);
     dc.SetBackground(background);
     dc.Clear();
 
@@ -136,23 +144,20 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
 {
     switch(event.GetId())
     {
-        case IDM_LEVEL0:
-            mGame.Load("levels/level0.xml");
+        case IDM_LEVEL0:mGame.Load("levels/level0.xml");
             break;
 
-        case IDM_LEVEL1:
-            mGame.Load("levels/level1.xml");
+        case IDM_LEVEL1:mGame.Load("levels/level1.xml");
             break;
 
-        case IDM_LEVEL2:
-            mGame.Load("levels/level2.xml");
+        case IDM_LEVEL2:mGame.Load("levels/level2.xml");
             break;
 
-        case IDM_LEVEL3:
-            mGame.Load("levels/level3.xml");
+        case IDM_LEVEL3:mGame.Load("levels/level3.xml");
             break;
 
-        case IDM_AUTOPLAY:
-            break;
+        case IDM_AUTOPLAY:break;
+
     }
+    Refresh();
 }

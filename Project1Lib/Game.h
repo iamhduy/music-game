@@ -34,6 +34,9 @@ private:
     ///holding the declaration
     std::vector<std::shared_ptr<Declaration>> mDeclarations;
 
+    /// Directory containing the system images
+    std::wstring mImagesDirectory;
+
     int mScore = 0;
 
     void XmlItem(wxXmlNode *node);
@@ -58,6 +61,10 @@ public:
     int GetScore() {return mScore;};
 
     void AddScore(int value);
+
+    void SetImagesDirectory(const std::wstring &dir);
+
+    std::wstring GetImagesDirectory() {return mImagesDirectory;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

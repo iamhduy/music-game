@@ -29,7 +29,7 @@ private:
     int mSizeY = 0; ///< Y size for the center of the item
 
     /// Declaration's image dir
-    wxString mImageFile;
+    std::wstring mImageFile;
 public:
     /// Default constructor (disabled)
     Declaration() = delete;
@@ -46,6 +46,14 @@ public:
      * @return Pointer to Level object
      */
     Game *GetGame() { return mGame; }
+
+    /**
+     *
+     * @return the id of this object
+     */
+    wxString GetId() {return mId;}
+
+    virtual void Draw(wxDC *dc, double x, double y);
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATION_H

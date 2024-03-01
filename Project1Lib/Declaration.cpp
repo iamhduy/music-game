@@ -5,6 +5,7 @@
 
 #include "pch.h"
 #include "Declaration.h"
+#include "Game.h"
 using namespace std;
 
 /**
@@ -40,5 +41,20 @@ void Declaration::XmlLoad(wxXmlNode* node)
     size.BeforeFirst(',').ToInt(&mSizeX);
     size.AfterFirst(',').ToInt(&mSizeY);
 
-    node->GetAttribute(L"image", &mImageFile);
+    mImageFile = node->GetAttribute(L"image").ToStdWstring();
 }
+
+/**
+ * Draw this item
+ * @param dc Device context to draw on
+ */
+void Declaration::Draw(wxDC *dc, double x, double y)
+{
+    wstring ItemImageFile = mGame->GetImagesDirectory() + L"\\" + mImageFile;
+    std::unique_ptr<wxImage> ItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
+    std::unique_ptr<wxBitmap> ItemBitmap = make_unique<wxBitmap>(*ItemImage);
+    dc->DrawBitmap(*ItemBitmap,
+                   int(x - mSizeX / 2),
+                   int(y - mSizeY / 2));
+}
+

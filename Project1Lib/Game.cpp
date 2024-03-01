@@ -15,7 +15,7 @@
 #include "DeclarationNote.h"
 
 /// Image Directory
-const std::wstring ImageDir = L"images";
+const std::wstring ImagesDir = L"\\images";
 
 using namespace std;
 
@@ -28,6 +28,13 @@ Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
     //mBackground = make_unique<wxBitmap>(L"images/background1", wxBITMAP_TYPE_ANY);
 }
 
+/**
+ * Set the directory the images are stored in
+ * @param dir
+ */
+void Game::SetImagesDirectory(const std::wstring &dir) {
+    mImagesDirectory = dir + ImagesDir;
+}
 
 /**
  * Clear the aquarium data.
@@ -46,9 +53,16 @@ void Game::Clear()
  */
 void Game::OnDraw(wxDC *dc)
 {
-//    for (auto const item : mItems)
+//    for (auto const declaration : mDeclarations)
 //    {
-//           item->Draw(dc);
+//        for (auto const item : mItems)
+//        {
+//            if (declaration->GetId() == item->GetId())
+//            {
+//                declaration->Draw(dc, item->GetX(), item->GetY());
+//                break;
+//            }
+//        }
 //    }
 }
 
@@ -117,6 +131,14 @@ void Game::XmlItem(wxXmlNode *node)
     else if (name == L"sound-board")
     {
         item = make_shared<ItemSoundBoard>(this);
+        auto trackNode = node->GetChildren();
+        for( ; trackNode; trackNode=trackNode->GetNext())
+        {
+            shared_ptr<Item> itemTrack = make_shared<ItemTrack>(this);
+            itemTrack->XmlLoad(trackNode);
+            AddItem(itemTrack);
+        }
+
     }
     else if (name == L"score-board")
     {

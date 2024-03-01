@@ -18,6 +18,7 @@
 class ItemSoundBoard : public Item
 {
 private:
+
 public:
     /// Default constructor (disabled)
     ItemSoundBoard() = delete;

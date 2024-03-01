@@ -72,6 +72,12 @@ public:
      */
     Game *GetGame() { return mGame; }
 
+    /**
+     *
+     * @return the id of this object
+     */
+    wxString GetId() {return mId;}
+
     virtual void XmlLoad(wxXmlNode *node);
 };
 

@@ -25,3 +25,8 @@ void DeclarationNote::XmlLoad(wxXmlNode *node)
 
     Declaration::XmlLoad(node);
 }
+
+void DeclarationNote::Draw(wxDC *dc, double x, double y)
+{
+}
+
