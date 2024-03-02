@@ -53,73 +53,19 @@ void Game::Clear()
  * draw background
  * @param dc device context
  */
-void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
+void Game::OnDraw(wxDC *dc)
 {
-//<<<<<<< HEAD
-//    for (auto const declaration : mDeclarations)
-//    {
-//        for (auto const item : mItems)
-//        {
-//            if (declaration->GetId() == item->GetId())
-//            {
-//                declaration->Draw(dc, item->GetX(), item->GetY());
-//                break;
-//            }
-//        }
-//    }
-
-    // Determine the size of the playing area in pixels
-    // This is up to you...
-
-    int pixelWidth = 1034; //< Temporary placement to get everything else working.
-    int pixelHeight = 900;
-
-    //
-    // Automatic Scaling
-    //
-    auto scaleX = double(width) / double(pixelWidth);
-    auto scaleY = double(height) / double(pixelHeight);
-    mScale = std::min(scaleX, scaleY);
-
-    mXOffset = (width - pixelWidth * mScale) / 2.0;
-    mYOffset = 0;
-    if (height > pixelHeight * mScale)
+    for (auto const declaration : mDeclarations)
     {
-        mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
+        for (auto const item : mItems)
+        {
+            if (declaration->GetId() == item->GetId())
+            {
+                declaration->Draw(dc, item->GetX(), item->GetY());
+                break;
+            }
+        }
     }
-
-    graphics->PushState();
-
-    graphics->Translate(mXOffset, mYOffset);
-    graphics->Scale(mScale, mScale);
-
-    //
-    // Draw in virtual pixels on the graphics context
-    //
-    // INSERT YOUR DRAWING CODE HERE
-    //
-    // Drawing a rectangle that is the playing area size
-    //
-//    wxBrush background(*wxRED);
-//
-//    graphics->SetBrush(background);
-//    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
-
-
-    graphics->PopState();
-//=======
-//    for (auto const declaration : mDeclarations)
-//    {
-//        for (auto const item : mItems)
-//        {
-//            if (declaration->GetId() == item->GetId())
-//            {
-//                declaration->Draw(dc, item->GetX(), item->GetY());
-//                break;
-//            }
-//        }
-//    }
-//>>>>>>> 61a3c0d0b195b24da79e578cf1415840a167d241
 }
 
 /**

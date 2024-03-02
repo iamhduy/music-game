@@ -137,36 +137,20 @@ void GameView::OnKeyUp(wxKeyEvent &event)
  */
 void GameView::OnPaint(wxPaintEvent &event)
 {
-//<<<<<<< HEAD
-//    wxAutoBufferedPaintDC dc(this);
-//    wxBrush background(*wxBLACK);
-//    dc.SetBackground(background);
-//    dc.Clear();
-//
-//    mGame.OnDraw(&dc);
-
-    // Create a double-buffered display context
-//=======
+    // ELAPSED TIME TO UPDATE SCREEN
     auto newTime = mStopWatch.Time();
     auto elapsed = (double)(newTime - mTime) * 0.001;
     mTime = newTime;
     mGame.Update(elapsed);
 
-//>>>>>>> 61a3c0d0b195b24da79e578cf1415840a167d241
+    // DRAW BACKGROUND
     wxAutoBufferedPaintDC dc(this);
-
-    // Clear the image to black
     wxBrush background(*wxBLACK);
     dc.SetBackground(background);
     dc.Clear();
 
-    // Create a graphics context
-    auto gc =
-        std::shared_ptr<wxGraphicsContext>(wxGraphicsContext::Create(dc));
+    mGame.OnDraw(&dc);
 
-    // Tell the game class to draw
-    wxRect rect = GetRect();
-    mGame.OnDraw(gc, rect.GetWidth(), rect.GetHeight());
 }
 
 /**
