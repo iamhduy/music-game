@@ -38,7 +38,7 @@ public:
 
     void XmlLoad(wxXmlNode *node) override;
 
-    void Draw(wxDC *dc, double x, double y) override;
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONSOUNDBOARD_H

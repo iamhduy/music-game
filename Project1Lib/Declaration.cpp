@@ -50,13 +50,20 @@ void Declaration::XmlLoad(wxXmlNode* node)
  * @param x location x
  * @param y location y
  */
-void Declaration::Draw(wxDC *dc, double x, double y)
+void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
     wstring ItemImageFile = mGame->GetImagesDirectory() + L"\\" + mImageFile;
     std::unique_ptr<wxImage> ItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
-    std::unique_ptr<wxBitmap> ItemBitmap = make_unique<wxBitmap>(*ItemImage);
-    dc->DrawBitmap(*ItemBitmap,
+
+    wxGraphicsBitmap ItemBitmap = graphics->CreateBitmapFromImage(*ItemImage);
+    //    std::unique_ptr<wxBitmap> ItemBitmap = make_unique<wxBitmap>(*ItemImage);
+    int imgWid = ItemImage->GetWidth();
+    int imgHit = ItemImage->GetHeight();
+
+    graphics->DrawBitmap(ItemBitmap,
                    int(x - mSizeX / 2),
-                   int(y - mSizeY / 2));
+                   int(y - mSizeY / 2),
+                   imgWid,
+                   imgHit);
 }
 

@@ -53,7 +53,7 @@ void Game::Clear()
  * draw background
  * @param dc device context
  */
-void Game::OnDraw(wxDC *dc)
+void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics)
 {
     for (auto const declaration : mDeclarations)
     {
@@ -61,7 +61,7 @@ void Game::OnDraw(wxDC *dc)
         {
             if (declaration->GetId() == item->GetId())
             {
-                declaration->Draw(dc, item->GetX(), item->GetY());
+                declaration->Draw(graphics, item->GetX(), item->GetY());
                 break;
             }
         }

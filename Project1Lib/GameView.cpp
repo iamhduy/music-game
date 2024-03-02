@@ -137,19 +137,45 @@ void GameView::OnKeyUp(wxKeyEvent &event)
  */
 void GameView::OnPaint(wxPaintEvent &event)
 {
-    // ELAPSED TIME TO UPDATE SCREEN
-    auto newTime = mStopWatch.Time();
-    auto elapsed = (double)(newTime - mTime) * 0.001;
-    mTime = newTime;
-    mGame.Update(elapsed);
-
     // DRAW BACKGROUND
     wxAutoBufferedPaintDC dc(this);
     wxBrush background(*wxBLACK);
     dc.SetBackground(background);
     dc.Clear();
 
-    mGame.OnDraw(&dc);
+    // ELAPSED TIME TO UPDATE SCREEN
+    auto newTime = mStopWatch.Time();
+    auto elapsed = (double)(newTime - mTime) * 0.001;
+    mTime = newTime;
+
+    // update
+    mGame.Update(elapsed);
+
+
+    // Create a graphics context
+    auto graphics = std::shared_ptr<wxGraphicsContext>(wxGraphicsContext::Create( dc ));
+
+    // How big is this window
+    auto size = GetClientRect();
+    auto minDimension = min(size.GetWidth(), size.GetHeight());
+    if(minDimension == 0)
+    {
+        // No reason to draw if the window is size zero
+        // and this avoids any divid by zero errors
+        return;
+    }
+
+    double scale = (double)minDimension / Game::Size;
+    graphics->PushState();
+    graphics->Scale(scale, scale);
+
+    //
+    // Draw
+    //
+    mGame.OnDraw(graphics);
+
+//    mGame.OnDraw(&dc); //< OLD
+
 
 }
 

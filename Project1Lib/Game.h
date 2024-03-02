@@ -55,7 +55,7 @@ public:
     void Load(const wxString &filename);
 
     void Clear();
-    void OnDraw(wxDC *dc);
+    void OnDraw(std::shared_ptr<wxGraphicsContext> graphics);
     void AddItem(std::shared_ptr<Item> item);
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
 
@@ -80,6 +80,8 @@ public:
     std::wstring GetImagesDirectory() {return mImagesDirectory;}
 
     void Update(double elapsed);
+
+    constexpr static double Size = 1000;
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

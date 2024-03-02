@@ -62,7 +62,7 @@ public:
      */
     wxString GetId() {return mId;}
 
-    virtual void Draw(wxDC *dc, double x, double y);
+    virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATION_H

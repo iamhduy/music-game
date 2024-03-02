@@ -32,7 +32,7 @@ void DeclarationNote::XmlLoad(wxXmlNode *node)
  * @param x location x
  * @param y location y
  */
-void DeclarationNote::Draw(wxDC *dc, double x, double y)
+void DeclarationNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
 }
 

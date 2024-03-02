@@ -38,15 +38,19 @@ void DeclarationSoundBoard::XmlLoad(wxXmlNode *node)
  * @param x location x
  * @param y location y
  */
-void DeclarationSoundBoard::Draw(wxDC *dc, double x, double y)
+void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
-    Declaration::Draw(dc, x, y);
+    Declaration::Draw(graphics, x, y);
 
     wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
 
     std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
-    std::unique_ptr<wxBitmap> coverBitmap = make_unique<wxBitmap>(*coverImage);
-    dc->DrawBitmap(*coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2));
+    wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
+
+    int coverWid = coverImage->GetWidth();
+    int coverHit = coverImage->GetHeight();
+
+    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2), coverWid, coverHit);
 }
 
 

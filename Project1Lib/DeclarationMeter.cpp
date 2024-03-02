@@ -35,19 +35,25 @@ void DeclarationMeter::XmlLoad(wxXmlNode *node)
  * @param x location x
  * @param y location y
  */
-void DeclarationMeter::Draw(wxDC *dc, double x, double y)
+void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
-    Declaration::Draw(dc, x, y);
+    Declaration::Draw(graphics, x, y);
 
     wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
-
     std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
-    std::unique_ptr<wxBitmap> coverBitmap = make_unique<wxBitmap>(*coverImage);
-    dc->DrawBitmap(*coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2));
+    wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
+
+    int coverWid = coverImage->GetWidth();
+    int coverHit = coverImage->GetHeight();
+
+    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2), coverWid, coverHit);
 
     wstring needleFile = this->GetGame()->GetImagesDirectory() + L"\\" + mNeedleFile;
     std::unique_ptr<wxImage> needleImage = make_unique<wxImage>(needleFile, wxBITMAP_TYPE_ANY);
-    std::unique_ptr<wxBitmap> needleBitmap = make_unique<wxBitmap>(*needleImage);
+    wxGraphicsBitmap needleBitmap = graphics->CreateBitmapFromImage(*needleImage);
 
-    dc->DrawBitmap(*needleBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2));
+    int needleWid = needleImage->GetWidth();
+    int needleHit = needleImage->GetHeight();
+
+    graphics->DrawBitmap(needleBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2), needleWid, needleHit);
 }
