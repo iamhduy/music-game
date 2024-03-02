@@ -9,7 +9,7 @@ using namespace std;
 
 /**
  * Constructor
- * @param game The level this item is a member of
+ * @param soundBoard The soundboard holding this item
  *
  */
 ItemTrack::ItemTrack(ItemSoundBoard *soundBoard) : mSoundBoard(soundBoard)

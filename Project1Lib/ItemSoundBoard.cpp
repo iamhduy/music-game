@@ -37,11 +37,19 @@ ItemSoundBoard::ItemSoundBoard(Game* game) : Item(game)
 {
 }
 
+/**
+ * AddItem an itemTrack to the soundboard
+ * @param itemTrack New itemTrack to add
+ */
 void ItemSoundBoard::Add(std::shared_ptr<ItemTrack> itemTrack)
 {
     mTracks.push_back(itemTrack);
 }
 
+/**
+ * Load the attributes for an item node.
+ * @param node The Xml node we are loading the item from
+ */
 void ItemSoundBoard::XmlLoad(wxXmlNode *node)
 {
     Item::XmlLoad(node);

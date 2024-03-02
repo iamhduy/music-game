@@ -38,6 +38,7 @@ private:
     /// Directory containing the system images
     std::wstring mImagesDirectory;
 
+    /// Player's score
     int mScore = 0;
 
     void XmlItem(wxXmlNode *node);
@@ -59,13 +60,20 @@ public:
      */
     ma_engine* GetAudioEngine() {return mAudioEngine;};
 
+    /**
+     * @return Player's current score
+     */
     int GetScore() {return mScore;};
 
     void AddScore(int value);
 
     void SetImagesDirectory(const std::wstring &dir);
 
+    /**
+     * @return Game's images directory
+     */
     std::wstring GetImagesDirectory() {return mImagesDirectory;}
+
     void Update(double elapsed);
 };
 

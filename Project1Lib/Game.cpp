@@ -45,6 +45,7 @@ void Game::SetImagesDirectory(const std::wstring &dir) {
 void Game::Clear()
 {
     mItems.clear();
+    mDeclarations.clear();
     mScore = 0;
 }
 
@@ -206,11 +207,19 @@ void Game::AddDeclaration(std::shared_ptr<Declaration> declaration)
     mDeclarations.push_back(declaration);
 }
 
+/**
+* Update player's score
+* @param value score to increment
+*/
 void Game::AddScore(int value)
 {
     mScore += value;
 }
 
+/**
+ * Handle updates for animation
+ * @param elapsed The time since the last update
+ */
 void Game::Update(double elapsed)
 {
     for (auto item : mItems)

@@ -28,6 +28,13 @@ void DeclarationMeter::XmlLoad(wxXmlNode *node)
 
     Declaration::XmlLoad(node);
 }
+
+/**
+ * Draw this item
+ * @param dc Device context to draw on
+ * @param x location x
+ * @param y location y
+ */
 void DeclarationMeter::Draw(wxDC *dc, double x, double y)
 {
     Declaration::Draw(dc, x, y);

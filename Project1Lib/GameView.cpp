@@ -40,6 +40,9 @@ void GameView::Initialize(wxFrame *parent)
     std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
     mGame.SetImagesDirectory(resourcesDir);
 
+    mGame.Load("levels/level0.xml");
+    Refresh();
+
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
     Bind(wxEVT_KEY_DOWN, &GameView::OnKeyDown, this);
     Bind(wxEVT_KEY_UP, &GameView::OnKeyUp, this);
@@ -155,16 +158,20 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
 {
     switch(event.GetId())
     {
-        case IDM_LEVEL0:mGame.Load("levels/level0.xml");
+        case IDM_LEVEL0:
+            mGame.Load("levels/level0.xml");
             break;
 
-        case IDM_LEVEL1:mGame.Load("levels/level1.xml");
+        case IDM_LEVEL1:
+            mGame.Load("levels/level1.xml");
             break;
 
-        case IDM_LEVEL2:mGame.Load("levels/level2.xml");
+        case IDM_LEVEL2:
+            mGame.Load("levels/level2.xml");
             break;
 
-        case IDM_LEVEL3:mGame.Load("levels/level3.xml");
+        case IDM_LEVEL3:
+            mGame.Load("levels/level3.xml");
             break;
 
         case IDM_AUTOPLAY:break;

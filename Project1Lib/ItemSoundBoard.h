@@ -18,6 +18,7 @@
 class ItemSoundBoard : public Item
 {
 private:
+    /// holding the tracks
     std::vector<std::shared_ptr<ItemTrack>> mTracks;
 public:
     /// Default constructor (disabled)
