@@ -16,7 +16,6 @@
 class DeclarationScoreBoard : public Declaration
 {
 private:
-
 public:
     /// Default constructor (disabled)
     DeclarationScoreBoard() = delete;

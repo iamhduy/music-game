@@ -26,6 +26,17 @@ private:
 
     /// Placeholder score value to test keydown events.
     int mScoreValue = 2;
+
+    /// The timer that allows for animation
+    wxTimer mTimer;
+
+    /// Stopwatch used to measure elapsed time
+    wxStopWatch mStopWatch;
+
+    /// The last stopwatch time
+    long mTime = 0;
+
+    void OnTimer(wxTimerEvent &event);
 public:
     void Initialize(wxFrame* parent);
     void OnGoToLevel(wxCommandEvent &event);
@@ -33,8 +44,14 @@ public:
     void OnPaint(wxPaintEvent &event);
 
     GameView(ma_engine *audioEngine);
+
     void OnKeyDown(wxKeyEvent &event);
     void OnKeyUp(wxKeyEvent &event);
+
+    /**
+     * Stop the timer so the window can close
+     */
+    void Stop() {mTimer.Stop();}
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAMEVIEW_H

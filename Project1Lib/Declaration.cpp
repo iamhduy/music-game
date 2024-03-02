@@ -41,12 +41,14 @@ void Declaration::XmlLoad(wxXmlNode* node)
     size.BeforeFirst(',').ToInt(&mSizeX);
     size.AfterFirst(',').ToInt(&mSizeY);
 
-    mImageFile = node->GetAttribute(L"image").ToStdWstring();
+    mImageFile = node->GetAttribute(L"image", "");
 }
 
 /**
  * Draw this item
  * @param dc Device context to draw on
+ * @param x location x
+ * @param y location y
  */
 void Declaration::Draw(wxDC *dc, double x, double y)
 {

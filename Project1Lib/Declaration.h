@@ -42,8 +42,17 @@ public:
     virtual void XmlLoad(wxXmlNode *node);
 
     /**
-     * Get the pointer to the Level object
+     * @return size of this item
+     */
+    int GetSizeX() const {return mSizeX;}
+
+    /**
      * @return Pointer to Level object
+     */
+    int GetSizeY() const {return mSizeY;}
+
+    /**
+     * @return size of this item
      */
     Game *GetGame() { return mGame; }
 

@@ -6,7 +6,8 @@
 #include "pch.h"
 #include "ItemSoundBoard.h"
 #include "ItemTrack.h"
-#include <string>
+#include <memory>
+
 using namespace std;
 /// The maximum number of tracks
 const int MaxTracks = 10;
@@ -34,6 +35,32 @@ const double KeyRow = 0.85;
  */
 ItemSoundBoard::ItemSoundBoard(Game* game) : Item(game)
 {
+}
+
+/**
+ * AddItem an itemTrack to the soundboard
+ * @param itemTrack New itemTrack to add
+ */
+void ItemSoundBoard::Add(std::shared_ptr<ItemTrack> itemTrack)
+{
+    mTracks.push_back(itemTrack);
+}
+
+/**
+ * Load the attributes for an item node.
+ * @param node The Xml node we are loading the item from
+ */
+void ItemSoundBoard::XmlLoad(wxXmlNode *node)
+{
+    Item::XmlLoad(node);
+
+    auto child = node->GetChildren();
+    for( ; child; child=child->GetNext())
+    {
+        shared_ptr<ItemTrack> itemTrack = make_shared<ItemTrack>(this);
+        itemTrack->XmlLoad(child);
+        Add(itemTrack);
+    }
 }
 
 

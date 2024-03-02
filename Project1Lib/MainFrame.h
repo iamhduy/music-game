@@ -10,11 +10,17 @@
 
 #include "Game.h"
 
+class GameView;
 /**
  * The top-level (main) frame of the application
  */
 class MainFrame : public wxFrame {
 private:
+    /// View class for our Demo
+    GameView *mGameView;
+
+    void OnClose(wxCloseEvent &event);
+
     void OnExit(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
 public:

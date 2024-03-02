@@ -13,6 +13,7 @@
 #include "miniaudio.h"
 #include "Declaration.h"
 
+
 /**
  * Game Class
  *
@@ -26,7 +27,7 @@ private:
     ma_engine* mAudioEngine;
 
     /// Background image to use
-    std::unique_ptr<wxBitmap> mBackground;
+    wxBitmap mBackground;
 
     /// holding the item
     std::vector<std::shared_ptr<Item>> mItems;
@@ -37,6 +38,7 @@ private:
     /// Directory containing the system images
     std::wstring mImagesDirectory;
 
+    /// Player's score
     int mScore = 0;
 
     double mScale;
@@ -63,13 +65,21 @@ public:
      */
     ma_engine* GetAudioEngine() {return mAudioEngine;};
 
+    /**
+     * @return Player's current score
+     */
     int GetScore() {return mScore;};
 
     void AddScore(int value);
 
     void SetImagesDirectory(const std::wstring &dir);
 
+    /**
+     * @return Game's images directory
+     */
     std::wstring GetImagesDirectory() {return mImagesDirectory;}
+
+    void Update(double elapsed);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

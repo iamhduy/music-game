@@ -15,6 +15,10 @@
 #include <chrono>
 
 using namespace std;
+
+/// Frame duration in milliseconds
+const int FrameDuration = 30;
+
 /**
  * Constructor
  * @param audioEngine The audio engine to use
@@ -32,11 +36,12 @@ void GameView::Initialize(wxFrame *parent)
     Create(parent, wxID_ANY);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
 
-    // Determine where the images are stored
-    //auto standardPaths = wxStandardPaths::Get();
     wxStandardPaths &standardPaths = wxStandardPaths::Get();
     std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
     mGame.SetImagesDirectory(resourcesDir);
+
+    mGame.Load("levels/level0.xml");
+    Refresh();
 
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
     Bind(wxEVT_KEY_DOWN, &GameView::OnKeyDown, this);
@@ -48,6 +53,10 @@ void GameView::Initialize(wxFrame *parent)
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_LEVEL3);
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_AUTOPLAY);
 
+    mTimer.SetOwner(this);
+    mTimer.Start(FrameDuration);
+    Bind(wxEVT_TIMER, &GameView::OnTimer,this);
+    mStopWatch.Start();
 }
 
 /**
@@ -128,6 +137,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
  */
 void GameView::OnPaint(wxPaintEvent &event)
 {
+//<<<<<<< HEAD
 //    wxAutoBufferedPaintDC dc(this);
 //    wxBrush background(*wxBLACK);
 //    dc.SetBackground(background);
@@ -136,6 +146,13 @@ void GameView::OnPaint(wxPaintEvent &event)
 //    mGame.OnDraw(&dc);
 
     // Create a double-buffered display context
+//=======
+    auto newTime = mStopWatch.Time();
+    auto elapsed = (double)(newTime - mTime) * 0.001;
+    mTime = newTime;
+    mGame.Update(elapsed);
+
+//>>>>>>> 61a3c0d0b195b24da79e578cf1415840a167d241
     wxAutoBufferedPaintDC dc(this);
 
     // Clear the image to black
@@ -160,20 +177,33 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
 {
     switch(event.GetId())
     {
-        case IDM_LEVEL0:mGame.Load("levels/level0.xml");
+        case IDM_LEVEL0:
+            mGame.Load("levels/level0.xml");
             break;
 
-        case IDM_LEVEL1:mGame.Load("levels/level1.xml");
+        case IDM_LEVEL1:
+            mGame.Load("levels/level1.xml");
             break;
 
-        case IDM_LEVEL2:mGame.Load("levels/level2.xml");
+        case IDM_LEVEL2:
+            mGame.Load("levels/level2.xml");
             break;
 
-        case IDM_LEVEL3:mGame.Load("levels/level3.xml");
+        case IDM_LEVEL3:
+            mGame.Load("levels/level3.xml");
             break;
 
         case IDM_AUTOPLAY:break;
 
     }
+    Refresh();
+}
+
+/**
+ * Handle the timer event
+ * @param event
+ */
+void GameView::OnTimer(wxTimerEvent& event)
+{
     Refresh();
 }

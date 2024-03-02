@@ -21,6 +21,8 @@ bool GameApp::OnInit()
     frame->Initialize(&mAudioEngine);
     frame->Show(true);
 
+    wxInitAllImageHandlers();
+
     // Initialize the audio engine
     auto result = ma_engine_init(NULL, &mAudioEngine);
     if (result != MA_SUCCESS)

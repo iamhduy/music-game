@@ -18,7 +18,8 @@
 class ItemSoundBoard : public Item
 {
 private:
-
+    /// holding the tracks
+    std::vector<std::shared_ptr<ItemTrack>> mTracks;
 public:
     /// Default constructor (disabled)
     ItemSoundBoard() = delete;
@@ -30,6 +31,10 @@ public:
     void operator=(const ItemSoundBoard &) = delete;
 
     ItemSoundBoard(Game* game);
+
+    void Add(std::shared_ptr<ItemTrack> itemTrack);
+
+    void XmlLoad(wxXmlNode *node) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSOUNDBOARD_H

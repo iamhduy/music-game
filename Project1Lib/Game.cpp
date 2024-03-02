@@ -13,9 +13,10 @@
 #include "DeclarationScoreBoard.h"
 #include "DeclarationMeter.h"
 #include "DeclarationNote.h"
+#include <memory>
 
 /// Image Directory
-const std::wstring ImagesDir = L"\\images";
+const std::wstring ImagesDir = L"/images";
 
 using namespace std;
 
@@ -25,7 +26,7 @@ using namespace std;
  */
 Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
-    //mBackground = make_unique<wxBitmap>(L"images/background1", wxBITMAP_TYPE_ANY);
+    //mBackground = wxBitmap(L"images/background1.png", wxBITMAP_TYPE_ANY);
 }
 
 /**
@@ -44,6 +45,7 @@ void Game::SetImagesDirectory(const std::wstring &dir) {
 void Game::Clear()
 {
     mItems.clear();
+    mDeclarations.clear();
     mScore = 0;
 }
 
@@ -53,6 +55,7 @@ void Game::Clear()
  */
 void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
+//<<<<<<< HEAD
 //    for (auto const declaration : mDeclarations)
 //    {
 //        for (auto const item : mItems)
@@ -104,6 +107,19 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
 
 
     graphics->PopState();
+//=======
+//    for (auto const declaration : mDeclarations)
+//    {
+//        for (auto const item : mItems)
+//        {
+//            if (declaration->GetId() == item->GetId())
+//            {
+//                declaration->Draw(dc, item->GetX(), item->GetY());
+//                break;
+//            }
+//        }
+//    }
+//>>>>>>> 61a3c0d0b195b24da79e578cf1415840a167d241
 }
 
 /**
@@ -171,14 +187,6 @@ void Game::XmlItem(wxXmlNode *node)
     else if (name == L"sound-board")
     {
         item = make_shared<ItemSoundBoard>(this);
-        auto trackNode = node->GetChildren();
-        for( ; trackNode; trackNode=trackNode->GetNext())
-        {
-            shared_ptr<Item> itemTrack = make_shared<ItemTrack>(this);
-            itemTrack->XmlLoad(trackNode);
-            AddItem(itemTrack);
-        }
-
     }
     else if (name == L"score-board")
     {
@@ -241,8 +249,6 @@ void Game::XmlDeclaration(wxXmlNode* node)
  */
 void Game::AddItem(std::shared_ptr<Item> item)
 {
-    // Change the location later
-    item->SetLocation(250, 250);
     mItems.push_back(item);
 }
 
@@ -252,11 +258,26 @@ void Game::AddItem(std::shared_ptr<Item> item)
  */
 void Game::AddDeclaration(std::shared_ptr<Declaration> declaration)
 {
-    // Change the location later
     mDeclarations.push_back(declaration);
 }
 
+/**
+* Update player's score
+* @param value score to increment
+*/
 void Game::AddScore(int value)
 {
     mScore += value;
+}
+
+/**
+ * Handle updates for animation
+ * @param elapsed The time since the last update
+ */
+void Game::Update(double elapsed)
+{
+    for (auto item : mItems)
+    {
+        item->Update(elapsed);
+    }
 }

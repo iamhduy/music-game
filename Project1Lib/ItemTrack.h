@@ -7,17 +7,20 @@
 
 #ifndef PROJECT1_PROJECT1LIB_ITEMTRACK_H
 #define PROJECT1_PROJECT1LIB_ITEMTRACK_H
-#include "ItemSoundBoard.h"
-#include "Item.h"
 class ItemSoundBoard;
 
 /**
  * Track Class derived from Item
  *
  */
-class ItemTrack : public Item
+class ItemTrack
 {
+protected:
+
 private:
+    /// The SoundBoard this item is contained in
+    ItemSoundBoard *mSoundBoard;
+
     /// Track Number
     int mTrack;
 
@@ -40,10 +43,9 @@ public:
     /// Assignment operator
     void operator=(const ItemTrack &) = delete;
 
-    ItemTrack(Game *game);
+    void XmlLoad(wxXmlNode* node);
 
-    void XmlLoad(wxXmlNode* node) override;
-
+    ItemTrack(ItemSoundBoard *soundBoard);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMTRACK_H

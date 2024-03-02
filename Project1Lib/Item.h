@@ -79,6 +79,12 @@ public:
     wxString GetId() {return mId;}
 
     virtual void XmlLoad(wxXmlNode *node);
+
+    /**
+     * Handle updates for animation
+     * @param elapsed The time since the last update
+     */
+    virtual void Update(double elapsed) {}
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEM_H
