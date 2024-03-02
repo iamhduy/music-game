@@ -39,6 +39,10 @@ public:
 
     virtual ~Declaration();
 
+    int GetSizeX() const {return mSizeX;}
+
+    int GetSizeY() const {return mSizeY;}
+
     virtual void XmlLoad(wxXmlNode *node);
 
     /**

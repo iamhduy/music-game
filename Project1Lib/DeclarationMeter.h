@@ -16,10 +16,10 @@ class DeclarationMeter : public Declaration
 {
 private:
     /// Cover image dir
-    wxString mCoverFile;
+    std::wstring mCoverFile;
 
     /// Needle image dir
-    wxString mNeedleFile;
+    std::wstring mNeedleFile;
 public:
     /// Default constructor (disabled)
     DeclarationMeter() = delete;
@@ -33,6 +33,8 @@ public:
     DeclarationMeter(Game* game);
 
     void XmlLoad(wxXmlNode *node) override;
+
+    void Draw(wxDC *dc, double x, double y) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONMETER_H

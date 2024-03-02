@@ -12,7 +12,7 @@ using namespace std;
  * @param game The level this item is a member of
  *
  */
-ItemTrack::ItemTrack(Game *game) : Item(game)
+ItemTrack::ItemTrack(ItemSoundBoard *soundBoard) : mSoundBoard(soundBoard)
 {
 }
 

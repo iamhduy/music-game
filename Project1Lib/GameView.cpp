@@ -15,6 +15,10 @@
 #include <chrono>
 
 using namespace std;
+
+/// Frame duration in milliseconds
+const int FrameDuration = 30;
+
 /**
  * Constructor
  * @param audioEngine The audio engine to use
@@ -32,8 +36,6 @@ void GameView::Initialize(wxFrame *parent)
     Create(parent, wxID_ANY);
     SetBackgroundStyle(wxBG_STYLE_PAINT);
 
-    // Determine where the images are stored
-    //auto standardPaths = wxStandardPaths::Get();
     wxStandardPaths &standardPaths = wxStandardPaths::Get();
     std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
     mGame.SetImagesDirectory(resourcesDir);
@@ -48,6 +50,10 @@ void GameView::Initialize(wxFrame *parent)
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_LEVEL3);
     parent->Bind(wxEVT_COMMAND_MENU_SELECTED, &GameView::OnGoToLevel, this, IDM_AUTOPLAY);
 
+    mTimer.SetOwner(this);
+    mTimer.Start(FrameDuration);
+    Bind(wxEVT_TIMER, &GameView::OnTimer,this);
+    mStopWatch.Start();
 }
 
 /**
@@ -128,6 +134,11 @@ void GameView::OnKeyUp(wxKeyEvent &event)
  */
 void GameView::OnPaint(wxPaintEvent &event)
 {
+    auto newTime = mStopWatch.Time();
+    auto elapsed = (double)(newTime - mTime) * 0.001;
+    mTime = newTime;
+    mGame.Update(elapsed);
+
     wxAutoBufferedPaintDC dc(this);
     wxBrush background(*wxBLACK);
     dc.SetBackground(background);
@@ -159,5 +170,14 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
         case IDM_AUTOPLAY:break;
 
     }
+    Refresh();
+}
+
+/**
+ * Handle the timer event
+ * @param event
+ */
+void GameView::OnTimer(wxTimerEvent& event)
+{
     Refresh();
 }

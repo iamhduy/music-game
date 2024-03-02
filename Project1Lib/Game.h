@@ -66,6 +66,7 @@ public:
     void SetImagesDirectory(const std::wstring &dir);
 
     std::wstring GetImagesDirectory() {return mImagesDirectory;}
+    void Update(double elapsed);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

@@ -22,11 +22,11 @@ void MainFrame::Initialize(ma_engine *PEngine)
     auto sizer = new wxBoxSizer( wxVERTICAL );
 
     // Create the view class object as a child of MainFrame
-    auto gameView = new GameView(PEngine);
-    gameView->Initialize(this);
+    mGameView = new GameView(PEngine);
+    mGameView->Initialize(this);
 
     // AddItem it to the sizer
-    sizer->Add(gameView,1, wxEXPAND | wxALL );
+    sizer->Add(mGameView,1, wxEXPAND | wxALL );
 
     // Set the sizer for this frame
     SetSizer( sizer );
@@ -44,9 +44,9 @@ void MainFrame::Initialize(ma_engine *PEngine)
     helpMenu->Append(wxID_ABOUT, "&About\tF1", "Show about dialog");
 
     levelMenu->Append(IDM_LEVEL0, L"&Level 0", L"&Go to Level 0");
-    levelMenu->Append(IDM_LEVEL0, L"&Level 1", L"&Go to Level 1");
-    levelMenu->Append(IDM_LEVEL0, L"&Level 2", L"&Go to Level 2");
-    levelMenu->Append(IDM_LEVEL0, L"&Level 3", L"&Go to Level 3");
+    levelMenu->Append(IDM_LEVEL1, L"&Level 1", L"&Go to Level 1");
+    levelMenu->Append(IDM_LEVEL2, L"&Level 2", L"&Go to Level 2");
+    levelMenu->Append(IDM_LEVEL3, L"&Level 3", L"&Go to Level 3");
     levelMenu->AppendSeparator();
     levelMenu->Append(IDM_AUTOPLAY, L"&Auto Play", L"&Turn on Auto Play");
 
@@ -61,6 +61,8 @@ void MainFrame::Initialize(ma_engine *PEngine)
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnExit, this, wxID_EXIT);
 
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::OnAbout, this, wxID_ABOUT);
+
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 /**
@@ -82,4 +84,14 @@ void MainFrame::OnAbout(wxCommandEvent &event)
                  L"Spartan Hero",
                  wxOK,
                  this);
+}
+
+/**
+ * Handle a close event. Stop the animation and destroy this window.
+ * @param event The Close event
+ */
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+    mGameView->Stop();
+    Destroy();
 }

@@ -132,14 +132,6 @@ void Game::XmlItem(wxXmlNode *node)
     else if (name == L"sound-board")
     {
         item = make_shared<ItemSoundBoard>(this);
-        auto trackNode = node->GetChildren();
-        for( ; trackNode; trackNode=trackNode->GetNext())
-        {
-            shared_ptr<Item> itemTrack = make_shared<ItemTrack>(this);
-            itemTrack->XmlLoad(trackNode);
-            AddItem(itemTrack);
-        }
-
     }
     else if (name == L"score-board")
     {
@@ -211,11 +203,18 @@ void Game::AddItem(std::shared_ptr<Item> item)
  */
 void Game::AddDeclaration(std::shared_ptr<Declaration> declaration)
 {
-    // Change the location later
     mDeclarations.push_back(declaration);
 }
 
 void Game::AddScore(int value)
 {
     mScore += value;
+}
+
+void Game::Update(double elapsed)
+{
+    for (auto item : mItems)
+    {
+        item->Update(elapsed);
+    }
 }

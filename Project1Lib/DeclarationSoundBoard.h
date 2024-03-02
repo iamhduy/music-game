@@ -23,7 +23,7 @@ private:
     int mTopWidth;
 
     /// Cover image dir
-    wxString mCoverFile;
+    std::wstring mCoverFile;
 public:
     /// Default constructor (disabled)
     DeclarationSoundBoard() = delete;
@@ -37,6 +37,8 @@ public:
     DeclarationSoundBoard(Game* game);
 
     void XmlLoad(wxXmlNode *node) override;
+
+    void Draw(wxDC *dc, double x, double y) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONSOUNDBOARD_H
