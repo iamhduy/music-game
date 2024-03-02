@@ -41,7 +41,7 @@ void Declaration::XmlLoad(wxXmlNode* node)
     size.BeforeFirst(',').ToInt(&mSizeX);
     size.AfterFirst(',').ToInt(&mSizeY);
 
-    mImageFile = node->GetAttribute(L"image").ToStdWstring();
+    mImageFile = node->GetAttribute(L"image", "");
 }
 
 /**

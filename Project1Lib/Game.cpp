@@ -13,9 +13,10 @@
 #include "DeclarationScoreBoard.h"
 #include "DeclarationMeter.h"
 #include "DeclarationNote.h"
+#include <memory>
 
 /// Image Directory
-const std::wstring ImagesDir = L"\\images";
+const std::wstring ImagesDir = L"/images";
 
 using namespace std;
 
@@ -25,7 +26,7 @@ using namespace std;
  */
 Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
-    //mBackground = make_unique<wxBitmap>(L"images/background1", wxBITMAP_TYPE_ANY);
+    //mBackground = wxBitmap(L"images/background1.png", wxBITMAP_TYPE_ANY);
 }
 
 /**
@@ -53,17 +54,17 @@ void Game::Clear()
  */
 void Game::OnDraw(wxDC *dc)
 {
-//    for (auto const declaration : mDeclarations)
-//    {
-//        for (auto const item : mItems)
-//        {
-//            if (declaration->GetId() == item->GetId())
-//            {
-//                declaration->Draw(dc, item->GetX(), item->GetY());
-//                break;
-//            }
-//        }
-//    }
+    for (auto const declaration : mDeclarations)
+    {
+        for (auto const item : mItems)
+        {
+            if (declaration->GetId() == item->GetId())
+            {
+                declaration->Draw(dc, item->GetX(), item->GetY());
+                break;
+            }
+        }
+    }
 }
 
 /**
@@ -201,8 +202,6 @@ void Game::XmlDeclaration(wxXmlNode* node)
  */
 void Game::AddItem(std::shared_ptr<Item> item)
 {
-    // Change the location later
-    item->SetLocation(250, 250);
     mItems.push_back(item);
 }
 

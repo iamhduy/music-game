@@ -13,6 +13,7 @@
 #include "miniaudio.h"
 #include "Declaration.h"
 
+
 /**
  * Game Class
  *
@@ -26,7 +27,7 @@ private:
     ma_engine* mAudioEngine;
 
     /// Background image to use
-    std::unique_ptr<wxBitmap> mBackground;
+    wxBitmap mBackground;
 
     /// holding the item
     std::vector<std::shared_ptr<Item>> mItems;
