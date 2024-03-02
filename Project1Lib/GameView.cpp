@@ -128,12 +128,28 @@ void GameView::OnKeyUp(wxKeyEvent &event)
  */
 void GameView::OnPaint(wxPaintEvent &event)
 {
+//    wxAutoBufferedPaintDC dc(this);
+//    wxBrush background(*wxBLACK);
+//    dc.SetBackground(background);
+//    dc.Clear();
+//
+//    mGame.OnDraw(&dc);
+
+    // Create a double-buffered display context
     wxAutoBufferedPaintDC dc(this);
+
+    // Clear the image to black
     wxBrush background(*wxBLACK);
     dc.SetBackground(background);
     dc.Clear();
 
-    mGame.OnDraw(&dc);
+    // Create a graphics context
+    auto gc =
+        std::shared_ptr<wxGraphicsContext>(wxGraphicsContext::Create(dc));
+
+    // Tell the game class to draw
+    wxRect rect = GetRect();
+    mGame.OnDraw(gc, rect.GetWidth(), rect.GetHeight());
 }
 
 /**

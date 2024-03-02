@@ -51,7 +51,7 @@ void Game::Clear()
  * draw background
  * @param dc device context
  */
-void Game::OnDraw(wxDC *dc)
+void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
 //    for (auto const declaration : mDeclarations)
 //    {
@@ -64,6 +64,46 @@ void Game::OnDraw(wxDC *dc)
 //            }
 //        }
 //    }
+
+    // Determine the size of the playing area in pixels
+    // This is up to you...
+
+    int pixelWidth = 1034; //< Temporary placement to get everything else working.
+    int pixelHeight = 900;
+
+    //
+    // Automatic Scaling
+    //
+    auto scaleX = double(width) / double(pixelWidth);
+    auto scaleY = double(height) / double(pixelHeight);
+    mScale = std::min(scaleX, scaleY);
+
+    mXOffset = (width - pixelWidth * mScale) / 2.0;
+    mYOffset = 0;
+    if (height > pixelHeight * mScale)
+    {
+        mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
+    }
+
+    graphics->PushState();
+
+    graphics->Translate(mXOffset, mYOffset);
+    graphics->Scale(mScale, mScale);
+
+    //
+    // Draw in virtual pixels on the graphics context
+    //
+    // INSERT YOUR DRAWING CODE HERE
+    //
+    // Drawing a rectangle that is the playing area size
+    //
+//    wxBrush background(*wxRED);
+//
+//    graphics->SetBrush(background);
+//    graphics->DrawRectangle(0, 0, pixelWidth, pixelHeight);
+
+
+    graphics->PopState();
 }
 
 /**

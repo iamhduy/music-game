@@ -39,6 +39,11 @@ private:
 
     int mScore = 0;
 
+    double mScale;
+
+    double mXOffset;
+    double mYOffset;
+
     void XmlItem(wxXmlNode *node);
 
     void XmlDeclaration(wxXmlNode *node);
@@ -48,7 +53,7 @@ public:
     void Load(const wxString &filename);
 
     void Clear();
-    void OnDraw(wxDC *dc);
+    void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
     void AddItem(std::shared_ptr<Item> item);
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
 
