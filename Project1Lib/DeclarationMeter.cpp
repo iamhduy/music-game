@@ -7,6 +7,9 @@
 #include "Game.h"
 #include <string>
 
+/// Image Directory
+const std::wstring ImagesDir = L"./images/";
+
 using namespace std;
 /**
  * Constructor
@@ -39,7 +42,8 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
 {
     Declaration::Draw(graphics, x, y);
 
-    wstring needleFile = this->GetGame()->GetImagesDirectory() + L"\\" + mNeedleFile;
+//    wstring needleFile = this->GetGame()->GetImagesDirectory() + L"\\" + mNeedleFile;
+    wstring needleFile = ImagesDir + mNeedleFile;
     std::unique_ptr<wxImage> needleImage = make_unique<wxImage>(needleFile, wxBITMAP_TYPE_ANY);
     wxGraphicsBitmap needleBitmap = graphics->CreateBitmapFromImage(*needleImage);
 
@@ -49,7 +53,8 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
     graphics->DrawBitmap(needleBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
                          needleWid, needleHit);
 
-    wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
+    //wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
+    wstring coverFile = ImagesDir + mNeedleFile;
     std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
     wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
 

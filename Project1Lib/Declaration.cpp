@@ -8,6 +8,9 @@
 #include "Game.h"
 using namespace std;
 
+/// Image Directory
+const std::wstring ImagesDir = L"./images/";
+
 /**
  * Destructor
  */
@@ -52,7 +55,8 @@ void Declaration::XmlLoad(wxXmlNode* node)
  */
 void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
-    wstring ItemImageFile = mGame->GetImagesDirectory() + L"\\" + mImageFile;
+//    wstring ItemImageFile = mGame->GetImagesDirectory() + L"/" + mImageFile;
+    wstring ItemImageFile = ImagesDir + mImageFile;
     std::unique_ptr<wxImage> ItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
 
     wxGraphicsBitmap ItemBitmap = graphics->CreateBitmapFromImage(*ItemImage);

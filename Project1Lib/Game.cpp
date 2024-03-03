@@ -16,7 +16,7 @@
 #include <memory>
 
 /// Image Directory
-const std::wstring ImagesDir = L"/images";
+const std::wstring ImagesDir = L"./images";
 
 using namespace std;
 
@@ -34,7 +34,7 @@ Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
  * @param dir
  */
 void Game::SetImagesDirectory(const std::wstring &dir) {
-    mImagesDirectory = dir + ImagesDir;
+    mImagesDirectory = ImagesDir;
 }
 
 /**

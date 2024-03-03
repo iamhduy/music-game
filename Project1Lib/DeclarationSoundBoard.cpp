@@ -8,6 +8,9 @@
 #include "Game.h"
 #include <string>
 
+/// Image Directory
+const std::wstring ImagesDir = L"./images/";
+
 using namespace std;
 
 /**
@@ -42,7 +45,8 @@ void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, do
 {
     Declaration::Draw(graphics, x, y);
 
-    wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
+    //wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
+    wstring coverFile = ImagesDir + mCoverFile;
 
     std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
     wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
