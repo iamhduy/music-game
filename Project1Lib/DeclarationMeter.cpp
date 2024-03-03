@@ -39,15 +39,6 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
 {
     Declaration::Draw(graphics, x, y);
 
-    wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
-    std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
-    wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
-
-    int coverWid = coverImage->GetWidth();
-    int coverHit = coverImage->GetHeight();
-
-    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2), coverWid, coverHit);
-
     wstring needleFile = this->GetGame()->GetImagesDirectory() + L"\\" + mNeedleFile;
     std::unique_ptr<wxImage> needleImage = make_unique<wxImage>(needleFile, wxBITMAP_TYPE_ANY);
     wxGraphicsBitmap needleBitmap = graphics->CreateBitmapFromImage(*needleImage);
@@ -55,5 +46,16 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
     int needleWid = needleImage->GetWidth();
     int needleHit = needleImage->GetHeight();
 
-    graphics->DrawBitmap(needleBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2), needleWid, needleHit);
+    graphics->DrawBitmap(needleBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
+                         needleWid, needleHit);
+
+    wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
+    std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
+    wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
+
+    int coverWid = coverImage->GetWidth();
+    int coverHit = coverImage->GetHeight();
+
+    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
+                         coverWid, coverHit);
 }

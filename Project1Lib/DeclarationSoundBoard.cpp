@@ -50,7 +50,8 @@ void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, do
     int coverWid = coverImage->GetWidth();
     int coverHit = coverImage->GetHeight();
 
-    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2), coverWid, coverHit);
+    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
+                         coverWid, coverHit);
 }
 
 

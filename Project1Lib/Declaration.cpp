@@ -63,7 +63,7 @@ void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, do
     graphics->DrawBitmap(ItemBitmap,
                    int(x - mSizeX / 2),
                    int(y - mSizeY / 2),
-                   imgWid,
-                   imgHit);
+                         mSizeX,
+                         mSizeY);
 }
 
