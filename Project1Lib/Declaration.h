@@ -32,6 +32,7 @@ private:
     std::wstring mImageFile;
 
     std::unique_ptr<wxImage> mItemImage;
+
     std::unique_ptr<wxBitmap> mItemBitmap;
 
 public:

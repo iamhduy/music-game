@@ -42,25 +42,27 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
 {
     Declaration::Draw(graphics, x, y);
 
-//    wstring needleFile = this->GetGame()->GetImagesDirectory() + L"\\" + mNeedleFile;
-    wstring needleFile = ImagesDir + mNeedleFile;
-    std::unique_ptr<wxImage> needleImage = make_unique<wxImage>(needleFile, wxBITMAP_TYPE_ANY);
-    wxGraphicsBitmap needleBitmap = graphics->CreateBitmapFromImage(*needleImage);
+    if (mNeedleBitmap == nullptr) {
+        wstring ItemImageFile = ImagesDir + mNeedleFile;
+        mNeedleImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
+        mNeedleBitmap = make_unique<wxBitmap>(*mNeedleImage);
+    }
 
-    int needleWid = needleImage->GetWidth();
-    int needleHit = needleImage->GetHeight();
+    int imgWid = mNeedleBitmap->GetWidth();
+    int imgHit = mNeedleBitmap->GetHeight();
 
-    graphics->DrawBitmap(needleBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
-                         needleWid, needleHit);
+    graphics->DrawBitmap(*mNeedleBitmap, int(x - imgWid/2), int(y -  imgHit/2),
+                         imgWid, imgHit);
 
-    //wstring coverFile = this->GetGame()->GetImagesDirectory() + L"\\" + mCoverFile;
-    wstring coverFile = ImagesDir + mNeedleFile;
-    std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
-    wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
+    if (mCoverBitmap == nullptr) {
+        wstring ItemImageFile = ImagesDir + mCoverFile;
+        mCoverImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
+        mCoverBitmap = make_unique<wxBitmap>(*mCoverImage);
+    }
 
-    int coverWid = coverImage->GetWidth();
-    int coverHit = coverImage->GetHeight();
+    imgWid = mCoverBitmap->GetWidth();
+    imgHit = mCoverBitmap->GetHeight();
 
-    graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
-                         coverWid, coverHit);
+    graphics->DrawBitmap(*mCoverBitmap, int(x - imgWid/2), int(y -  imgHit/2),
+                         imgWid, imgHit);
 }

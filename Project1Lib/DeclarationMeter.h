@@ -18,8 +18,16 @@ private:
     /// Cover image dir
     std::wstring mCoverFile;
 
+    std::unique_ptr<wxImage> mCoverImage;
+
+    std::unique_ptr<wxBitmap> mCoverBitmap;
+
     /// Needle image dir
     std::wstring mNeedleFile;
+
+    std::unique_ptr<wxImage> mNeedleImage;
+
+    std::unique_ptr<wxBitmap> mNeedleBitmap;
 public:
     /// Default constructor (disabled)
     DeclarationMeter() = delete;

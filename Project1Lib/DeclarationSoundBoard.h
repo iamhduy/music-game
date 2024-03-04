@@ -24,6 +24,10 @@ private:
 
     /// Cover image dir
     std::wstring mCoverFile;
+
+    std::unique_ptr<wxImage> mCoverImage;
+
+    std::unique_ptr<wxBitmap> mCoverBitmap;
 public:
     /// Default constructor (disabled)
     DeclarationSoundBoard() = delete;

@@ -96,6 +96,15 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         }
     }
 
+//    for (auto const declaration : mDeclarations)
+//    {
+//        if (declaration->GetId() == "i600")
+//        {
+//            declaration->Draw(graphics, 0, 0);
+//            break;
+//        }
+//    }
+
 
     graphics->PopState();
 }
