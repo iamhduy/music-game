@@ -17,6 +17,7 @@
 class ItemScoreBoard : public Item
 {
 private:
+    int mScore;
 public:
     /// Default constructor (disabled)
     ItemScoreBoard() = delete;
@@ -28,6 +29,10 @@ public:
     void operator=(const ItemScoreBoard &) = delete;
 
     ItemScoreBoard(Game* game);
+
+    void IncrementScore(int points);
+
+    int GetScore() const;
 
 };
 
