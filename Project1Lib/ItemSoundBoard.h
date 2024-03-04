@@ -35,6 +35,8 @@ public:
     void Add(std::shared_ptr<ItemTrack> itemTrack);
 
     void XmlLoad(wxXmlNode *node) override;
+
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSOUNDBOARD_H

@@ -9,8 +9,20 @@
 #include <memory>
 
 using namespace std;
+
+/// Width of the track line. The line is
+/// drawn a wxBLACK.
+const int TrackLineWidth = 5;
+
+/// Width of the long duration lines. These
+/// lines are drawn as wxRED
+const int LongDurationLineWidth = 12;
+
 /// The maximum number of tracks
 const int MaxTracks = 10;
+
+/// The minimum number of tracks
+const int MinTracks = 8;
 
 /// What is the border of the left and right
 /// of the tracks? This is the percentage of
@@ -60,6 +72,64 @@ void ItemSoundBoard::XmlLoad(wxXmlNode *node)
         shared_ptr<ItemTrack> itemTrack = make_shared<ItemTrack>(this);
         itemTrack->XmlLoad(child);
         Add(itemTrack);
+    }
+}
+
+//double SoundBoardLengthAtY(double xSoundBoardSize, double soundBoardTW, )
+//{
+//
+//}
+
+/**
+ * Draw this extra parts of SoundBoard (tracks)
+ * @param graphics Device context to draw on
+ * @param declaration Declaration object associated with
+ */
+void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
+{
+    double xSoundBoardSize = declaration->GetSizeX();
+    double ySoundBoardSize = declaration->GetSizeY();
+    double soundBoardTW = declaration->GetTopWidth();
+
+    //find length of sound board at KeyRow and TopClearance
+    double soundBoardLengthAtX1Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*TopClearance) + soundBoardTW;
+    double soundBoardLengthAtX2Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*KeyRow) + soundBoardTW;
+
+    //x1 and x2 for leftmost and rightmost track
+    double x1InitLeftTrack = (GetX()-(soundBoardLengthAtX1Init/2)) + (soundBoardLengthAtX1Init*Border);
+    double x2InitLeftTrack = (GetX()-(soundBoardLengthAtX2Init/2)) + (soundBoardLengthAtX2Init*Border);
+
+    double x1InitRightTrack = (GetX()+(soundBoardLengthAtX1Init/2)) - (soundBoardLengthAtX1Init*Border);
+    double x2InitRightTrack = (GetX()+(soundBoardLengthAtX2Init/2)) - (soundBoardLengthAtX2Init*Border);
+
+    //y1 and y2 for all tracks
+    double overlapCorrection = 7; //track is too long otherwise
+    double y1Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*TopClearance) + overlapCorrection;
+    double y2Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*KeyRow);
+
+    //space between each track
+    double x1Space = (x1InitRightTrack - x1InitLeftTrack)/(MaxTracks - 1);
+    double x2Space = (x2InitRightTrack - x2InitLeftTrack)/(MaxTracks - 1);
+
+    //draw tracks
+    wxPen linePen(*wxBLACK, TrackLineWidth);
+    graphics->SetPen(linePen);
+
+    int tracksCount = mTracks.size();
+
+    double shiftX1 = 0;
+    double shiftX2 = 0;
+    for (int i = 0; i < MaxTracks; ++i)
+    {
+        if((i == 4 && tracksCount == MinTracks) || (i == 5 && tracksCount == MinTracks)){
+            shiftX1 += x1Space;
+            shiftX2 += x2Space;
+            continue;
+        }
+
+        graphics->StrokeLine(x1InitLeftTrack + shiftX1, y1Track, x2InitLeftTrack + shiftX2, y2Track);
+        shiftX1 += x1Space;
+        shiftX2 += x2Space;
     }
 }
 

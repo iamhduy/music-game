@@ -11,6 +11,11 @@
 /// Image Directory
 const std::wstring ImagesDir = L"./images/";
 
+/// Top clearance so we don't draw past the cover
+/// as a fraction of the soundboard height. This
+/// is where the pucks come in
+const double TopClearance = 0.1;
+
 using namespace std;
 
 /**
@@ -51,8 +56,8 @@ void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, do
     std::unique_ptr<wxImage> coverImage = make_unique<wxImage>(coverFile, wxBITMAP_TYPE_ANY);
     wxGraphicsBitmap coverBitmap = graphics->CreateBitmapFromImage(*coverImage);
 
-    int coverWid = coverImage->GetWidth();
-    int coverHit = coverImage->GetHeight();
+    double coverHit = GetSizeY();
+    double coverWid = GetSizeX();
 
     graphics->DrawBitmap(coverBitmap, int(x - this->GetSizeX()/2), int(y -  this->GetSizeY()/2),
                          coverWid, coverHit);

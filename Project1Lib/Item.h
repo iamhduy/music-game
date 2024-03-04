@@ -8,6 +8,7 @@
 #ifndef PROJECT1_PROJECT1LIB_ITEM_H
 #define PROJECT1_PROJECT1LIB_ITEM_H
 #include <wx/xml/xml.h>
+#include "Declaration.h"
 class Game;
 
 /**
@@ -85,6 +86,8 @@ public:
      * @param elapsed The time since the last update
      */
     virtual void Update(double elapsed) {}
+
+    virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEM_H
