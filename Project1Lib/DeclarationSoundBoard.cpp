@@ -46,22 +46,22 @@ void DeclarationSoundBoard::XmlLoad(wxXmlNode *node)
  * @param x location x
  * @param y location y
  */
-//void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
-//{
-//    Declaration::Draw(graphics, x, y);
-//
-//    if (mCoverBitmap == nullptr) {
-//        wstring ItemImageFile = ImagesDir + mCoverFile;
-//        mCoverImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
-//        mCoverBitmap = make_unique<wxBitmap>(*mCoverImage);
-//    }
-//
+void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
+{
+    Declaration::Draw(graphics, x, y);
+
+    if (mCoverBitmap == nullptr) {
+        wstring ItemImageFile = ImagesDir + mCoverFile;
+        mCoverImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
+        mCoverBitmap = make_unique<wxBitmap>(*mCoverImage);
+    }
+
 //    int imgWid = mCoverBitmap->GetWidth();
 //    int imgHit = mCoverBitmap->GetHeight();
-//
-//    graphics->DrawBitmap(*mCoverBitmap, int(x - imgWid/2), int(y -  imgHit/2),
-//                         int(imgWid), int(imgHit));
-//}
+
+    graphics->DrawBitmap(*mCoverBitmap, int(x - GetSizeX()/2), int(y -  GetSizeY()/2),
+                         int(GetSizeX()), int(GetSizeY()));
+}
 
 
 

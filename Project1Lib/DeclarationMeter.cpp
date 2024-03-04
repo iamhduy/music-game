@@ -48,11 +48,11 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
         mNeedleBitmap = make_unique<wxBitmap>(*mNeedleImage);
     }
 
-    int imgWid = mNeedleBitmap->GetWidth();
-    int imgHit = mNeedleBitmap->GetHeight();
+//    int imgWid = mNeedleBitmap->GetWidth();
+//    int imgHit = mNeedleBitmap->GetHeight();
 
-    graphics->DrawBitmap(*mNeedleBitmap, int(x - imgWid/2), int(y -  imgHit/2),
-                         int(imgWid), int(imgHit));
+    graphics->DrawBitmap(*mNeedleBitmap, int(x - GetSizeX()/2), int(y -  GetSizeY()/2),
+                         int(GetSizeX()), int(GetSizeY()));
 
     if (mCoverBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mCoverFile;
@@ -60,9 +60,9 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
         mCoverBitmap = make_unique<wxBitmap>(*mCoverImage);
     }
 
-    imgWid = mCoverBitmap->GetWidth();
-    imgHit = mCoverBitmap->GetHeight();
+//    imgWid = mCoverBitmap->GetWidth();
+//    imgHit = mCoverBitmap->GetHeight();
 
-    graphics->DrawBitmap(*mCoverBitmap, int(x - imgWid/2), int(y -  imgHit/2),
-                         int(imgWid), int(imgHit));
+    graphics->DrawBitmap(*mCoverBitmap, int(x - GetSizeX()/2), int(y -  GetSizeY()/2),
+                         int(GetSizeX()), int(GetSizeY()));
 }
