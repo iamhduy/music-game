@@ -25,7 +25,7 @@ private:
     int mTrack;
 
     /// Key Image File
-    wxString mKeyImageFile;
+    std::wstring mKeyImageFile;
 
     int mSizeX = 0; ///< X size for the center of the item
     int mSizeY = 0; ///< Y size for the center of the item
@@ -46,6 +46,10 @@ public:
     void XmlLoad(wxXmlNode* node);
 
     ItemTrack(ItemSoundBoard *soundBoard);
+
+    std::wstring GetKeyImageFile();
+
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMTRACK_H

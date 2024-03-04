@@ -130,6 +130,15 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
         graphics->StrokeLine(x1InitLeftTrack + shiftX1, y1Track, x2InitLeftTrack + shiftX2, y2Track);
         shiftX1 += x1Space;
         shiftX2 += x2Space;
+
+        if (tracksCount == MinTracks && i > 5)
+        {
+            mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
+        }
+        else
+        {
+            mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
+        }
     }
 }
 
