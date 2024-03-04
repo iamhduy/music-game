@@ -92,8 +92,8 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
     double soundBoardTW = declaration->GetTopWidth();
 
     //find length of sound board at KeyRow and TopClearance
-    double soundBoardLengthAtX1Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*TopClearance) + 300;
-    double soundBoardLengthAtX2Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*KeyRow) + 300;
+    double soundBoardLengthAtX1Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*TopClearance) + soundBoardTW;
+    double soundBoardLengthAtX2Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*KeyRow) + soundBoardTW;
 
     //x1 and x2 for leftmost and rightmost track
     double x1InitLeftTrack = (GetX()-(soundBoardLengthAtX1Init/2)) + (soundBoardLengthAtX1Init*Border);
