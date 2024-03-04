@@ -55,7 +55,7 @@ public:
     void Load(const wxString &filename);
 
     void Clear();
-    void OnDraw(std::shared_ptr<wxGraphicsContext> graphics);
+    void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
     void AddItem(std::shared_ptr<Item> item);
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
 

@@ -56,18 +56,22 @@ void Declaration::XmlLoad(wxXmlNode* node)
 void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
 //    wstring ItemImageFile = mGame->GetImagesDirectory() + L"/" + mImageFile;
-    wstring ItemImageFile = ImagesDir + mImageFile;
-    std::unique_ptr<wxImage> ItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
+//    wstring ItemImageFile = ImagesDir + mImageFile;
+//    std::unique_ptr<wxImage> ItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
 
-    wxGraphicsBitmap ItemBitmap = graphics->CreateBitmapFromImage(*ItemImage);
+//    wxGraphicsBitmap ItemBitmap = graphics->CreateBitmapFromImage(*ItemImage);
     //    std::unique_ptr<wxBitmap> ItemBitmap = make_unique<wxBitmap>(*ItemImage);
-    int imgWid = ItemImage->GetWidth();
-    int imgHit = ItemImage->GetHeight();
+    wstring ItemImageFile = ImagesDir + mImageFile;
+    mItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
+    mItemBitmap = make_unique<wxBitmap>(*mItemImage);
 
-    graphics->DrawBitmap(ItemBitmap,
-                   int(x - mSizeX / 2),
-                   int(y - mSizeY / 2),
-                         mSizeX,
-                         mSizeY);
+    int imgWid = mItemBitmap->GetWidth();
+    int imgHit = mItemBitmap->GetHeight();
+
+    graphics->DrawBitmap(*mItemBitmap,
+                   int(x - imgWid / 2),
+                   int(y - imgHit / 2),
+                         int(imgWid),
+                         int(imgHit));
 }
 

@@ -30,6 +30,10 @@ private:
 
     /// Declaration's image dir
     std::wstring mImageFile;
+
+    std::unique_ptr<wxImage> mItemImage;
+    std::unique_ptr<wxBitmap> mItemBitmap;
+
 public:
     /// Default constructor (disabled)
     Declaration() = delete;

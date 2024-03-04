@@ -53,8 +53,36 @@ void Game::Clear()
  * draw background
  * @param dc device context
  */
-void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics)
+void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
+    // Determine the size of the playing area in pixels
+    // This is up to you...
+    int pixelWidth = 1304;
+    int pixelHeight = 900;
+
+    //
+    // Automatic Scaling
+    //
+    auto scaleX = double(width) / double(pixelWidth);
+    auto scaleY = double(height) / double(pixelHeight);
+    mScale = std::min(scaleX, scaleY);
+
+    mXOffset = (width - pixelWidth * mScale) / 2.0;
+    mYOffset = 0;
+    if (height > pixelHeight * mScale)
+    {
+        mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
+    }
+
+    graphics->PushState();
+
+    graphics->Translate(mXOffset, mYOffset);
+    graphics->Scale(mScale, mScale);
+
+    //
+    // Draw in virtual pixels on the graphics context
+    //
+    // INSERT YOUR DRAWING CODE HERE
     for (auto const declaration : mDeclarations)
     {
         for (auto const item : mItems)
@@ -66,6 +94,9 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics)
             }
         }
     }
+
+
+    graphics->PopState();
 }
 
 /**
