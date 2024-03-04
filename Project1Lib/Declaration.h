@@ -63,6 +63,12 @@ public:
     wxString GetId() {return mId;}
 
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
+
+
+    /*
+     * @return the TopWidth of this object (for soundboard)
+     */
+    virtual int GetTopWidth() {return 0;};
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATION_H
