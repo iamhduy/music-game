@@ -42,7 +42,7 @@ public:
 
     void XmlLoad(wxXmlNode *node) override;
 
-    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
+//    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
 
     /*
      * @return the TopWidth of this object

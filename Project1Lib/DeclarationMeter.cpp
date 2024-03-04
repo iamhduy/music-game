@@ -52,7 +52,7 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
     int imgHit = mNeedleBitmap->GetHeight();
 
     graphics->DrawBitmap(*mNeedleBitmap, int(x - imgWid/2), int(y -  imgHit/2),
-                         imgWid, imgHit);
+                         int(imgWid), int(imgHit));
 
     if (mCoverBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mCoverFile;
@@ -64,5 +64,5 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
     imgHit = mCoverBitmap->GetHeight();
 
     graphics->DrawBitmap(*mCoverBitmap, int(x - imgWid/2), int(y -  imgHit/2),
-                         imgWid, imgHit);
+                         int(imgWid), int(imgHit));
 }

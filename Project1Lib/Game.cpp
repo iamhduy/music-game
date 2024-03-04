@@ -57,8 +57,17 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
 {
     // Determine the size of the playing area in pixels
     // This is up to you...
-    int pixelWidth = 1304;
-    int pixelHeight = 900;
+    int pixelWidth;
+    int pixelHeight;
+
+    for ( auto const declaration : mDeclarations )
+    {
+        if (declaration->GetId() == "i600")
+        {
+            pixelWidth = declaration->GetSizeX();
+            pixelHeight = declaration->GetSizeY();
+        }
+    }
 
     //
     // Automatic Scaling
@@ -73,6 +82,8 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     {
         mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
     }
+
+    mYOffset = mYOffset + (30*mScale); //< Offset in the Y direction to account for NAV bar.
 
     graphics->PushState();
 
@@ -95,16 +106,6 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
             }
         }
     }
-
-//    for (auto const declaration : mDeclarations)
-//    {
-//        if (declaration->GetId() == "i600")
-//        {
-//            declaration->Draw(graphics, 0, 0);
-//            break;
-//        }
-//    }
-
 
     graphics->PopState();
 }

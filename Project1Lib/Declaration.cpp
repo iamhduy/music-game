@@ -56,15 +56,7 @@ void Declaration::XmlLoad(wxXmlNode* node)
  */
 void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
-//    wstring ItemImageFile = mGame->GetImagesDirectory() + L"/" + mImageFile;
-//    wstring ItemImageFile = ImagesDir + mImageFile;
-//    std::unique_ptr<wxImage> ItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
 
-//    wxGraphicsBitmap ItemBitmap = graphics->CreateBitmapFromImage(*ItemImage);
-    //    std::unique_ptr<wxBitmap> ItemBitmap = make_unique<wxBitmap>(*ItemImage);
-//    wstring ItemImageFile = ImagesDir + mImageFile;
-//    mItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
-//    mItemBitmap = make_unique<wxBitmap>(*mItemImage);
     if (mItemBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mImageFile;
         mItemImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
