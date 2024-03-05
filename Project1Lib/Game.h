@@ -82,6 +82,8 @@ public:
     void Update(double elapsed);
 
     constexpr static double Size = 1000;
+
+    std::shared_ptr<Item> HitTest(int x, int y);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

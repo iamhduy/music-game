@@ -64,3 +64,8 @@ void Item::XmlLoad(wxXmlNode *node)
 void Item::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
 {
 }
+
+bool Item::HitTest(int x, int y)
+{
+    return true;
+}

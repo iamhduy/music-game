@@ -269,3 +269,15 @@ void Game::Update(double elapsed)
         item->Update(elapsed);
     }
 }
+
+std::shared_ptr<Item> Game::HitTest(int x, int y)
+{
+    for (auto i = mItems.rbegin(); i != mItems.rend(); i++)
+    {
+        if ((*i)->HitTest(x,y))
+        {
+            return *i;
+        }
+    }
+    return nullptr;
+}

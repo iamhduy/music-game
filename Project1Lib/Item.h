@@ -19,14 +19,14 @@ class Item
 {
 private:
     /// The game this item is contained in
-    Game   *mGame;
+    Game *mGame;
 
     /// Item's id
     wxString mId;
 
     // Item location in the game
-    double  mX = 0;     ///< X location for the center of the item
-    double  mY = 0;     ///< Y location for the center of the item
+    double mX = 0;     ///< X location for the center of the item
+    double mY = 0;     ///< Y location for the center of the item
 
     /// The underlying image
     std::unique_ptr<wxImage> mItemImage;
@@ -35,7 +35,7 @@ private:
     std::unique_ptr<wxBitmap> mItemBitmap;
 
 protected:
-    Item(Game* game);
+    Item(Game *game);
 
 public:
     /// Default constructor (disabled)
@@ -63,7 +63,11 @@ public:
      * @param x X location in pixels
      * @param y Y location in pixels
      */
-    virtual void SetLocation(double x, double y) { mX = x; mY = y; }
+    virtual void SetLocation(double x, double y)
+    {
+        mX = x;
+        mY = y;
+    }
 
 //    virtual void Draw(wxDC *dc);
 
@@ -77,7 +81,7 @@ public:
      *
      * @return the id of this object
      */
-    wxString GetId() {return mId;}
+    wxString GetId() { return mId; }
 
     virtual void XmlLoad(wxXmlNode *node);
 
@@ -88,6 +92,7 @@ public:
     virtual void Update(double elapsed) {}
 
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
-};
 
+    virtual bool HitTest(int x, int y);
+};
 #endif //PROJECT1_PROJECT1LIB_ITEM_H
