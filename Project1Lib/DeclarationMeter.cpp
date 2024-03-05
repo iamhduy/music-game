@@ -10,6 +10,16 @@
 /// Image Directory
 const std::wstring ImagesDir = L"./images/";
 
+/// Positive or negative rotations of this amount will move
+/// the needle to the limit in that direction.
+/// A meter score of 0 will be a rotation of -0.9
+/// A meter score of 100% (11) will be a rotation of 0.9
+const double MaxNeedleRotation = 0.9;
+
+/// This is how far down the need image the pivot point is
+/// as a percentage of the height of the image.
+const double NeedlePivotYOffset = 0.80;
+
 using namespace std;
 /**
  * Constructor
@@ -42,17 +52,25 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
 {
     Declaration::Draw(graphics, x, y);
 
+    mScorePct = 0.25; //< constant set for now. Need to figure out how to get percentage from scoreboard
+
     if (mNeedleBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mNeedleFile;
         mNeedleImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
         mNeedleBitmap = make_unique<wxBitmap>(*mNeedleImage);
     }
 
-//    int imgWid = mNeedleBitmap->GetWidth();
-//    int imgHit = mNeedleBitmap->GetHeight();
+    int wid = mNeedleBitmap->GetWidth();
+    int hit = mNeedleBitmap->GetHeight();
+    int needlePivotY = (int)(hit * NeedlePivotYOffset);
 
-    graphics->DrawBitmap(*mNeedleBitmap, int(x - GetSizeX()/2), int(y -  GetSizeY()/2),
-                         int(GetSizeX()), int(GetSizeY()));
+    graphics->PushState();
+    graphics->Translate(x, y + needlePivotY - hit/2);
+    graphics->Rotate(-MaxNeedleRotation + (mScorePct * MaxNeedleRotation * 2));
+    graphics->DrawBitmap(*mNeedleBitmap, -wid/2, -needlePivotY,
+                         wid, hit);
+
+    graphics->PopState();
 
     if (mCoverBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mCoverFile;

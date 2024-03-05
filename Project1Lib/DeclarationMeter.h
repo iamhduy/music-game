@@ -28,6 +28,8 @@ private:
     std::unique_ptr<wxImage> mNeedleImage;
 
     std::unique_ptr<wxBitmap> mNeedleBitmap;
+
+    double mScorePct;
 public:
     /// Default constructor (disabled)
     DeclarationMeter() = delete;

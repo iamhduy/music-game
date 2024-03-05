@@ -83,7 +83,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
     }
 
-    mYOffset = mYOffset + (30*mScale); //< Offset in the Y direction to account for NAV bar.
+    mYOffset = mYOffset + (15*mScale); //< Offset in the Y direction to account for NAV bar.
 
     graphics->PushState();
 
