@@ -18,6 +18,7 @@ class ItemScoreBoard : public Item
 {
 private:
     int mScore;
+    int mPossible;
 public:
     /// Default constructor (disabled)
     ItemScoreBoard() = delete;
