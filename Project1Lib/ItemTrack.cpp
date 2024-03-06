@@ -54,8 +54,8 @@ void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, doub
     auto itemBitmap = make_unique<wxBitmap>(*itemImage);
 
     graphics->DrawBitmap(*itemBitmap,
-                         int(x - mSizeX - 17.5), //need to modify 17.5
-                         int(y - mSizeY/2),
-                         int(mSizeX),
-                         int(mSizeY));
+                         int(x - mSizeX / 2), //need to modify 17.5
+                         int(y - mSizeY / 2),
+                         mSizeX,
+                         mSizeY);
 }
