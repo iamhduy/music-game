@@ -25,8 +25,10 @@ private:
     /// Cover image dir
     std::wstring mCoverFile;
 
+    /// Cover's image
     std::unique_ptr<wxImage> mCoverImage;
 
+    /// Cover's bitmap
     std::unique_ptr<wxBitmap> mCoverBitmap;
 public:
     /// Default constructor (disabled)
@@ -44,7 +46,7 @@ public:
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
 
-    /*
+    /**
      * @return the TopWidth of this object
      */
     int GetTopWidth() override { return mTopWidth; };

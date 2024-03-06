@@ -31,8 +31,10 @@ private:
     /// Declaration's image dir
     std::wstring mImageFile;
 
+    /// Declaration's image
     std::unique_ptr<wxImage> mItemImage;
 
+    /// Declaration's bitmap
     std::unique_ptr<wxBitmap> mItemBitmap;
 
 public:
@@ -69,8 +71,7 @@ public:
 
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 
-
-    /*
+    /**
      * @return the TopWidth of this object (for soundboard)
      */
     virtual int GetTopWidth() {return 0;};

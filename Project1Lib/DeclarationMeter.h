@@ -18,17 +18,22 @@ private:
     /// Cover image dir
     std::wstring mCoverFile;
 
+    /// Cover's image
     std::unique_ptr<wxImage> mCoverImage;
 
+    /// Cover's bitmap
     std::unique_ptr<wxBitmap> mCoverBitmap;
 
     /// Needle image dir
     std::wstring mNeedleFile;
 
+    /// Needle's image
     std::unique_ptr<wxImage> mNeedleImage;
 
+    /// Needle's bitmap
     std::unique_ptr<wxBitmap> mNeedleBitmap;
 
+    /// Score Accuracy
     double mScorePct;
 public:
     /// Default constructor (disabled)

@@ -27,6 +27,8 @@ public:
     void operator=(const DeclarationScoreBoard &) = delete;
 
     DeclarationScoreBoard(Game* game);
+
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONSCOREBOARD_H

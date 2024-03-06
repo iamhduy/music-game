@@ -51,7 +51,9 @@ void Game::Clear()
 
 /**
  * draw background
- * @param dc device context
+ * @param graphics device context
+ * @param width X-size of the window view
+ * @param height Y-size of the window view
  */
 void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
@@ -66,6 +68,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         {
             pixelWidth = declaration->GetSizeX();
             pixelHeight = declaration->GetSizeY();
+            break;
         }
     }
 
@@ -111,11 +114,11 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
 }
 
 /**
- * Load the aquarium from a .aqua XML file.
+ * Load the game from XML file.
  *
  * Opens the XML file and reads the nodes, creating items as appropriate.
  *
- * @param filename The filename of the file to load the aquarium from.
+ * @param filename The filename of the file to load the game from.
  */
 void Game::Load(const wxString &filename)
 {
@@ -270,6 +273,12 @@ void Game::Update(double elapsed)
     }
 }
 
+/**
+ * Check if the key hit the notes
+ * @param x location x
+ * @param y location y
+ * @return pointer of the item hit.
+ */
 std::shared_ptr<Item> Game::HitTest(int x, int y)
 {
     for (auto i = mItems.rbegin(); i != mItems.rend(); i++)

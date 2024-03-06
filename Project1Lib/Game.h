@@ -41,9 +41,13 @@ private:
     /// Player's score
     int mScore = 0;
 
+    /// Scale of the game
     double mScale;
 
+    /// Off set in X location
     double mXOffset;
+
+    /// Off set in Y location
     double mYOffset;
 
     void XmlItem(wxXmlNode *node);
@@ -81,9 +85,19 @@ public:
 
     void Update(double elapsed);
 
-    constexpr static double Size = 1000;
-
     std::shared_ptr<Item> HitTest(int x, int y);
+
+    /**
+     * Use for testing
+     * @return number of items
+     */
+    size_t GetItemsSize() {return mItems.size();}
+
+    /**
+     * Use for testing
+     * @return number of declarations
+     */
+    size_t GetDeclarationsSize() {return mDeclarations.size();}
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

@@ -65,6 +65,12 @@ void Item::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Dec
 {
 }
 
+/**
+ * Check if the key hit the notes
+ * @param x location x
+ * @param y location y
+ * @return hit or not.
+ */
 bool Item::HitTest(int x, int y)
 {
     return true;
