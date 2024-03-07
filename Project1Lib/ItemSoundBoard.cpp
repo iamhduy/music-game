@@ -75,13 +75,8 @@ void ItemSoundBoard::XmlLoad(wxXmlNode *node)
     }
 }
 
-//double SoundBoardLengthAtY(double xSoundBoardSize, double soundBoardTW, )
-//{
-//
-//}
-
 /**
- * Draw this extra parts of SoundBoard (tracks)
+ * Draw extra parts of SoundBoard (tracks)
  * @param graphics Device context to draw on
  * @param declaration Declaration object associated with
  */

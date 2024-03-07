@@ -69,6 +69,12 @@ public:
      */
     wxString GetId() {return mId;}
 
+    /**
+     *
+     * @return the image filename of this object
+     */
+    wxString GetImageFile() {return mImageFile;}
+
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 
     /**

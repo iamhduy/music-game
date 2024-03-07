@@ -336,6 +336,6 @@
 		<note id="t1" sound="Eb4-long" measure="60" beat="4.0" duration="1.0"/>
 		<note id="t3" sound="Eb5-long" measure="60" beat="4.0" duration="1.0"/>
 		<note id="t2" sound="Ab4-long" measure="61" beat="1.0" duration="2.75"/>
-		<note id="t4" sound="Ab5-long" measure="61" beat="1.0" duration="2.75"/>
-	</music>
+[		<note id="t4" sound="Ab5-long" measure="61" beat="1.0" duration="2.75"/>
+]	</music>
 </level>

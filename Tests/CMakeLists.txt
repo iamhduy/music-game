@@ -4,7 +4,8 @@ set(TEST_FILES
         gtest_main.cpp
         EmptyTest.cpp
         GameTest.cpp
-        LoadTest.cpp)
+        LoadTest.cpp
+        DeclarationTest.cpp)
 
 # Get Google Tests
 include(FetchContent)
