@@ -13,6 +13,7 @@
 #include "DeclarationScoreBoard.h"
 #include "DeclarationMeter.h"
 #include "DeclarationNote.h"
+#include "Music.h"
 #include <memory>
 
 /// Image Directory
@@ -157,6 +158,32 @@ void Game::Load(const wxString &filename)
                 XmlDeclaration(childDeclaration);
             }
         }
+        else if (name == L"audio")
+        {
+            auto childAudio = child->GetChildren();
+            for( ; childAudio; childAudio=childAudio->GetNext())
+            {
+                shared_ptr<Sound> sound = make_shared<Sound>(this);
+                if (sound != nullptr)
+                {
+                    sound->XmlLoad(childAudio);
+                    AddAudio(sound);
+                }
+            }
+        }
+        else if (name == L"music")
+        {
+            auto childMusic = child->GetChildren();
+            for( ; childMusic; childMusic=childMusic->GetNext())
+            {
+                shared_ptr<Music> music = make_shared<Music>(this);
+                if (music != nullptr)
+                {
+                    music->XmlLoad(childMusic);
+                    AddMusic(music);
+                }
+            }
+        }
     }
 }
 
@@ -235,7 +262,7 @@ void Game::XmlDeclaration(wxXmlNode* node)
 }
 
 /**
- * AddItem an item to the game
+ * Add an item to the game
  * @param item New item to add
  */
 void Game::AddItem(std::shared_ptr<Item> item)
@@ -244,12 +271,30 @@ void Game::AddItem(std::shared_ptr<Item> item)
 }
 
 /**
- * AddDeclaration an declaration to the game
+ * Add an declaration to the game
  * @param declaration New declaration to add
  */
 void Game::AddDeclaration(std::shared_ptr<Declaration> declaration)
 {
     mDeclarations.push_back(declaration);
+}
+
+/**
+ * Add an sound to the game
+ * @param sound New sound to add
+ */
+void Game::AddAudio(std::shared_ptr<Sound> sound)
+{
+    mAudio.push_back(sound);
+}
+
+/**
+ * Add an music to the game
+ * @param music New music to add
+ */
+void Game::AddMusic(std::shared_ptr<Music> music)
+{
+    mMusic.push_back(music);
 }
 
 /**
@@ -290,3 +335,5 @@ std::shared_ptr<Item> Game::HitTest(int x, int y)
     }
     return nullptr;
 }
+
+

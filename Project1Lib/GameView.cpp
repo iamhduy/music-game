@@ -79,11 +79,13 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 {
     UpdateTime();
     wxChar key = event.GetKeyCode();
+    // A = 65, S = 83, D = 68, F = 70
+    // J = 74, K = 75, L = 76, ; = 59
+    Sound sound(&mGame);
+
     // A = 65, S = 83, D = 68, F = 70, G = 71
     // H = 72, J = 74, K = 75, L = 76, ; = 59
     char currKey = char(key);
-
-    Sound sound;
 
     auto output = key_pressed.insert(currKey);
     // returns by <iterator, bool>, with bool being false if Key was already in list.

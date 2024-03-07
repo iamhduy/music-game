@@ -36,7 +36,11 @@ set(SOURCE_FILES
         DeclarationMeter.cpp
         DeclarationMeter.h
         DeclarationNote.cpp
-        DeclarationNote.h)
+        DeclarationNote.h
+        Music.cpp
+        Music.h
+        MusicNote.cpp
+        MusicNote.h)
 
 set(wxBUILD_PRECOMP OFF)
 find_package(wxWidgets COMPONENTS core base xrc html xml REQUIRED)

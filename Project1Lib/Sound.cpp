@@ -8,6 +8,10 @@
 /// Directory that contains the audio files
 const std::wstring AudioDirectory = L"audio";
 
+Sound::Sound(Game *game) : mGame(game)
+{
+}
+
 /**
  * Load the attributes for an audio node.
  * @param node The Xml node we are loading the audio from
@@ -17,6 +21,10 @@ void Sound::XmlLoad(wxXmlNode* node)
     node->GetAttribute(L"name", &mName);
     node->GetAttribute(L"audio", &mAudioFile);
     node->GetAttribute(L"volume", L"1.0").ToDouble(&mVolume);
+
+    wxString isLong;
+    node->GetAttribute(L"long", &isLong);
+    mLong = (isLong == L"true");
 }
 
 /**
@@ -94,3 +102,4 @@ void Sound::PlayEnd()
         }
     }
 }
+

@@ -11,7 +11,7 @@
 #include <string>
 #include <miniaudio.h>
 #include "Item.h"
-
+class Game;
 /**
  * Sound Class derived from Audio
  *
@@ -19,6 +19,9 @@
 class Sound
 {
 private:
+/// The game this sound is contained in
+    Game* mGame;
+
     /// Name of the sound
     wxString mName;
 
@@ -38,6 +41,17 @@ private:
     bool mLoaded = false;
 
 public:
+    Sound(Game *game);
+
+    /// Default constructor (disabled)
+    Sound() = delete;
+
+    /// Copy constructor (disabled)
+    Sound(const Sound &) = delete;
+
+    /// Assignment operator
+    void operator=(const Sound &) = delete;
+
     ~Sound();
 
     void PlaySound();

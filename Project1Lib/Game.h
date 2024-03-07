@@ -12,7 +12,8 @@
 #include "Item.h"
 #include "miniaudio.h"
 #include "Declaration.h"
-
+#include "Sound.h"
+#include "Music.h"
 
 /**
  * Game Class
@@ -34,6 +35,12 @@ private:
 
     ///holding the declaration
     std::vector<std::shared_ptr<Declaration>> mDeclarations;
+
+    ///holding the audio
+    std::vector<std::shared_ptr<Sound>> mAudio;
+
+    ///holding the music note
+    std::vector<std::shared_ptr<Music>> mMusic;
 
     /// Directory containing the system images
     std::wstring mImagesDirectory;
@@ -62,6 +69,8 @@ public:
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
     void AddItem(std::shared_ptr<Item> item);
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
+    void AddAudio(std::shared_ptr<Sound> sound);
+    void AddMusic(std::shared_ptr<Music> music);
 
     /**
      * Get the audio engine object
