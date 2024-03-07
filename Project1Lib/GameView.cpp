@@ -10,6 +10,7 @@
 #include <wx/event.h>
 #include "ids.h"
 #include "Sound.h"
+#include <set>
 
 #include <thread>
 #include <chrono>
@@ -60,67 +61,66 @@ void GameView::Initialize(wxFrame *parent)
 }
 
 /**
+ * Update time in GameView
+ */
+void GameView::UpdateTime()
+{
+    auto newTime = mStopWatch.Time();
+    auto elapsed = (double)(newTime - mTime) * 0.001;
+    mTime = newTime;
+    mGame.Update(elapsed);
+}
+
+/**
  * Handle a key press event
  * @param event Keypress event
  */
 void GameView::OnKeyDown(wxKeyEvent &event)
 {
+    UpdateTime();
     wxChar key = event.GetKeyCode();
-    // A = 65, S = 83, D = 68, F = 70
-    // J = 74, K = 75, L = 76, ; = 59
-    Sound sound;
-    bool validKey = false;
+    // A = 65, S = 83, D = 68, F = 70, G = 71
+    // H = 72, J = 74, K = 75, L = 76, ; = 59
+    char currKey = char(key);
 
-    switch(key)
+    Sound sound;
+
+    auto output = key_pressed.insert(currKey);
+    // returns by <iterator, bool>, with bool being false if Key was already in list.
+
+    auto iter = find(keys_allowed.begin(), keys_allowed.end(), currKey);
+
+    std::string tone;
+
+    if(iter != keys_allowed.end())
     {
-        case (wxChar(65)):
-            sound.SetAudioFile(L"trumpet/C4.wav");
-            validKey = true;
-            break;
-        case (wxChar(83)):
-            sound.SetAudioFile(L"trumpet/Db4.wav");
-            validKey = true;
-            break;
-        case (wxChar(68)):
-            sound.SetAudioFile(L"trumpet/Eb4.wav");
-            validKey = true;
-            break;
-        case (wxChar(70)):
-            sound.SetAudioFile(L"trumpet/E4.wav");
-            validKey = true;
-            break;
-        case (wxChar(74)):
-            sound.SetAudioFile(L"trumpet/C5.wav");
-            validKey = true;
-            break;
-        case (wxChar(75)):
-            sound.SetAudioFile(L"trumpet/Db5.wav");
-            validKey = true;
-            break;
-        case (wxChar(76)):
-            sound.SetAudioFile(L"trumpet/Eb5.wav");
-            validKey = true;
-            break;
-        case (wxChar(59)):
-            sound.SetAudioFile(L"trumpet/E5.wav");
-            validKey = true;
-            break;
+        int index = iter - keys_allowed.begin();
+        if(output.second)
+        {
+            // if true, key has just been used yet, use short tone.
+            tone = short_notes[index];
+        }
+        else
+        {
+            // if false, key is still in use, use long tone
+            tone = long_notes[index];
+        }
     }
-    if(!validKey)
+    else
     {
-        //break if the key given is invalid.
+        // if key is not one that is allowed, don't continue with sounds.
         return;
     }
 
+    std::string file = folder + "/" + tone;
+    sound.SetAudioFile(file);
     sound.SetVolume(0.5);
+
     sound.LoadSound(mGame.GetAudioEngine());
 
     sound.PlaySound();
     std::this_thread::sleep_for(std::chrono::seconds(1)); //pauses for 1 second
     sound.PlayEnd();
-
-    mGame.AddScore(mScoreValue);
-    std::cout << "Current Score: " << mGame.GetScore() << std::endl;
 }
 
 /**
@@ -129,6 +129,11 @@ void GameView::OnKeyDown(wxKeyEvent &event)
  */
 void GameView::OnKeyUp(wxKeyEvent &event)
 {
+    UpdateTime();
+    wxChar key = event.GetKeyCode();
+    char currKey = char(key);
+
+    key_pressed.erase(currKey);
 }
 
 /**
@@ -143,13 +148,13 @@ void GameView::OnPaint(wxPaintEvent &event)
     dc.SetBackground(background);
     dc.Clear();
 
-    // ELAPSED TIME TO UPDATE SCREEN
-    auto newTime = mStopWatch.Time();
-    auto elapsed = (double)(newTime - mTime) * 0.001;
-    mTime = newTime;
-
-    // update
-    mGame.Update(elapsed);
+//    // ELAPSED TIME TO UPDATE SCREEN
+//    auto newTime = mStopWatch.Time();
+//    auto elapsed = (double)(newTime - mTime) * 0.001;
+//    mTime = newTime;
+//
+//    // update
+//    mGame.Update(elapsed);
 
 
     // Create a graphics context
@@ -189,18 +194,22 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
     {
         case IDM_LEVEL0:
             mGame.Load("levels/level0.xml");
+            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             break;
 
         case IDM_LEVEL1:
             mGame.Load("levels/level1.xml");
+            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             break;
 
         case IDM_LEVEL2:
             mGame.Load("levels/level2.xml");
+            keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
             break;
 
         case IDM_LEVEL3:
             mGame.Load("levels/level3.xml");
+            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             break;
 
         case IDM_AUTOPLAY:break;
