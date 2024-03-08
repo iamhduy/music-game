@@ -204,8 +204,10 @@ void GameView::OnPaint(wxPaintEvent &event)
         graphics->SetFont(font, LevelNoticeColor);
         double wid, hit;
         graphics->GetTextExtent(mLevelBeginText, &wid, &hit);
-        graphics->DrawText(mLevelBeginText, (size.GetWidth() - wid) / 2, (size.GetHeight() - hit) / 2);
+        graphics->DrawText(mLevelBeginText, (mGame.GetPixelWidth() - wid) / 2, (mGame.GetPixelHeight() - hit) / 2);
     }
+
+    graphics->PopState();
 }
 
 /**
