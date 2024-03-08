@@ -19,6 +19,9 @@
 /// Image Directory
 const std::wstring ImagesDir = L"./images";
 
+///Seconds in a minute
+double SecondsPerMinute = 60;
+
 using namespace std;
 
 /**
@@ -296,6 +299,7 @@ void Game::Update(double elapsed)
     {
         item->Update(elapsed);
     }
+    mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
 }
 
 /**

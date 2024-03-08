@@ -159,13 +159,13 @@ void GameView::OnPaint(wxPaintEvent &event)
     dc.SetBackground(background);
     dc.Clear();
 
-//    // ELAPSED TIME TO UPDATE SCREEN
-//    auto newTime = mStopWatch.Time();
-//    auto elapsed = (double)(newTime - mTime) * 0.001;
-//    mTime = newTime;
-//
-//    // update
-//    mGame.Update(elapsed);
+    // ELAPSED TIME TO UPDATE SCREEN
+    auto newTime = mStopWatch.Time();
+    auto elapsed = (double)(newTime - mTime) * 0.001;
+    mTime = newTime;
+
+    // update
+    mGame.Update(elapsed);
 
 
     // Create a graphics context

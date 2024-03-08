@@ -64,6 +64,11 @@ private:
     void XmlItem(wxXmlNode *node);
 
     void XmlDeclaration(wxXmlNode *node);
+
+
+    /// Current beat (absolute) in song
+    double mAbsoluteBeat = 0;
+
 public:
     Game(ma_engine *PEngine);
 
@@ -108,6 +113,8 @@ public:
     int GetPixelWidth() {return mPixelWidth;}
 
     int GetPixelHeight() {return mPixelHeight;}
+
+    double GetAbsoluteBeat() {return mAbsoluteBeat;};
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H
