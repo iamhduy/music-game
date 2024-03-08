@@ -38,6 +38,12 @@ public:
     int GetScore() const;
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) override;
+
+    /**
+    * Accept a visitor
+    * @param visitor The visitor we accept
+    */
+    void Accept(ItemVisitor* visitor) override { visitor->VisitScoreboard(this); }
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSCOREBOARD_H

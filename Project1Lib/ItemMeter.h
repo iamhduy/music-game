@@ -29,6 +29,12 @@ public:
     void operator=(const ItemMeter &) = delete;
 
     ItemMeter(Game* game);
+
+    /**
+    * Accept a visitor
+    * @param visitor The visitor we accept
+    */
+    void Accept(ItemVisitor* visitor) override { visitor->VisitMeter(this); }
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMMETER_H

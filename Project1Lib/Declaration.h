@@ -59,7 +59,7 @@ public:
     int GetSizeY() const {return mSizeY;}
 
     /**
-     * @return size of this item
+     * @return game for this item
      */
     Game *GetGame() { return mGame; }
 

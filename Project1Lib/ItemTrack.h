@@ -7,6 +7,8 @@
 
 #ifndef PROJECT1_PROJECT1LIB_ITEMTRACK_H
 #define PROJECT1_PROJECT1LIB_ITEMTRACK_H
+#include "DeclarationNote.h"
+#include "MusicNote.h"
 class ItemSoundBoard;
 
 /**
@@ -33,6 +35,13 @@ private:
     /// Key value for this Track
     wxString mKeyValue;
 
+    double mX1;
+    double mX2;
+    double mY1;
+    double mY2;
+
+    std::vector<std::shared_ptr<MusicNote>> mNotes;
+
 public:
     /// Default constructor (disabled)
     ItemTrack() = delete;
@@ -50,6 +59,48 @@ public:
     std::wstring GetKeyImageFile();
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
+
+    //void Update(double elapsed);
+
+    /**
+     * Set Y location of the note
+     * @param y Y location in pixels
+     */
+    void SetY1(double y1) { mY1 = y1; };
+
+    /**
+     * Set Y location of the note
+     * @param y Y location in pixels
+     */
+    void SetY2(double y2) { mY2 = y2; };
+
+    /**
+     * Set Y location of the note
+     * @param y Y location in pixels
+     */
+    void SetX1(double x1) { mX1 = x1; };
+
+    /**
+     * Set Y location of the note
+     * @param y Y location in pixels
+     */
+    void SetX2(double x2) { mX2 = x2; };
+
+    /**
+     * Add note to list of notes
+     * @param note note to be added
+     */
+    void AddNote(std::shared_ptr<MusicNote> note)
+    {
+        mNotes.push_back(note);
+    }
+
+    wxString GetId()
+    {
+        return wxString::Format(wxT("t%d"), mTrack);
+    }
+
+    void UpdateNotes(double elapsed, double timeOnTrack);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMTRACK_H

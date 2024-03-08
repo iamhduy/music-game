@@ -31,7 +31,7 @@ public:
     /// Assignment operator
     void operator=(const DeclarationNote &) = delete;
 
-    DeclarationNote(Game* game);
+    DeclarationNote(Game *game);
 
     void XmlLoad(wxXmlNode *node) override;
 

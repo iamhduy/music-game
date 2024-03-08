@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "ItemSoundBoard.h"
 #include "ItemTrack.h"
+#include "MusicNote.h"
 #include <memory>
 
 using namespace std;
@@ -102,6 +103,13 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
     double y1Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*TopClearance) + overlapCorrection;
     double y2Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*KeyRow);
 
+    //set y1 and y2 for all tracks (start and end of for y position)
+    for (auto track : mTracks)
+    {
+        track->SetY1(y1Track);
+        track->SetY2(y2Track);
+    }
+
     //space between each track
     double x1Space = (x1InitRightTrack - x1InitLeftTrack)/(MaxTracks - 1);
     double x2Space = (x2InitRightTrack - x2InitLeftTrack)/(MaxTracks - 1);
@@ -122,19 +130,50 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
             continue;
         }
 
+
         graphics->StrokeLine(x1InitLeftTrack + shiftX1, y1Track, x2InitLeftTrack + shiftX2, y2Track);
 
         if (tracksCount == MinTracks && i > 5)
         {
             mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
+
+            //set x1 and x2 for tracks (start and end of for x position)
+            mTracks[i-2]->SetX1(x1InitLeftTrack + shiftX1);
+            mTracks[i-2]->SetX2(x2InitLeftTrack + shiftX2);
         }
         else
         {
             mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
+
+            //set x1 and x2 for tracks (start and end of for x position)
+            mTracks[i]->SetX1(x1InitLeftTrack + shiftX1);
+            mTracks[i]->SetX2(x2InitLeftTrack + shiftX2);
         }
 
         shiftX1 += x1Space;
         shiftX2 += x2Space;
+    }
+}
+
+void ItemSoundBoard::AddNote(std::shared_ptr<MusicNote> note)
+{
+    //add note to its track
+    for (auto track : mTracks)
+    {
+
+        if (track->GetId() == note->GetId())
+        {
+            track->AddNote(note);
+        }
+    }
+}
+
+void ItemSoundBoard::Update(double elapsed, double timeOnTrack)
+{
+    //update each note in all tracks
+    for (auto track : mTracks)
+    {
+        track->UpdateNotes(elapsed, timeOnTrack);
     }
 }
 

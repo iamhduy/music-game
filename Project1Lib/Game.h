@@ -15,6 +15,7 @@
 #include "Sound.h"
 #include "Music.h"
 #include "MusicNote.h"
+#include "ItemVisitor.h"
 
 /**
  * Game Class
@@ -115,6 +116,10 @@ public:
     int GetPixelHeight() {return mPixelHeight;}
 
     double GetAbsoluteBeat() {return mAbsoluteBeat;};
+
+    void SetAbsoluteBeat(double beat) {mAbsoluteBeat = beat;};
+
+    void Accept(ItemVisitor* visitor);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

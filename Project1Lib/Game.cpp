@@ -13,7 +13,9 @@
 #include "DeclarationScoreBoard.h"
 #include "DeclarationMeter.h"
 #include "DeclarationNote.h"
+#include "ItemVisitor.h"
 #include "Music.h"
+#include "SoundboardAddNote.h"
 #include <memory>
 
 /// Image Directory
@@ -90,6 +92,21 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
             }
         }
     }
+
+
+    //draw every note at (0,0) - should be changed
+    for (auto const note : mMusicNotes)
+    {
+        for (auto const declaration : mDeclarations)
+        {
+            if (declaration->GetId() == note->GetId())
+            {
+                note->Draw(graphics, declaration);
+                break;
+            }
+        }
+    }
+
     graphics->PopState();
 }
 
@@ -168,6 +185,15 @@ void Game::Load(const wxString &filename)
             }
         }
     }
+
+
+    //this will add notes to the track it is associated with
+    for (auto note: mMusicNotes)
+    {
+        SoundboardAddNote visitor(note);
+        Accept(&visitor);
+    }
+//    int cnt = visitor.GetNumBuildings();
 }
 
 /**
@@ -295,11 +321,15 @@ void Game::AddScore(int value)
  */
 void Game::Update(double elapsed)
 {
+    mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
+
+    double beatsPerSecond = mMusic.GetBpMinute() / SecondsPerMinute;
+    double beatSize = 4; //hardcoded
+    double timeOnTrack = beatSize / beatsPerSecond;
     for (auto item : mItems)
     {
-        item->Update(elapsed);
+        item->Update(elapsed, timeOnTrack);
     }
-    mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
 }
 
 /**
@@ -320,4 +350,14 @@ std::shared_ptr<Item> Game::HitTest(int x, int y)
     return nullptr;
 }
 
-
+/**
+ * Accept a visitor for the collection
+ * @param visitor The visitor for the collection
+ */
+void Game::Accept(ItemVisitor* visitor)
+{
+    for (auto item : mItems)
+    {
+        item->Accept(visitor);
+    }
+}

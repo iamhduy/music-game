@@ -22,6 +22,8 @@ private:
     /// An object that describes the game
     Game mGame;
 
+    ma_engine *mAudioEngine;
+
     ///used to handle repeating key down events
     std::set <char> key_pressed;
     std::vector <char> keys_allowed;

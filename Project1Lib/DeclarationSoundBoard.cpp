@@ -62,6 +62,3 @@ void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, do
     graphics->DrawBitmap(*mCoverBitmap, int(x - GetSizeX()/2), int(y -  GetSizeY()/2),
                          int(GetSizeX()), int(GetSizeY()));
 }
-
-
-

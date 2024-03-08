@@ -9,6 +9,7 @@
 #define PROJECT1_PROJECT1LIB_ITEM_H
 #include <wx/xml/xml.h>
 #include "Declaration.h"
+#include "ItemVisitor.h"
 class Game;
 
 /**
@@ -75,7 +76,7 @@ public:
      * Get the pointer to the Level object
      * @return Pointer to Level object
      */
-    Game *GetGame() { return mGame; }
+    virtual Game *GetGame() { return mGame; }
 
     /**
      *
@@ -89,10 +90,15 @@ public:
      * Handle updates for animation
      * @param elapsed The time since the last update
      */
-    virtual void Update(double elapsed) {}
-
-    virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
+    virtual void Update(double elapsed, double timeOnTrack) {};
 
     virtual bool HitTest(int x, int y);
+    virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
+
+    /**
+    * Accept a visitor
+    * @param visitor The visitor we accept
+    */
+    virtual void Accept(ItemVisitor* visitor) = 0;
 };
 #endif //PROJECT1_PROJECT1LIB_ITEM_H

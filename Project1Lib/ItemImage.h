@@ -28,6 +28,12 @@ public:
     void operator=(const ItemImage &) = delete;
 
     ItemImage(Game* game);
+
+    /**
+    * Accept a visitor
+    * @param visitor The visitor we accept
+    */
+    void Accept(ItemVisitor* visitor) override { visitor->VisitImage(this); }
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMIMAGE_H

@@ -34,7 +34,7 @@ const auto LevelNoticeColor = wxColour(192, 252, 207);
  * Constructor
  * @param audioEngine The audio engine to use
  */
-GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine)
+GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine), mAudioEngine(audioEngine)
 {
 }
 
@@ -153,12 +153,6 @@ void GameView::OnKeyUp(wxKeyEvent &event)
  */
 void GameView::OnPaint(wxPaintEvent &event)
 {
-    // DRAW BACKGROUND
-    wxAutoBufferedPaintDC dc(this);
-    wxBrush background(*wxBLACK);
-    dc.SetBackground(background);
-    dc.Clear();
-
     // ELAPSED TIME TO UPDATE SCREEN
     auto newTime = mStopWatch.Time();
     auto elapsed = (double)(newTime - mTime) * 0.001;
@@ -166,6 +160,12 @@ void GameView::OnPaint(wxPaintEvent &event)
 
     // update
     mGame.Update(elapsed);
+
+    // DRAW BACKGROUND
+    wxAutoBufferedPaintDC dc(this);
+    wxBrush background(*wxBLACK);
+    dc.SetBackground(background);
+    dc.Clear();
 
 
     // Create a graphics context
@@ -212,33 +212,40 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
     switch(event.GetId())
     {
         case IDM_LEVEL0:
+            mGame = Game(mAudioEngine);
             mGame.Load("levels/level0.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             mLevelBeginText = L"Level 0 Begin";
             break;
 
         case IDM_LEVEL1:
+            mGame = Game(mAudioEngine);
             mGame.Load("levels/level1.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             mLevelBeginText = L"Level 1 Begin";
             break;
 
         case IDM_LEVEL2:
+            cout << "DONEEE" << endl;
+            mGame = Game(mAudioEngine);
             mGame.Load("levels/level2.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
             mLevelBeginText = L"Level 2 Begin";
             break;
 
         case IDM_LEVEL3:
+            mGame = Game(mAudioEngine);
             mGame.Load("levels/level3.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             mLevelBeginText = L"Level 3 Begin";
             break;
 
-        case IDM_AUTOPLAY:break;
+        case IDM_AUTOPLAY:
+            break;
 
     }
     mStopWatch.Start();
+    mTime = 0;
     Refresh();
 }
 

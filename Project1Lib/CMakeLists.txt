@@ -40,7 +40,12 @@ set(SOURCE_FILES
         Music.cpp
         Music.h
         MusicNote.cpp
-        MusicNote.h)
+        MusicNote.h
+        ItemVisitor.cpp
+        ItemVisitor.h
+        SoundboardAddNote.cpp
+        SoundboardAddNote.h
+)
 
 set(wxBUILD_PRECOMP OFF)
 find_package(wxWidgets COMPONENTS core base xrc html xml REQUIRED)

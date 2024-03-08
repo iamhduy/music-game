@@ -4,6 +4,8 @@
  */
 #include "pch.h"
 #include "ItemTrack.h"
+#include "ItemSoundBoard.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -50,12 +52,41 @@ std::wstring ItemTrack::GetKeyImageFile()
  */
 void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
-    unique_ptr<wxImage> itemImage = make_unique<wxImage>(GetKeyImageFile(), wxBITMAP_TYPE_ANY);
-    auto itemBitmap = make_unique<wxBitmap>(*itemImage);
+    std::unique_ptr<wxImage> itemImage = std::make_unique<wxImage>(GetKeyImageFile(), wxBITMAP_TYPE_ANY);
+    auto itemBitmap = std::make_unique<wxBitmap>(*itemImage);
 
     graphics->DrawBitmap(*itemBitmap,
-                         int(x - mSizeX / 2), //need to modify 17.5
+                         int(x - mSizeX / 2),
                          int(y - mSizeY / 2),
                          mSizeX,
                          mSizeY);
+}
+
+void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
+{
+    for (auto note : mNotes)
+    {
+        double beatSize = 4; //hardcoded
+        double beatsPerMeasure = 4; //hardcoded
+        double currBeat = mSoundBoard->GetGame()->GetAbsoluteBeat();
+        double noteBeat = (note->GetMeasure() - 1) * beatsPerMeasure + (note->GetBeat() - 1);
+        if (currBeat - beatSize >= noteBeat)
+        {
+            //set initial location at top of track
+            if (note->GetFirstUpdate() == false)
+            {
+                note->SetX(mX1);
+                note->SetY(mY1);
+                note->SetFirstUpdate(true);
+            }
+            else //set new location if already linked to track
+            {
+                double newPosX = note->GetX() + ((mX2 - mX1)/timeOnTrack)*elapsed;
+                double newPosY = note->GetY() + ((mY2 - mY1)/timeOnTrack)*elapsed;
+
+                note->SetX(newPosX);
+                note->SetY(newPosY);
+            }
+        }
+    }
 }
