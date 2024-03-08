@@ -173,14 +173,15 @@ void Game::Load(const wxString &filename)
         }
         else if (name == L"music")
         {
+            mMusic.XmlLoad(child);
             auto childMusic = child->GetChildren();
             for( ; childMusic; childMusic=childMusic->GetNext())
             {
-                shared_ptr<Music> music = make_shared<Music>(this);
-                if (music != nullptr)
+                shared_ptr<MusicNote> musicNote = make_shared<MusicNote>(this);
+                if (musicNote != nullptr)
                 {
-                    music->XmlLoad(childMusic);
-                    AddMusic(music);
+                    musicNote->XmlLoad(childMusic);
+                    AddMusicNote(musicNote);
                 }
             }
         }
@@ -292,9 +293,9 @@ void Game::AddAudio(std::shared_ptr<Sound> sound)
  * Add an music to the game
  * @param music New music to add
  */
-void Game::AddMusic(std::shared_ptr<Music> music)
+void Game::AddMusicNote(std::shared_ptr<MusicNote> musicNote)
 {
-    mMusic.push_back(music);
+    mMusicNotes.push_back(musicNote);
 }
 
 /**

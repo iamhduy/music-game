@@ -9,7 +9,7 @@
  * @param game The game this music is a member of
  *
  */
-Music::Music(Game *game) : mGame(game)
+Music::Music()
 {
 }
 
@@ -26,9 +26,8 @@ Music::~Music()
  */
 void Music::XmlLoad(wxXmlNode *node)
 {
-    node->GetAttribute(L"id", &mId);
-    node->GetAttribute(L"sound", &mSoundName);
-    node->GetAttribute(L"measure").ToInt(&mMeasure);
-    node->GetAttribute(L"beat").ToDouble(&mBeat);
-    node->GetAttribute(L"duration").ToDouble(&mDuration);
+    node->GetAttribute(L"beats-per-minute").ToInt(&mBpMinute);
+    node->GetAttribute(L"beats-per-measure").ToInt(&mBpMeasure);
+    node->GetAttribute(L"measure").ToInt(&mMeasures);
+    node->GetAttribute(L"backing", &mBack);
 }

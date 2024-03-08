@@ -14,6 +14,7 @@
 #include "Declaration.h"
 #include "Sound.h"
 #include "Music.h"
+#include "MusicNote.h"
 
 /**
  * Game Class
@@ -40,7 +41,10 @@ private:
     std::vector<std::shared_ptr<Sound>> mAudio;
 
     ///holding the music note
-    std::vector<std::shared_ptr<Music>> mMusic;
+    std::vector<std::shared_ptr<MusicNote>> mMusicNotes;
+
+    ///music for level
+    Music mMusic;
 
     /// Directory containing the system images
     std::wstring mImagesDirectory;
@@ -70,7 +74,7 @@ public:
     void AddItem(std::shared_ptr<Item> item);
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
     void AddAudio(std::shared_ptr<Sound> sound);
-    void AddMusic(std::shared_ptr<Music> music);
+    void AddMusicNote(std::shared_ptr<MusicNote> musicNote);
 
     /**
      * Get the audio engine object

@@ -20,21 +20,23 @@ private:
     /// The game this item is contained in
     Game *mGame;
 
-    /// Note's id
-    wxString mId;
+    /// Beats per minute in song
+    int mBpMinute;
 
-    wxString mSoundName;
+    /// Beats per measure in song
+    int mBpMeasure;
 
-    int mMeasure;
+    /// Measures in song
+    int mMeasures;
 
-    double mBeat;
+    ///Backing track for song
+    wxString mBack;
 
-    double mDuration;
 public:
-    Music(Game *game);
+    Music();
 
-    /// Default constructor (disabled)
-    Music() = delete;
+//    /// Default constructor (disabled)
+//    Music() = delete;
 
     /// Copy constructor (disabled)
     Music(const Music &) = delete;
@@ -47,11 +49,27 @@ public:
      */
     Game *GetGame() { return mGame;}
 
-    /**
-     * @return the id of this object
-     */
-    wxString GetId() { return mId; }
 
     virtual void XmlLoad(wxXmlNode *node);
+
+    /**
+     * @return beats per minute of music
+     */
+    int GetBpMinute() { return mBpMinute; }
+
+    /**
+     * @return beats per measure of music
+     */
+    int GetBpMeasure() { return mBpMeasure; }
+
+    /**
+     * @return number of measures
+     */
+    int GetMeasures() { return mBpMeasure; }
+
+    /**
+     * @return number of measures
+     */
+    wxString GetBacking() { return mBack; }
 };
 #endif //PROJECT1_PROJECT1LIB_MUSIC_H
