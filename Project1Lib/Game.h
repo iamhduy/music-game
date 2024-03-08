@@ -96,7 +96,7 @@ public:
 
     void Update(double elapsed);
 
-    std::shared_ptr<Item> HitTest(int x, int y);
+    bool HitTest(int keyCode);
 
     /**
      * Use for testing

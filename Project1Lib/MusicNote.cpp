@@ -34,3 +34,12 @@ void MusicNote::XmlLoad(wxXmlNode *node)
     node->GetAttribute(L"beat").ToDouble(&mBeat);
     node->GetAttribute(L"duration").ToDouble(&mDuration);
 }
+
+bool MusicNote::CheckIfHit(double currentBeat, double tolerance)
+{
+    if (abs(currentBeat - mHitTime) <= tolerance)
+    {
+        return true;
+    }
+    return false;
+}

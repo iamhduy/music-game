@@ -32,6 +32,9 @@ private:
     double mBeat;
 
     double mDuration;
+
+    double mHitTime;
+
 public:
     MusicNote(Game *game);
 
@@ -55,6 +58,13 @@ public:
     wxString GetId() { return mId; }
 
     virtual void XmlLoad(wxXmlNode *node);
+
+    void SetHitTime(double hitTime){mHitTime = hitTime;}
+
+    double GetHitTime() const {return mHitTime;}
+
+    bool CheckIfHit(double currentBeat, double tolerance);
+
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

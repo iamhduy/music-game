@@ -88,6 +88,11 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 {
     UpdateTime();
     wxChar key = event.GetKeyCode();
+
+    if (!mGame.HitTest(key))
+    {
+    }
+
     // A = 65, S = 83, D = 68, F = 70
     // J = 74, K = 75, L = 76, ; = 59
     Sound sound(&mGame);
