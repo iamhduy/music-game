@@ -226,7 +226,6 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
             break;
 
         case IDM_LEVEL2:
-            cout << "DONEEE" << endl;
             mGame = Game(mAudioEngine);
             mGame.Load("levels/level2.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
