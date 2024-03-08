@@ -49,6 +49,9 @@ private:
 
     bool mFirstUpdate = false;
 
+
+    double mHitTime;
+
 public:
     MusicNote(Game *game);
 
@@ -82,6 +85,13 @@ public:
     double GetMeasure() { return mMeasure; }
 
     virtual void XmlLoad(wxXmlNode *node);
+
+    void SetHitTime(double hitTime){mHitTime = hitTime;}
+
+    double GetHitTime() const {return mHitTime;}
+
+    bool CheckIfHit(double currentBeat, double tolerance);
+
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
 
     /**

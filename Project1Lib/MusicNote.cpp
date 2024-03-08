@@ -54,3 +54,11 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
                          int(declaration->GetSizeX()),
                          int(declaration->GetSizeY()));
 }
+bool MusicNote::CheckIfHit(double currentBeat, double tolerance)
+{
+    if (abs(currentBeat - mHitTime) <= tolerance)
+    {
+        return true;
+    }
+    return false;
+}

@@ -338,16 +338,16 @@ void Game::Update(double elapsed)
  * @param y location y
  * @return pointer of the item hit.
  */
-std::shared_ptr<Item> Game::HitTest(int x, int y)
+bool Game::HitTest(int keyCode)
 {
-    for (auto i = mItems.rbegin(); i != mItems.rend(); i++)
-    {
-        if ((*i)->HitTest(x,y))
-        {
-            return *i;
+    double currentBeat = 0;
+    for (auto& note : mMusicNotes){
+        if (note->CheckIfHit(keyCode, currentBeat)){
+            AddScore(10);
+            return true;
         }
     }
-    return nullptr;
+    return false;
 }
 
 /**
