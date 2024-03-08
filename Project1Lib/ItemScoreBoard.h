@@ -37,6 +37,7 @@ public:
 
     int GetScore() const;
 
+    void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSCOREBOARD_H

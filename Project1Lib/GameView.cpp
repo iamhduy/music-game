@@ -20,6 +20,16 @@ using namespace std;
 /// Frame duration in milliseconds
 const int FrameDuration = 30;
 
+/// Level notices duration in seconds
+const double LevelNoticeDuration = 2.0;
+
+/// Size of notices displayed on screen in virtual pixels
+const int NoticeSize = 100;
+
+/// Color to draw the level notices
+const auto LevelNoticeColor = wxColour(192, 252, 207);
+
+
 /**
  * Constructor
  * @param audioEngine The audio engine to use
@@ -39,7 +49,6 @@ void GameView::Initialize(wxFrame *parent)
 
     wxStandardPaths &standardPaths = wxStandardPaths::Get();
     std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
-    mGame.SetImagesDirectory(resourcesDir);
 
     mGame.Load("levels/level0.xml");
     Refresh();
@@ -180,10 +189,18 @@ void GameView::OnPaint(wxPaintEvent &event)
     // Draw
     //
     mGame.OnDraw(graphics, size.GetWidth(), size.GetHeight());
-
 //    mGame.OnDraw(&dc); //< OLD
-
-
+    if (mStopWatch.Time() < LevelNoticeDuration*1000)
+    {
+        wxFont font(wxSize(0, NoticeSize),
+                    wxFONTFAMILY_SWISS,
+                    wxFONTSTYLE_NORMAL,
+                    wxFONTWEIGHT_BOLD);
+        graphics->SetFont(font, LevelNoticeColor);
+        double wid, hit;
+        graphics->GetTextExtent(mLevelBeginText, &wid, &hit);
+        graphics->DrawText(mLevelBeginText, (size.GetWidth() - wid) / 2, (size.GetHeight() - hit) / 2);
+    }
 }
 
 /**
@@ -197,26 +214,31 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
         case IDM_LEVEL0:
             mGame.Load("levels/level0.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            mLevelBeginText = L"Level 0 Begin";
             break;
 
         case IDM_LEVEL1:
             mGame.Load("levels/level1.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            mLevelBeginText = L"Level 1 Begin";
             break;
 
         case IDM_LEVEL2:
             mGame.Load("levels/level2.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
+            mLevelBeginText = L"Level 2 Begin";
             break;
 
         case IDM_LEVEL3:
             mGame.Load("levels/level3.xml");
             keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            mLevelBeginText = L"Level 3 Begin";
             break;
 
         case IDM_AUTOPLAY:break;
 
     }
+    mStopWatch.Start();
     Refresh();
 }
 

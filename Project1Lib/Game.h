@@ -28,9 +28,6 @@ private:
     /// Audio Engine of the Game
     ma_engine* mAudioEngine;
 
-    /// Background image to use
-    wxBitmap mBackground;
-
     /// holding the item
     std::vector<std::shared_ptr<Item>> mItems;
 
@@ -46,9 +43,6 @@ private:
     ///music for level
     Music mMusic;
 
-    /// Directory containing the system images
-    std::wstring mImagesDirectory;
-
     /// Player's score
     int mScore = 0;
 
@@ -60,6 +54,12 @@ private:
 
     /// Off set in Y location
     double mYOffset;
+
+    ///Game width default
+    int mPixelWidth;
+
+    ///Game height default
+    int mPixelHeight;
 
     void XmlItem(wxXmlNode *node);
 
@@ -89,13 +89,6 @@ public:
 
     void AddScore(int value);
 
-    void SetImagesDirectory(const std::wstring &dir);
-
-    /**
-     * @return Game's images directory
-     */
-    std::wstring GetImagesDirectory() {return mImagesDirectory;}
-
     void Update(double elapsed);
 
     std::shared_ptr<Item> HitTest(int x, int y);
@@ -111,6 +104,10 @@ public:
      * @return number of declarations
      */
     size_t GetDeclarationsSize() {return mDeclarations.size();}
+
+    int GetPixelWidth() {return mPixelWidth;}
+
+    int GetPixelHeight() {return mPixelHeight;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

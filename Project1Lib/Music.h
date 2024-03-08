@@ -68,7 +68,7 @@ public:
     int GetMeasures() { return mBpMeasure; }
 
     /**
-     * @return number of measures
+     * @return backing
      */
     wxString GetBacking() { return mBack; }
 };

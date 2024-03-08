@@ -48,7 +48,7 @@ void MainFrame::Initialize(ma_engine *PEngine)
     levelMenu->Append(IDM_LEVEL2, L"&Level 2", L"&Go to Level 2");
     levelMenu->Append(IDM_LEVEL3, L"&Level 3", L"&Go to Level 3");
     levelMenu->AppendSeparator();
-    levelMenu->Append(IDM_AUTOPLAY, L"&Auto Play", L"&Turn on Auto Play");
+    levelMenu->Append(IDM_AUTOPLAY, L"&Auto Play", L"&Turn on Auto Play", wxITEM_CHECK);
 
     menuBar->Append(fileMenu, L"&File" );
     menuBar->Append(levelMenu, L"&Level");

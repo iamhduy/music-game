@@ -31,14 +31,6 @@ Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 }
 
 /**
- * Set the directory the images are stored in
- * @param dir
- */
-void Game::SetImagesDirectory(const std::wstring &dir) {
-    mImagesDirectory = ImagesDir;
-}
-
-/**
  * Clear the aquarium data.
  *
  * Deletes all known items in the aquarium.
@@ -58,33 +50,18 @@ void Game::Clear()
  */
 void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height)
 {
-    // Determine the size of the playing area in pixels
-    // This is up to you...
-    int pixelWidth;
-    int pixelHeight;
-
-    for ( auto const declaration : mDeclarations )
-    {
-        if (declaration->GetId() == "i600")
-        {
-            pixelWidth = declaration->GetSizeX();
-            pixelHeight = declaration->GetSizeY();
-            break;
-        }
-    }
-
     //
     // Automatic Scaling
     //
-    auto scaleX = double(width) / double(pixelWidth);
-    auto scaleY = double(height) / double(pixelHeight);
+    auto scaleX = double(width) / double(mPixelWidth);
+    auto scaleY = double(height) / double(mPixelHeight);
     mScale = std::min(scaleX, scaleY);
 
-    mXOffset = (width - pixelWidth * mScale) / 2.0;
+    mXOffset = (width - mPixelWidth * mScale) / 2.0;
     mYOffset = 0;
-    if (height > pixelHeight * mScale)
+    if (height > mPixelHeight * mScale)
     {
-        mYOffset = (double)((height - pixelHeight * mScale) / 2.0);
+        mYOffset = (double)((height - mPixelHeight * mScale) / 2.0);
     }
 
     mYOffset = mYOffset + (15*mScale); //< Offset in the Y direction to account for NAV bar.
@@ -110,7 +87,6 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
             }
         }
     }
-
     graphics->PopState();
 }
 
@@ -133,6 +109,9 @@ void Game::Load(const wxString &filename)
     Clear();
     // Get the XML document root node
     auto root = xmlDoc.GetRoot();
+    wxString size = root->GetAttribute(L"size", L"0,0").ToStdWstring();
+    size.BeforeFirst(',').ToInt(&mPixelWidth);
+    size.AfterFirst(',').ToInt(&mPixelHeight);
 
     //
     // Traverse the children of the root

@@ -56,6 +56,8 @@ private:
     /// The last stopwatch time
     long mTime = 0;
 
+    wxString mLevelBeginText = L"Level 0 Begin";
+
     std::vector<Sound> currSounds;
 
     void OnTimer(wxTimerEvent &event);
