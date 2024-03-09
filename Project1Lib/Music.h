@@ -17,8 +17,8 @@ class Music
 {
 protected:
 private:
-    /// The game this item is contained in
-    Game *mGame;
+//    /// The game this item is contained in
+//    Game *mGame;
 
     /// Beats per minute in song
     int mBpMinute;
@@ -43,11 +43,11 @@ public:
 
     virtual ~Music();
 
-    /**
-     * Get the pointer to the Level object
-     * @return Pointer to Level object
-     */
-    Game *GetGame() { return mGame;}
+//    /**
+//     * Get the pointer to the Level object
+//     * @return Pointer to Level object
+//     */
+//    Game *GetGame() { return mGame;}
 
 
     virtual void XmlLoad(wxXmlNode *node);
