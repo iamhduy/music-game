@@ -35,6 +35,8 @@ const int GoodSoundScore = 10;
 /// holding for the duration for a long sound
 const int MaxDurationBonus = 10;
 
+const int ScoreDisplayDigitCount = 6;
+
 using namespace std;
 
 /**
@@ -69,12 +71,55 @@ int ItemScoreBoard::GetScore() const
  */
 void ItemScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
 {
-    wxFont font(wxSize(ReadySize, ReadySize),
+    if (mState == ScoreBoardState::Ready)
+    {
+        DrawText(graphics, L"Get Ready!", ReadySize, ReadyY);
+    }
+    else if (mState == ScoreBoardState::Countdown)
+    {
+        wxString scoreText = wxString::Format(wxT("%i"),mScore);
+        scoreText = scoreText.Pad(ScoreDisplayDigitCount - scoreText.size(), '0', false);
+        DrawText(graphics, scoreText, ScoreSize, ScoreY);
+
+        wxString countText = wxString::Format(wxT("%i"),6 - int(mTimePlaying));
+        DrawText(graphics, countText, BeatSize, BeatsY);
+    }
+    else if (mState == ScoreBoardState::Playing)
+    {
+        wxString scoreText = wxString::Format(wxT("%i"),mScore);
+        scoreText = scoreText.Pad(ScoreDisplayDigitCount - scoreText.size(), '0', false);
+        DrawText(graphics, scoreText, ScoreSize, ScoreY);
+    }
+}
+
+void ItemScoreBoard::DrawText(std::shared_ptr<wxGraphicsContext> graphics, wxString text, int textSize, int yOffset)
+{
+    wxFont font(wxSize(0, textSize),
                 wxFONTFAMILY_SWISS,
                 wxFONTSTYLE_NORMAL,
                 wxFONTWEIGHT_BOLD);
     graphics->SetFont(font, *wxBLACK);
     double wid, hit;
-    graphics->GetTextExtent(L"Get Ready!", &wid, &hit);
-    graphics->DrawText(L"Get Ready!", GetX()-wid/2, GetY()+ReadyY-hit/2);
+    graphics->GetTextExtent(text, &wid, &hit);
+    graphics->DrawText(text, GetX() - wid / 2, GetY() + yOffset - hit / 2);
 }
+
+void ItemScoreBoard::Update(double elapsed, double timeOnTrack)
+{
+    UpdateState(elapsed);
+}
+
+void ItemScoreBoard::UpdateState(double elapsed)
+{
+    mTimePlaying += elapsed;
+    if (mTimePlaying >= 2.0)
+    {
+        mState = ScoreBoardState::Countdown;
+    }
+    else if (mTimePlaying >= 6.0)
+    {
+        mState = ScoreBoardState::Playing;
+    }
+}
+
+

@@ -19,7 +19,7 @@ public:
 
 };
 
-class DeclarationTest : public ::testing::Test {
+class DeclarationSoundBoardTest : public ::testing::Test {
 protected:
     void TestXMLLoad(wxString xmlString, wxString coverfile, int topWidth, int sizeBeats) {
         Game game(nullptr);
@@ -44,12 +44,12 @@ protected:
 };
 
 
-TEST_F(DeclarationTest, Construct){
+TEST_F(DeclarationSoundBoardTest, Construct){
     Game game(nullptr);
     DeclarationSoundBoardMock declaration(&game);
 }
 
-TEST_F(DeclarationTest, XmlLoad) {
+TEST_F(DeclarationSoundBoardTest, XmlLoad) {
     wxString xmlString1 = "<sound-board id=\"i622\" size=\"835,627\" size-beats=\"4\" top-width=\"345\" image=\"sound-board.png\" cover=\"sound-board-cover.png\" />";
     wxString xmlString2 = "<sound-board id=\"i622\" size=\"726,545\" size-beats=\"4\" top-width=\"300\" image=\"sound-board.png\" cover=\"sound-board-cover.png\" />";
 

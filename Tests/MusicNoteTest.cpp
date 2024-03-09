@@ -9,7 +9,7 @@
 #include <MusicNote.h>
 #include <wx/sstream.h>
 
-class ItemTrackTest : public ::testing::Test {
+class MusicNoteTest : public ::testing::Test {
 protected:
     void TestXMLLoad(wxString xmlString, wxString id, double measure, double beat, double duration) {
         Game game(nullptr);
@@ -35,12 +35,12 @@ protected:
 };
 
 
-TEST_F(ItemTrackTest, Construct){
+TEST_F(MusicNoteTest, Construct){
     Game game(nullptr);
     MusicNote note(&game);
 }
 
-TEST_F(ItemTrackTest, XmlLoad) {
+TEST_F(MusicNoteTest, XmlLoad) {
     wxString xmlString1 = "<note id=\"t8\" sound=\"D6\" measure=\"1\" beat=\"1.0\" duration=\"0.5\"/>";
     wxString xmlString2 = "<note id=\"t2\" sound=\"G5\" measure=\"1\" beat=\"4.0\" duration=\"0.5\"/>";
     wxString xmlString3 = "<note id=\"t3\" sound=\"A3-long\" measure=\"3\" beat=\"2.5\" duration=\"1.0\"/>";
