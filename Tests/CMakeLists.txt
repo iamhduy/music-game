@@ -5,7 +5,10 @@ set(TEST_FILES
         EmptyTest.cpp
         GameTest.cpp
         LoadTest.cpp
-        DeclarationTest.cpp)
+        DeclarationTest.cpp
+        ItemTrackTest.cpp
+        MusicNoteTest.cpp
+        DeclarationSoundBoardTest.cpp)
 
 # Get Google Tests
 include(FetchContent)

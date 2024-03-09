@@ -50,6 +50,16 @@ public:
      * @return the TopWidth of this object
      */
     int GetTopWidth() override { return mTopWidth; };
+
+    /**
+     * @return the coverfile of this object
+     */
+    wxString GetCoverFile() { return mCoverFile; };
+
+    /**
+     * @return the coverfile of this object
+     */
+    int GetSizeBeats() { return mSizeBeats; };
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONSOUNDBOARD_H

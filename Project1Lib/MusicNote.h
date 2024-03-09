@@ -75,14 +75,19 @@ public:
     wxString GetId() { return mId; }
 
     /**
-     * @return
+     * @return beat
      */
     double GetBeat() { return mBeat; }
 
     /**
-     * @return
+     * @return measure
      */
     double GetMeasure() { return mMeasure; }
+
+    /**
+     * @return duration
+     */
+    double GetDuration() { return mDuration; }
 
     virtual void XmlLoad(wxXmlNode *node);
 

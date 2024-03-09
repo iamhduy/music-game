@@ -101,6 +101,11 @@ public:
     }
 
     void UpdateNotes(double elapsed, double timeOnTrack);
+
+    double GetSizeX() {return mSizeX;};
+    double GetSizeY() {return mSizeY;};
+    int GetTrackNum() {return mTrack;};
+    wxString GetImageFile() {return mKeyImageFile;};
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMTRACK_H
