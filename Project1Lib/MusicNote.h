@@ -75,6 +75,15 @@ public:
     Game *GetGame() { return mGame;}
 
     /**
+     * @return the track number of this object
+     */
+    int GetTrackNum()
+    {
+        int lastCharIndex = mId.length() - 1;
+        return (mId[lastCharIndex] - '0');
+    }
+
+    /**
      * @return the id of this object
      */
     wxString GetId() { return mId; }

@@ -204,9 +204,10 @@ void ItemSoundBoard::AddNote(std::shared_ptr<MusicNote> note)
     //add note to its track
     for (auto track : mTracks)
     {
-
-        if (track->GetId() == note->GetId())
+        //cout << track->GetTrackNum() << endl;
+        if (track->GetTrackNum() == note->GetTrackNum())
         {
+            cout << track->GetTrackNum() << endl;
             track->AddNote(note);
         }
     }
