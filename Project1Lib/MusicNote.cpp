@@ -62,3 +62,22 @@ bool MusicNote::CheckIfHit(double currentBeat, double tolerance)
     }
     return false;
 }
+
+int MusicNote::GetTrackNum()
+{
+    int trackNum = 0;
+    int multiplier = 1;
+
+    for (int i = mId.length() - 1; i >= 0; --i) {
+        char c = mId[i];
+        if (isdigit(c)) {
+            trackNum += (c - '0') * multiplier;
+            multiplier *= 10;
+        }
+        else {
+            break;
+        }
+    }
+
+    return trackNum;
+}

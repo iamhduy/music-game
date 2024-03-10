@@ -54,7 +54,6 @@
 		<note id="t8" track="8" image="puck-k.png" size="60,60" tolerance="0.5" />
 		<note id="t9" track="9" image="puck-l.png" size="60,60" tolerance="0.5" />
 		<note id="t10" track="10" image="puck-semi.png" size="60,60" tolerance="0.5" />
-		<note id="unown1" track="1" image="puck_unown.png" size="60,60" tolerance="0.5"/>
 	</declarations>
 	<items>
 		<image id="i600" p="652,450"/>
@@ -98,7 +97,6 @@
 		<note id="t10" sound="C5" measure="7" beat="4.0" duration="0.5"/>
 		<note id="t9" sound="B4" measure="7" beat="4.5" duration="0.5"/>
 		<note id="t10" sound="C5-long" measure="8" beat="1.0" duration="1.0"/>
-		<note id="unown1" sound="G4" measure="8" beat="1.0" duration="0.25"/>
 		<note id="t1" sound="Eb4-long" measure="8" beat="2.0" duration="1.0"/>
 		<note id="t2" sound="F4-long" measure="8" beat="3.0" duration="1.0"/>
 		<note id="t4" sound="G4-long" measure="8" beat="4.0" duration="1.0"/>
