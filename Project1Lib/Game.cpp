@@ -289,6 +289,7 @@ void Game::AddItem(std::shared_ptr<Item> item)
     mItems.push_back(item);
 }
 
+
 /**
  * Add an declaration to the game
  * @param declaration New declaration to add
@@ -323,6 +324,15 @@ void Game::AddMusicNote(std::shared_ptr<MusicNote> musicNote)
 void Game::AddScore(int value)
 {
     mScore += value;
+}
+
+/**
+* Update player's score
+* @param value score to increment
+*/
+void Game::SubtractScore(int value)
+{
+    mScore -= value;
 }
 
 /**
