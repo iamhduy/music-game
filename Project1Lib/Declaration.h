@@ -86,6 +86,8 @@ public:
      * @return the size-beat of this object (for soundboard)
      */
     virtual int GetBeatSize() {return 0;};
+
+    virtual void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) {};
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATION_H

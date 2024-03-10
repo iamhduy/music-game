@@ -79,7 +79,6 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     //
     // Draw in virtual pixels on the graphics context
     //
-    // INSERT YOUR DRAWING CODE HERE
     for (auto const declaration : mDeclarations)
     {
         for (auto const item : mItems)
@@ -93,8 +92,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         }
     }
 
-
-    //draw every note at (0,0) - should be changed
+    //draw every note
     for (auto const note : mMusicNotes)
     {
         for (auto const declaration : mDeclarations)
@@ -107,6 +105,18 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         }
     }
 
+
+    //Draw images that should be on top
+    for (auto const declaration : mDeclarations)
+    {
+        for (auto const item : mItems)
+        {
+            if (declaration->GetId() == item->GetId())
+            {
+                declaration->DrawOnTop(graphics, item->GetX(), item->GetY());
+            }
+        }
+    }
 
 }
 

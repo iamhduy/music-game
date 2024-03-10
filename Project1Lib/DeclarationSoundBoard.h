@@ -44,8 +44,6 @@ public:
 
     void XmlLoad(wxXmlNode *node) override;
 
-    void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
-
     /**
      * @return the TopWidth of this object
      */
@@ -57,6 +55,8 @@ public:
     wxString GetCoverFile() { return mCoverFile; };
 
     int GetBeatSize() override { return mSizeBeats; };
+
+    void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONSOUNDBOARD_H
