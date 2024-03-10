@@ -93,6 +93,8 @@ public:
 
     void AddScore(int value);
 
+    void SubtractScore(int value);
+
     void Update(double elapsed);
 
     bool HitTest(int keyCode);
