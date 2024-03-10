@@ -114,6 +114,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
             if (declaration->GetId() == item->GetId())
             {
                 declaration->DrawOnTop(graphics, item->GetX(), item->GetY());
+                item->DrawOnTop(graphics, declaration);
             }
         }
     }

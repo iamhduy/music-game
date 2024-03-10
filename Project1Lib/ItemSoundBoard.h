@@ -59,6 +59,16 @@ public:
     void SetSoundboardTopWidth(double topWidth) {mSoundboardTopWidth = topWidth;}
 
     void SetSoundboardBottomWidth(double bottomWidth) {mSoundboardBottomWidth = bottomWidth;}
+    void GetTrackValues(std::shared_ptr<Declaration> declaration,
+                        double &y1Track,
+                        double &y2Track,
+                        double &x1Space,
+                        double &x2Space,
+                        double &x1InitLeftTrack,
+                        double &x2InitLeftTrack,
+                        double &x1InitRightTrack,
+                        double &x2InitRightTrack);
+    void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) override;
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSOUNDBOARD_H

@@ -64,7 +64,7 @@ void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, doub
 
 void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
 {
-    double locationThreshold = 8;
+    double locationThreshold = 10;
     double initOffset = 20;
     double beatSize = mBeatSize;
     double beatsPerMeasure;
@@ -90,11 +90,11 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetY(mY1);
                 note->SetFirstUpdate(true);
             }
-            else if(std::abs(note->GetY() - mY2) <= locationThreshold) //within threshold of final location
+            else if(abs(note->GetY() - mY2) <= locationThreshold) //within threshold of final location
             {
                 note->SetStopAtKey(true);
-                note->SetX(mX2);
-                note->SetY(mY2);
+                note->SetX(mX1);
+                note->SetY(mY1-initOffset);
             }
             else //set new location if already linked to track
             {
