@@ -49,8 +49,13 @@ private:
 
     bool mFirstUpdate = false;
 
+    double mPercentOfFullSize = 0;
 
     double mHitTime;
+
+    bool mStopAtKey = false;
+
+    double mSongBpMeasure;
 
 public:
     MusicNote(Game *game);
@@ -88,6 +93,15 @@ public:
      * @return duration
      */
     double GetDuration() { return mDuration; }
+
+    /**
+     * @return Song beat size
+     */
+    double GetBpMeasure() { return mSongBpMeasure; }
+
+    void SetBpMeasure(double bpMeasure) {mSongBpMeasure = bpMeasure;}
+
+    void SetPercentOfFullSize(double percentSize) {mPercentOfFullSize = percentSize;}
 
     virtual void XmlLoad(wxXmlNode *node);
 
@@ -129,6 +143,10 @@ public:
     bool GetFirstUpdate() {return mFirstUpdate;};
 
     void SetFirstUpdate(bool set) {mFirstUpdate = set;};
+
+    bool GetStopAtKey() {return mStopAtKey;};
+
+    void SetStopAtKey(bool stop) {mStopAtKey = stop;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

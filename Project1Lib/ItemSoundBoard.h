@@ -20,6 +20,13 @@ class ItemSoundBoard : public Item
 private:
     /// holding the tracks
     std::vector<std::shared_ptr<ItemTrack>> mTracks;
+
+    double mBeatSize;
+
+    double mSoundboardTopWidth;
+
+    double mSoundboardBottomWidth;
+
 public:
     /// Default constructor (disabled)
     ItemSoundBoard() = delete;
@@ -46,6 +53,12 @@ public:
     void Accept(ItemVisitor* visitor) override { visitor->VisitSoundboard(this); }
 
     void Update(double elapsed, double timeOnTrack) override;
+
+    void SetBeatSize(double beatSize) {mBeatSize = beatSize;}
+
+    void SetSoundboardTopWidth(double topWidth) {mSoundboardTopWidth = topWidth;}
+
+    void SetSoundboardBottomWidth(double bottomWidth) {mSoundboardBottomWidth = bottomWidth;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSOUNDBOARD_H

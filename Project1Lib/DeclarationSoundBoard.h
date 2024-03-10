@@ -56,10 +56,7 @@ public:
      */
     wxString GetCoverFile() { return mCoverFile; };
 
-    /**
-     * @return the coverfile of this object
-     */
-    int GetSizeBeats() { return mSizeBeats; };
+    int GetBeatSize() override { return mSizeBeats; };
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONSOUNDBOARD_H

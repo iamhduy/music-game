@@ -81,6 +81,11 @@ public:
      * @return the TopWidth of this object (for soundboard)
      */
     virtual int GetTopWidth() {return 0;};
+
+    /**
+     * @return the size-beat of this object (for soundboard)
+     */
+    virtual int GetBeatSize() {return 0;};
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATION_H

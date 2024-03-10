@@ -49,10 +49,10 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
 //    int imgHit = mItemBitmap->GetHeight();
 
     graphics->DrawBitmap(*mItemBitmap,
-                         int(mX - declaration->GetSizeX()/ 2),
-                         int(mY - declaration->GetSizeY() / 2),
-                         int(declaration->GetSizeX()),
-                         int(declaration->GetSizeY()));
+                         int(mX - (declaration->GetSizeX()*mPercentOfFullSize)/ 2),
+                         int(mY - (declaration->GetSizeY()*mPercentOfFullSize) / 2),
+                         int(declaration->GetSizeX()*mPercentOfFullSize),
+                         int(declaration->GetSizeY()*mPercentOfFullSize));
 }
 bool MusicNote::CheckIfHit(double currentBeat, double tolerance)
 {

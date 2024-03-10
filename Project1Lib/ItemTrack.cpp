@@ -17,7 +17,7 @@ const std::wstring ImagesDir = L"./images/";
  * @param soundBoard The soundboard holding this item
  *
  */
-ItemTrack::ItemTrack(ItemSoundBoard *soundBoard) : mSoundBoard(soundBoard)
+ItemTrack::ItemTrack(ItemSoundBoard *soundBoard)
 {
 }
 
@@ -64,13 +64,24 @@ void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, doub
 
 void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
 {
+    double locationThreshold = 8;
+    double initOffset = 20;
+    double beatSize = mBeatSize;
+    double beatsPerMeasure;
+
     for (auto note : mNotes)
     {
-        double beatSize = 4; //hardcoded
-        double beatsPerMeasure = 4; //hardcoded
-        double currBeat = mSoundBoard->GetGame()->GetAbsoluteBeat();
+        beatsPerMeasure = note->GetBpMeasure();
+        double currBeat = note->GetGame()->GetAbsoluteBeat();
         double noteBeat = (note->GetMeasure() - 1) * beatsPerMeasure + (note->GetBeat() - 1);
-        if (currBeat - beatSize >= noteBeat)
+
+        if (note->GetFirstUpdate() == false)
+        {
+            note->SetX(mX1);
+            note->SetY(mY1 - initOffset);
+        }
+
+        if (((currBeat + beatSize) >= noteBeat) && (note->GetStopAtKey() == false))
         {
             //set initial location at top of track
             if (note->GetFirstUpdate() == false)
@@ -78,6 +89,12 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetX(mX1);
                 note->SetY(mY1);
                 note->SetFirstUpdate(true);
+            }
+            else if(std::abs(note->GetY() - mY2) <= locationThreshold) //within threshold of final location
+            {
+                note->SetStopAtKey(true);
+                note->SetX(mX2);
+                note->SetY(mY2);
             }
             else //set new location if already linked to track
             {
@@ -87,6 +104,11 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetX(newPosX);
                 note->SetY(newPosY);
             }
+
+            double beatsCompleted = beatSize - (noteBeat-currBeat);
+
+            double percent = mInitPercentOfSize + (1-mInitPercentOfSize)*(beatsCompleted/beatSize);
+            note->SetPercentOfFullSize(percent);
         }
     }
 }

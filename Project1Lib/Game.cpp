@@ -180,12 +180,12 @@ void Game::Load(const wxString &filename)
                 if (musicNote != nullptr)
                 {
                     musicNote->XmlLoad(childMusic);
+                    musicNote->SetBpMeasure(mMusic.GetBpMeasure());
                     AddMusicNote(musicNote);
                 }
             }
         }
     }
-
 
     //this will add notes to the track it is associated with
     for (auto note: mMusicNotes)
@@ -193,7 +193,6 @@ void Game::Load(const wxString &filename)
         SoundboardAddNote visitor(note);
         Accept(&visitor);
     }
-//    int cnt = visitor.GetNumBuildings();
 }
 
 /**

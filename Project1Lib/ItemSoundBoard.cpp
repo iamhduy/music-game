@@ -56,6 +56,7 @@ ItemSoundBoard::ItemSoundBoard(Game* game) : Item(game)
  */
 void ItemSoundBoard::Add(std::shared_ptr<ItemTrack> itemTrack)
 {
+    itemTrack->SetBeatSize(mBeatSize);
     mTracks.push_back(itemTrack);
 }
 
@@ -108,6 +109,8 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
     {
         track->SetY1(y1Track);
         track->SetY2(y2Track);
+        track->SetBeatSize(declaration->GetBeatSize());
+        track->SetInitPercentOfSize(soundBoardLengthAtX1Init/soundBoardLengthAtX2Init);
     }
 
     //space between each track

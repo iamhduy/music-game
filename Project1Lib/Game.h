@@ -67,7 +67,7 @@ private:
     void XmlDeclaration(wxXmlNode *node);
 
     /// Current beat (absolute) in song
-    double mAbsoluteBeat = 0;
+    double mAbsoluteBeat = -5; //negative to give time to start
 public:
     Game(ma_engine *PEngine);
 
