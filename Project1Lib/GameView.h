@@ -62,6 +62,8 @@ private:
 
     std::vector<Sound> currSounds;
 
+    Sound mCurrentSound;
+
     bool mFirstPause = true;
 
     double mCompletedTime = 0;

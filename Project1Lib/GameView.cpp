@@ -35,7 +35,7 @@ const auto LevelNoticeColor = wxColour(192, 252, 207);
  * Constructor
  * @param audioEngine The audio engine to use
  */
-GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine), mAudioEngine(audioEngine)
+GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine), mAudioEngine(audioEngine), mCurrentSound( &mGame )
 {
 }
 
@@ -104,7 +104,6 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 
     // A = 65, S = 83, D = 68, F = 70
     // J = 74, K = 75, L = 76, ; = 59
-    Sound sound(&mGame);
 
     // A = 65, S = 83, D = 68, F = 70, G = 71
     // H = 72, J = 74, K = 75, L = 76, ; = 59
@@ -138,14 +137,12 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     }
 
     std::string file = folder + "/" + tone;
-    sound.SetAudioFile(file);
-    sound.SetVolume(0.5);
+    mCurrentSound.SetAudioFile(file);
+    mCurrentSound.SetVolume(0.5);
 
-    sound.LoadSound(mGame.GetAudioEngine());
+    mCurrentSound.LoadSound(mGame.GetAudioEngine());
 
-    sound.PlaySound();
-    std::this_thread::sleep_for(std::chrono::seconds(1)); //pauses for 1 second
-    sound.PlayEnd();
+    mCurrentSound.PlaySound();
 }
 
 /**
@@ -155,6 +152,8 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 void GameView::OnKeyUp(wxKeyEvent &event)
 {
     UpdateTime();
+    mCurrentSound.PlayEnd();
+    mCurrentSound.~Sound();
     wxChar key = event.GetKeyCode();
     char currKey = char(key);
 

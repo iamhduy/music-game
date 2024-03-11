@@ -19,7 +19,7 @@ class Game;
 class Sound
 {
 private:
-/// The game this sound is contained in
+    /// The game this sound is contained in
     Game* mGame;
 
     /// Name of the sound
