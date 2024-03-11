@@ -39,7 +39,7 @@ protected:
         //Assertions
         ASSERT_EQ(declaration.GetCoverFile(), coverfile) << L"Incorrect coverfile loaded for soundboard: ";
         ASSERT_EQ(declaration.GetTopWidth(), topWidth) << L"Incorrect top width loaded for soundboard: ";
-        ASSERT_EQ(declaration.GetSizeBeats(), sizeBeats) << L"Incorrect size-beats loaded for soundboard: ";
+        ASSERT_EQ(declaration.GetBeatSize(), sizeBeats) << L"Incorrect size-beats loaded for soundboard: ";
     }
 };
 
