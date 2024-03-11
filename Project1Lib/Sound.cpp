@@ -5,6 +5,9 @@
 #include "pch.h"
 #include "Sound.h"
 
+#include <thread>
+#include <chrono>
+
 /// Directory that contains the audio files
 const std::wstring AudioDirectory = L"audio";
 
@@ -85,6 +88,7 @@ void Sound::PlaySound()
 
         // And play the sound!
         ma_sound_start(&mSound);
+
     }
 }
 

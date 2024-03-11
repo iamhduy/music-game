@@ -62,6 +62,8 @@ private:
 
     std::vector<Sound> currSounds;
 
+    Sound mCurrentSound;
+
     void OnTimer(wxTimerEvent &event);
 public:
     void Initialize(wxFrame* parent);
