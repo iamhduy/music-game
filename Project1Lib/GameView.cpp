@@ -52,6 +52,7 @@ void GameView::Initialize(wxFrame *parent)
     std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
 
     mGame.Load(0);
+    AddResourceToLevel(0);
     Refresh();
 
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
@@ -93,6 +94,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     if (mGame.HitTest(key) || mGame.IsAutoPlay()) //autoplay using hit test
     {
         mGame.AddScore(10);
+        //play a sound here
     }
 
 
