@@ -102,7 +102,7 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
 
         if((currBeat > noteBeat) && (note->GetStopAtKey() == false))
         {
-            double beatsCompleted = currBeat j- noteBeat;
+            double beatsCompleted = currBeat - noteBeat;
             double percent = mInitPercentOfSize + (1 - mInitPercentOfSize) * (beatsCompleted / beatSize);
             note->SetPercentOfFullSize(percent);
 
