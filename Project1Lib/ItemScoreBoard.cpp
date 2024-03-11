@@ -5,6 +5,8 @@
 
 #include "pch.h"
 #include "ItemScoreBoard.h"
+#include "Game.h"
+#include <cmath>
 
 /// Size to display "Get Ready" before the level begins
 const int ReadySize = 20;
@@ -71,22 +73,30 @@ int ItemScoreBoard::GetScore() const
  */
 void ItemScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
 {
-    if (mState == ScoreBoardState::Ready)
+    auto state = GetGame()->GetState();
+    if (state == Game::GameState::Ready)
     {
         DrawText(graphics, L"Get Ready!", ReadySize, ReadyY);
     }
-    else if (mState == ScoreBoardState::Countdown)
+    else if (state == Game::GameState::Countdown)
     {
-        wxString scoreText = wxString::Format(wxT("%i"),mScore);
+        wxString countText = wxString::Format(wxT("%i"), wxRound(4-GetGame()->GetAbsoluteBeat()));
+        DrawText(graphics, countText, BeatSize, BeatsY);
+
+        wxString scoreText = wxString::Format(wxT("%i"),GetGame()->GetScore());
         scoreText = scoreText.Pad(ScoreDisplayDigitCount - scoreText.size(), '0', false);
         DrawText(graphics, scoreText, ScoreSize, ScoreY);
-
-        wxString countText = wxString::Format(wxT("%i"),6 - int(mTimePlaying));
-        DrawText(graphics, countText, BeatSize, BeatsY);
     }
-    else if (mState == ScoreBoardState::Playing)
+    else if (state == Game::GameState::Playing || state == Game::GameState::Completed)
     {
-        wxString scoreText = wxString::Format(wxT("%i"),mScore);
+        int absoluteBeat = wxRound(GetGame()->GetAbsoluteBeat());
+        int measure = absoluteBeat / 4;
+        int beats = absoluteBeat % 4 + 1;
+        wxString beatText = wxString::Format(wxT("%i"),beats);
+        wxString measureText = wxString::Format(wxT("%i"),measure);
+        DrawText(graphics, measureText + L":" + beatText, BeatSize, BeatsY);
+
+        wxString scoreText = wxString::Format(wxT("%i"),GetGame()->GetScore());
         scoreText = scoreText.Pad(ScoreDisplayDigitCount - scoreText.size(), '0', false);
         DrawText(graphics, scoreText, ScoreSize, ScoreY);
     }
@@ -104,22 +114,6 @@ void ItemScoreBoard::DrawText(std::shared_ptr<wxGraphicsContext> graphics, wxStr
     graphics->DrawText(text, GetX() - wid / 2, GetY() + yOffset - hit / 2);
 }
 
-void ItemScoreBoard::Update(double elapsed, double timeOnTrack)
-{
-    UpdateState(elapsed);
-}
 
-void ItemScoreBoard::UpdateState(double elapsed)
-{
-    mTimePlaying += elapsed;
-    if (mTimePlaying >= 2.0)
-    {
-        mState = ScoreBoardState::Countdown;
-    }
-    else if (mTimePlaying >= 6.0)
-    {
-        mState = ScoreBoardState::Playing;
-    }
-}
 
 

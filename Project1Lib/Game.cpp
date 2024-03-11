@@ -18,13 +18,17 @@
 #include "SoundboardAddNote.h"
 #include <memory>
 
+using namespace std;
 /// Image Directory
-const std::wstring ImagesDir = L"./images";
+const wstring ImagesDir = L"./images";
+/// level dir
+const wxString levelDir = L"levels/";
 
 ///Seconds in a minute
-double SecondsPerMinute = 60;
+const double SecondsPerMinute = 60;
 
-using namespace std;
+/// Level file names
+const vector<wxString> LevelFileNames {L"level0.xml", L"level1.xml", L"level2.xml", L"level3.xml"};
 
 /**
  * Game Constructor
@@ -79,7 +83,6 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     //
     // Draw in virtual pixels on the graphics context
     //
-    // INSERT YOUR DRAWING CODE HERE
     for (auto const declaration : mDeclarations)
     {
         for (auto const item : mItems)
@@ -93,8 +96,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         }
     }
 
-
-    //draw every note at (0,0) - should be changed
+    //draw every note
     for (auto const note : mMusicNotes)
     {
         for (auto const declaration : mDeclarations)
@@ -107,7 +109,18 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         }
     }
 
-
+    //Draw images that should be on top
+    for (auto const declaration : mDeclarations)
+    {
+        for (auto const item : mItems)
+        {
+            if (declaration->GetId() == item->GetId())
+            {
+                declaration->DrawOnTop(graphics, item->GetX(), item->GetY());
+                item->DrawOnTop(graphics, declaration);
+            }
+        }
+    }
 }
 
 /**
@@ -117,10 +130,11 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
  *
  * @param filename The filename of the file to load the game from.
  */
-void Game::Load(const wxString &filename)
+void Game::Load(int levelNumber)
 {
+    mLevelNumber = levelNumber;
     wxXmlDocument xmlDoc;
-    if(!xmlDoc.Load(filename))
+    if(!xmlDoc.Load(levelDir + LevelFileNames[levelNumber]))
     {
         wxMessageBox(L"Unable to load Xml file");
         return;
@@ -180,12 +194,12 @@ void Game::Load(const wxString &filename)
                 if (musicNote != nullptr)
                 {
                     musicNote->XmlLoad(childMusic);
+                    musicNote->SetBpMeasure(mMusic.GetBpMeasure());
                     AddMusicNote(musicNote);
                 }
             }
         }
     }
-
 
     //this will add notes to the track it is associated with
     for (auto note: mMusicNotes)
@@ -193,7 +207,6 @@ void Game::Load(const wxString &filename)
         SoundboardAddNote visitor(note);
         Accept(&visitor);
     }
-//    int cnt = visitor.GetNumBuildings();
 }
 
 /**
@@ -279,6 +292,7 @@ void Game::AddItem(std::shared_ptr<Item> item)
     mItems.push_back(item);
 }
 
+
 /**
  * Add an declaration to the game
  * @param declaration New declaration to add
@@ -316,12 +330,33 @@ void Game::AddScore(int value)
 }
 
 /**
+* Update player's score
+* @param value score to increment
+*/
+void Game::SubtractScore(int value)
+{
+    mScore -= value;
+}
+
+/**
  * Handle updates for animation
  * @param elapsed The time since the last update
  */
 void Game::Update(double elapsed)
 {
-    mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
+    if (mState == GameState::Ready)
+    {
+        mAbsoluteBeat = 0;
+    }
+
+    mTimePlaying += elapsed;
+
+    if (mTimePlaying >= 2.0 && mState != GameState::Completed)
+    {
+        mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
+    }
+
+    UpdateState();
 
     double beatsPerSecond = mMusic.GetBpMinute() / SecondsPerMinute;
     double beatSize = 4; //hardcoded
@@ -329,6 +364,22 @@ void Game::Update(double elapsed)
     for (auto item : mItems)
     {
         item->Update(elapsed, timeOnTrack);
+    }
+}
+
+void Game::UpdateState()
+{
+    if(mAbsoluteBeat >= (mMusic.GetMeasures()+1) * mMusic.GetBpMeasure())
+    {
+        mState = GameState::Completed;
+    }
+    else if(wxRound(4 - mAbsoluteBeat) <= 0)
+    {
+        mState = GameState::Playing;
+    }
+    else if(mTimePlaying >= 2.0)
+    {
+        mState = GameState::Countdown;
     }
 }
 
@@ -343,7 +394,7 @@ bool Game::HitTest(int keyCode)
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(keyCode, currentBeat)){
-            AddScore(10);
+
             return true;
         }
     }

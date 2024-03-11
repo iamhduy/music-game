@@ -52,12 +52,12 @@ TEST_F(GameTest, Construct){
 
 TEST_F(GameTest, Load){
     Game gameTest(nullptr);
-    gameTest.Load("levels/level0.xml");
+    gameTest.Load(0);
     TestItemAmount(&gameTest);
     TestDeclarationAmount(&gameTest);
 
     Game gameTest1(nullptr);
-    gameTest1.Load("levels/level1.xml");
+    gameTest1.Load(1);
     TestItemAmount(&gameTest1, 1);
     TestDeclarationAmount(&gameTest1, 1);
 }

@@ -41,15 +41,13 @@ void DeclarationSoundBoard::XmlLoad(wxXmlNode *node)
 }
 
 /**
- * Draw this item
+ * Draw cover for soundboard
  * @param graphics Device context to draw on
  * @param x location x
  * @param y location y
  */
-void DeclarationSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
+void DeclarationSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, double x, double y)
 {
-    Declaration::Draw(graphics, x, y);
-
     if (mCoverBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mCoverFile;
         mCoverImage = make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);

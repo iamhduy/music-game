@@ -95,6 +95,8 @@ public:
     virtual bool HitTest(int x, int y);
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
 
+    virtual void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) {};
+
     /**
     * Accept a visitor
     * @param visitor The visitor we accept

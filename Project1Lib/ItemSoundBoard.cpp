@@ -15,10 +15,6 @@ using namespace std;
 /// drawn a wxBLACK.
 const int TrackLineWidth = 5;
 
-/// Width of the long duration lines. These
-/// lines are drawn as wxRED
-const int LongDurationLineWidth = 12;
-
 /// The maximum number of tracks
 const int MaxTracks = 10;
 
@@ -56,6 +52,7 @@ ItemSoundBoard::ItemSoundBoard(Game* game) : Item(game)
  */
 void ItemSoundBoard::Add(std::shared_ptr<ItemTrack> itemTrack)
 {
+    itemTrack->SetBeatSize(mBeatSize);
     mTracks.push_back(itemTrack);
 }
 
@@ -76,12 +73,8 @@ void ItemSoundBoard::XmlLoad(wxXmlNode *node)
     }
 }
 
-/**
- * Draw extra parts of SoundBoard (tracks)
- * @param graphics Device context to draw on
- * @param declaration Declaration object associated with
- */
-void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
+void ItemSoundBoard::GetTrackValues(std::shared_ptr<Declaration> declaration, double& y1Track, double& y2Track, double& x1Space,
+                                    double& x2Space, double& x1InitLeftTrack, double& x2InitLeftTrack, double& x1InitRightTrack, double& x2InitRightTrack)
 {
     double xSoundBoardSize = declaration->GetSizeX();
     double ySoundBoardSize = declaration->GetSizeY();
@@ -92,27 +85,41 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
     double soundBoardLengthAtX2Init = ((xSoundBoardSize-soundBoardTW)/ySoundBoardSize)*(ySoundBoardSize*KeyRow) + soundBoardTW;
 
     //x1 and x2 for leftmost and rightmost track
-    double x1InitLeftTrack = (GetX()-(soundBoardLengthAtX1Init/2)) + (soundBoardLengthAtX1Init*Border);
-    double x2InitLeftTrack = (GetX()-(soundBoardLengthAtX2Init/2)) + (soundBoardLengthAtX2Init*Border);
+    x1InitLeftTrack = (GetX()-(soundBoardLengthAtX1Init/2)) + (soundBoardLengthAtX1Init*Border);
+    x2InitLeftTrack = (GetX()-(soundBoardLengthAtX2Init/2)) + (soundBoardLengthAtX2Init*Border);
 
-    double x1InitRightTrack = (GetX()+(soundBoardLengthAtX1Init/2)) - (soundBoardLengthAtX1Init*Border);
-    double x2InitRightTrack = (GetX()+(soundBoardLengthAtX2Init/2)) - (soundBoardLengthAtX2Init*Border);
+    x1InitRightTrack = (GetX()+(soundBoardLengthAtX1Init/2)) - (soundBoardLengthAtX1Init*Border);
+    x2InitRightTrack = (GetX()+(soundBoardLengthAtX2Init/2)) - (soundBoardLengthAtX2Init*Border);
 
     //y1 and y2 for all tracks
     double overlapCorrection = 7; //track is too long otherwise
-    double y1Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*TopClearance) + overlapCorrection;
-    double y2Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*KeyRow);
+    y1Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*TopClearance) + overlapCorrection;
+    y2Track = (GetY() - (ySoundBoardSize/2)) + (ySoundBoardSize*KeyRow);
+
+    //space between each track
+    x1Space = (x1InitRightTrack - x1InitLeftTrack)/(MaxTracks - 1);
+    x2Space = (x2InitRightTrack - x2InitLeftTrack)/(MaxTracks - 1);
 
     //set y1 and y2 for all tracks (start and end of for y position)
     for (auto track : mTracks)
     {
         track->SetY1(y1Track);
         track->SetY2(y2Track);
+        track->SetBeatSize(declaration->GetBeatSize());
+        track->SetInitPercentOfSize(soundBoardLengthAtX1Init/soundBoardLengthAtX2Init);
     }
+}
 
-    //space between each track
-    double x1Space = (x1InitRightTrack - x1InitLeftTrack)/(MaxTracks - 1);
-    double x2Space = (x2InitRightTrack - x2InitLeftTrack)/(MaxTracks - 1);
+/**
+ * Draw extra parts of SoundBoard (tracks)
+ * @param graphics Device context to draw on
+ * @param declaration Declaration object associated with
+ */
+void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
+{
+    double y1Track, y2Track, x1Space, x2Space, x1InitLeftTrack, x2InitLeftTrack, x1InitRightTrack, x2InitRightTrack;
+    GetTrackValues(declaration, y1Track, y2Track, x1Space, x2Space, x1InitLeftTrack, x2InitLeftTrack,
+                   x1InitRightTrack, x2InitRightTrack);
 
     //draw tracks
     wxPen linePen(*wxBLACK, TrackLineWidth);
@@ -135,19 +142,52 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
 
         if (tracksCount == MinTracks && i > 5)
         {
-            mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-
             //set x1 and x2 for tracks (start and end of for x position)
             mTracks[i-2]->SetX1(x1InitLeftTrack + shiftX1);
             mTracks[i-2]->SetX2(x2InitLeftTrack + shiftX2);
         }
         else
         {
-            mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-
             //set x1 and x2 for tracks (start and end of for x position)
             mTracks[i]->SetX1(x1InitLeftTrack + shiftX1);
             mTracks[i]->SetX2(x2InitLeftTrack + shiftX2);
+        }
+
+        shiftX1 += x1Space;
+        shiftX2 += x2Space;
+    }
+}
+
+/**
+ * Draw keys
+ * @param graphics Device context to draw on
+ * @param declaration Declaration object associated with
+ */
+void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
+{
+    double y1Track, y2Track, x1Space, x2Space, x1InitLeftTrack, x2InitLeftTrack, x1InitRightTrack, x2InitRightTrack;
+    GetTrackValues(declaration, y1Track, y2Track, x1Space, x2Space, x1InitLeftTrack, x2InitLeftTrack,
+                   x1InitRightTrack, x2InitRightTrack);
+
+    int tracksCount = mTracks.size();
+
+    double shiftX1 = 0;
+    double shiftX2 = 0;
+    for (int i = 0; i < MaxTracks; ++i)
+    {
+        if((i == 4 && tracksCount == MinTracks) || (i == 5 && tracksCount == MinTracks)){
+            shiftX1 += x1Space;
+            shiftX2 += x2Space;
+            continue;
+        }
+
+        if (tracksCount == MinTracks && i > 5)
+        {
+            mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
+        }
+        else
+        {
+            mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
         }
 
         shiftX1 += x1Space;
@@ -160,8 +200,8 @@ void ItemSoundBoard::AddNote(std::shared_ptr<MusicNote> note)
     //add note to its track
     for (auto track : mTracks)
     {
-
-        if (track->GetId() == note->GetId())
+        //cout << track->GetTrackNum() << endl;
+        if (track->GetTrackNum() == note->GetTrackNum())
         {
             track->AddNote(note);
         }

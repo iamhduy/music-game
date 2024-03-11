@@ -49,8 +49,19 @@ private:
 
     bool mFirstUpdate = false;
 
+    double mPercentOfFullSize = 0;
 
     double mHitTime;
+
+    bool mStopAtKey = false;
+
+    double mSongBpMeasure;
+
+    double mLongDurationX;
+
+    double mLongDurationY;
+
+    bool mContinueDurationLine = false;
 
 public:
     MusicNote(Game *game);
@@ -68,6 +79,8 @@ public:
      * @return Pointer to Level object
      */
     Game *GetGame() { return mGame;}
+
+    int GetTrackNum();
 
     /**
      * @return the id of this object
@@ -88,6 +101,15 @@ public:
      * @return duration
      */
     double GetDuration() { return mDuration; }
+
+    /**
+     * @return Song beat size
+     */
+    double GetBpMeasure() { return mSongBpMeasure; }
+
+    void SetBpMeasure(double bpMeasure) {mSongBpMeasure = bpMeasure;}
+
+    void SetPercentOfFullSize(double percentSize) {mPercentOfFullSize = percentSize;}
 
     virtual void XmlLoad(wxXmlNode *node);
 
@@ -121,6 +143,18 @@ public:
     void SetX(double x) { mX = x; };
 
     /**
+    * Set long duration x2 to draw
+    * @param x X location in pixels
+    */
+    void SetLongDurationX(double x) { mLongDurationX = x; };
+
+    /**
+    * Set long duration y2 to draw
+    * @param y Y location in pixels
+    */
+    void SetLongDurationY(double y) { mLongDurationY = y; };
+
+    /**
      * Set Y location of the note
      * @param y Y location in pixels
      */
@@ -129,6 +163,18 @@ public:
     bool GetFirstUpdate() {return mFirstUpdate;};
 
     void SetFirstUpdate(bool set) {mFirstUpdate = set;};
+
+    bool GetStopAtKey() {return mStopAtKey;};
+
+    void SetStopAtKey(bool stop) {mStopAtKey = stop;}
+
+    bool GetContinueDurationLine() {return mContinueDurationLine;};
+
+    double GetLongDurationX() {return mLongDurationX;};
+
+    double GetLongDurationY() {return mLongDurationY;};
+
+    void SetContinueDurationLine(bool continueDraw) {mContinueDurationLine = continueDraw;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

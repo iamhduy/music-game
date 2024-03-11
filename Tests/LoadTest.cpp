@@ -7,27 +7,32 @@
 #include "gtest/gtest.h"
 #include <Game.h>
 
-class LoadFunctionTest : public ::testing::Test {
+class LoadFunctionTest : public ::testing::Test
+{
 protected:
-    void TestLoad(const wxString& levelFile, int expectedItemsSize, int expectedDeclarationsSize) {
+    void TestLoad(int levelNum, int expectedItemsSize, int expectedDeclarationsSize)
+    {
         Game game(nullptr);
-        game.Load(levelFile);
+        game.Load(levelNum);
 
-        ASSERT_EQ(game.GetItemsSize(), expectedItemsSize) << "Incorrect number of items loaded for level: " << levelFile.ToStdString();
-        ASSERT_EQ(game.GetDeclarationsSize(), expectedDeclarationsSize) << "Incorrect number of declarations loaded for level: " << levelFile.ToStdString();
+        ASSERT_EQ(game.GetItemsSize(), expectedItemsSize) << "Incorrect number of items loaded for level: " << levelNum;
+        ASSERT_EQ(game.GetDeclarationsSize(), expectedDeclarationsSize)
+                            << "Incorrect number of declarations loaded for level: " << levelNum;
     }
 };
 
-TEST_F(LoadFunctionTest, LoadLevel0) {
-wxString levelFile = "levels/level0.xml";
-int expectedItemsSize = 4;
-int expectedDeclarationsSize = 12;
-TestLoad(levelFile, expectedItemsSize, expectedDeclarationsSize);
+TEST_F(LoadFunctionTest, LoadLevel0)
+{
+    int levelNum = 0;
+    int expectedItemsSize = 4;
+    int expectedDeclarationsSize = 12;
+    TestLoad(levelNum, expectedItemsSize, expectedDeclarationsSize);
 }
 
-TEST_F(LoadFunctionTest, LoadLevel1) {
-wxString levelFile = "levels/level1.xml";
-int expectedItemsSize = 6;
-int expectedDeclarationsSize = 14;
-TestLoad(levelFile, expectedItemsSize, expectedDeclarationsSize);
+TEST_F(LoadFunctionTest, LoadLevel1)
+{
+    int levelNum = 1;
+    int expectedItemsSize = 6;
+    int expectedDeclarationsSize = 14;
+    TestLoad(levelNum, expectedItemsSize, expectedDeclarationsSize);
 }

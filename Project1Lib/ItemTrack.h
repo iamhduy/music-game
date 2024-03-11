@@ -20,9 +20,6 @@ class ItemTrack
 protected:
 
 private:
-    /// The SoundBoard this item is contained in
-    ItemSoundBoard *mSoundBoard;
-
     /// Track Number
     int mTrack;
 
@@ -41,6 +38,10 @@ private:
     double mY2;
 
     std::vector<std::shared_ptr<MusicNote>> mNotes;
+
+    double mBeatSize;
+
+    double mInitPercentOfSize;
 
 public:
     /// Default constructor (disabled)
@@ -102,10 +103,25 @@ public:
 
     void UpdateNotes(double elapsed, double timeOnTrack);
 
-    double GetSizeX() {return mSizeX;};
-    double GetSizeY() {return mSizeY;};
-    int GetTrackNum() {return mTrack;};
-    wxString GetImageFile() {return mKeyImageFile;};
+    double GetSizeX() {return mSizeX;}
+
+    double GetSizeY() {return mSizeY;}
+
+    int GetTrackNum() {return mTrack;}
+
+    wxString GetImageFile() {return mKeyImageFile;}
+
+    //ItemSoundBoard* GetSoundBoard() {return mSoundBoard;}
+
+
+    void SetBeatSize(double beatSize) {mBeatSize = beatSize;}
+
+    /**
+     * Set size of the note
+     * @param percent percent of full size
+     */
+    void SetInitPercentOfSize(double percent) { mInitPercentOfSize = percent;};
+
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMTRACK_H

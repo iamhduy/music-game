@@ -24,9 +24,7 @@ private:
 
     double mTimePlaying = 0;
 
-    enum class ScoreBoardState {Ready, Countdown, Playing};
 
-    ScoreBoardState mState = ScoreBoardState::Ready;
 public:
     /// Default constructor (disabled)
     ItemScoreBoard() = delete;
@@ -51,8 +49,6 @@ public:
     */
     void Accept(ItemVisitor* visitor) override { visitor->VisitScoreboard(this); }
 
-    void Update(double elapsed, double timeOnTrack) override;
-    void UpdateState(double elapsed);
     void DrawText(std::shared_ptr<wxGraphicsContext> graphics, wxString text, int textSize, int yOffset);
 };
 

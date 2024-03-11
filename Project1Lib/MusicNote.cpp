@@ -8,6 +8,10 @@
 /// Image Directory
 const std::wstring ImagesDir = L"./images/";
 
+/// Width of the long duration lines. These
+/// lines are drawn as wxRED
+const int LongDurationLineWidth = 12;
+
 /**
  * Constructor
  * @param game The game this music is a member of
@@ -39,6 +43,11 @@ void MusicNote::XmlLoad(wxXmlNode *node)
 
 void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
 {
+    wxPen longDurationPen(*wxRED, LongDurationLineWidth);
+    graphics->SetPen(longDurationPen);
+    graphics->StrokeLine(mX, mY, mLongDurationX, mLongDurationY);
+
+
     if (mItemBitmap == nullptr) {
         std::wstring ItemImageFile = ImagesDir + (declaration->GetImageFile()).ToStdWstring();
         mItemImage = std::make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);
@@ -49,11 +58,12 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
 //    int imgHit = mItemBitmap->GetHeight();
 
     graphics->DrawBitmap(*mItemBitmap,
-                         int(mX - declaration->GetSizeX()/ 2),
-                         int(mY - declaration->GetSizeY() / 2),
-                         int(declaration->GetSizeX()),
-                         int(declaration->GetSizeY()));
+                         int(mX - (declaration->GetSizeX()*mPercentOfFullSize)/ 2),
+                         int(mY - (declaration->GetSizeY()*mPercentOfFullSize) / 2),
+                         int(declaration->GetSizeX()*mPercentOfFullSize),
+                         int(declaration->GetSizeY()*mPercentOfFullSize));
 }
+
 bool MusicNote::CheckIfHit(double currentBeat, double tolerance)
 {
     if (abs(currentBeat - mHitTime) <= tolerance)
@@ -61,4 +71,23 @@ bool MusicNote::CheckIfHit(double currentBeat, double tolerance)
         return true;
     }
     return false;
+}
+
+int MusicNote::GetTrackNum()
+{
+    int trackNum = 0;
+    int multiplier = 1;
+
+    for (int i = mId.length() - 1; i >= 0; --i) {
+        char c = mId[i];
+        if (isdigit(c)) {
+            trackNum += (c - '0') * multiplier;
+            multiplier *= 10;
+        }
+        else {
+            break;
+        }
+    }
+
+    return trackNum;
 }
