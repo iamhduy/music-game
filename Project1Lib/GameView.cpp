@@ -91,12 +91,11 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     UpdateTime();
     wxChar key = event.GetKeyCode();
 
-    if (mGame.HitTest(key) || mGame.IsAutoPlay()) //autoplay using hit test
+    if (mGame.HitTest(key))
     {
         mGame.AddScore(10);
         //play a sound here
     }
-
 
     if (!mGame.HitTest(key))
     {

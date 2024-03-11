@@ -24,6 +24,13 @@ double MaxDuration = 0.5;
 /// Use for percent of full size
 double NoSize = 0;
 
+/// Score we get when we successfully hit a note
+const int GoodSoundScore = 10;
+
+/// The maximum bonus we can get for
+/// holding for the duration for a long sound
+const int MaxDurationBonus = 10;
+
 /**
  * Constructor
  * @param soundBoard The soundboard holding this item
@@ -113,6 +120,10 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetX(mX2);
                 note->SetY(mY2);
                 note->SetPercentOfFullSize(NoSize);
+                if (note->GetGame()->IsAutoPlay())
+                {
+                    note->GetGame()->AddScore(GoodSoundScore);
+                }
             }
             else //set new location if already linked to track
             {
@@ -149,6 +160,7 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetLongDurationY(mY2);
 
                 note->SetContinueDurationLine(false);
+                note->GetGame()->AddScore(MaxDurationBonus);
             }
             else //stop drawing line once top of line gets to key
             {
