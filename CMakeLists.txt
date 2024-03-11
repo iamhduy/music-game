@@ -41,6 +41,19 @@ FetchContent_MakeAvailable(miniaudio)
 
 include_directories(${miniaudio_SOURCE_DIR})
 
+# Fetch Personal Project assets from GitHub
+include(FetchContent)
+FetchContent_Declare(
+        cse335_2024_proj1_level3_assets
+        GIT_REPOSITORY https://github.com/GeneRuan/cse335_2024_proj1_level3_assets.git
+        GIT_TAG origin/main
+)
+
+FetchContent_MakeAvailable(cse335_2024_proj1_level3_assets)
+
+file(COPY ${cse335_2024_proj1_level3_assets_SOURCE_DIR}/resources/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
+
+
 # Include the wxWidgets use file to initialize various settings
 include(${wxWidgets_USE_FILE})
 
