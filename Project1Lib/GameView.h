@@ -62,7 +62,15 @@ private:
 
     std::vector<Sound> currSounds;
 
+    bool mFirstPause = true;
+
+    double mCompletedTime = 0;
+
     void OnTimer(wxTimerEvent &event);
+
+    void OnGoToNextLevel();
+
+    void AddResourceToLevel(int levelNum);
 public:
     void Initialize(wxFrame* parent);
     void OnGoToLevel(wxCommandEvent &event);

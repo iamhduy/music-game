@@ -79,13 +79,13 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
     double beatSize = mBeatSize;
     double beatsPerMeasure;
 
-    for (auto note : mNotes)
+    for(auto note : mNotes)
     {
         beatsPerMeasure = note->GetBpMeasure();
         double currBeat = note->GetGame()->GetAbsoluteBeat();
-        double noteBeat = (note->GetMeasure() - 1) * beatsPerMeasure + (note->GetBeat() - 1);
+        double noteBeat = (note->GetMeasure() - 1) * beatsPerMeasure + (note->GetBeat() - 1); //when is the note dropped
 
-        if (note->GetFirstUpdate() == false)
+        if(note->GetFirstUpdate() == false)
         {
             note->SetX(mX1);
             note->SetY(mY1 - InitOffset);
@@ -93,21 +93,21 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
             note->SetLongDurationY(mY1);
         }
 
-        if (((currBeat + beatSize) >= noteBeat) && (note->GetStopAtKey() == false))
+        if((currBeat > noteBeat) && (note->GetStopAtKey() == false))
         {
-            double beatsCompleted = beatSize - (noteBeat-currBeat);
-            double percent = mInitPercentOfSize + (1-mInitPercentOfSize)*(beatsCompleted/beatSize);
+            double beatsCompleted = currBeat - noteBeat;
+            double percent = mInitPercentOfSize + (1 - mInitPercentOfSize) * (beatsCompleted / beatSize);
             note->SetPercentOfFullSize(percent);
 
             //set initial location at top of track
-            if (note->GetFirstUpdate() == false)
+            if(note->GetFirstUpdate() == false)
             {
                 note->SetX(mX1);
                 note->SetY(mY1);
                 note->SetFirstUpdate(true);
             }
             else if(abs(note->GetY() - mY2) <= LocationThreshold) //within threshold of final location
-            {
+            { //todo should update this one because there are some note going below key in level 1
                 note->SetStopAtKey(true);
                 note->SetContinueDurationLine(true);
                 note->SetX(mX2);
@@ -116,19 +116,19 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
             }
             else //set new location if already linked to track
             {
-                double newPosX = note->GetX() + ((mX2 - mX1)/timeOnTrack)*elapsed;
-                double newPosY = note->GetY() + ((mY2 - mY1)/timeOnTrack)*elapsed;
+                double newPosX = note->GetX() + ((mX2 - mX1) / timeOnTrack) * elapsed;
+                double newPosY = note->GetY() + ((mY2 - mY1) / timeOnTrack) * elapsed;
 
                 note->SetX(newPosX);
                 note->SetY(newPosY);
             }
 
             //Draw long duration line
-            if(note->GetDuration()>MaxDuration)
+            if(note->GetDuration() > MaxDuration)
             {
-                double longDurationLengthY = (note->GetDuration()/beatSize)*(mY2-mY1);
-                double longDurationLengthX = (note->GetDuration()/beatSize)*(mX2-mX1);
-                if ((note->GetY() - longDurationLengthY) > mY1)
+                double longDurationLengthY = (note->GetDuration() / beatSize) * (mY2 - mY1);
+                double longDurationLengthX = (note->GetDuration() / beatSize) * (mX2 - mX1);
+                if((note->GetY() - longDurationLengthY) > mY1)
                 {
                     note->SetLongDurationX(note->GetX() - longDurationLengthX);
                     note->SetLongDurationY(note->GetY() - longDurationLengthY);
@@ -140,7 +140,8 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetLongDurationY(note->GetY());
             }
         }
-        else if (note->GetContinueDurationLine() == true && (note->GetDuration()>MaxDuration)) //continue drawing long duration line after puck stops
+        else if(note->GetContinueDurationLine() == true
+            && (note->GetDuration() > MaxDuration)) //continue drawing long duration line after puck stops
         {
             if(abs(note->GetLongDurationY() - mY2) <= LocationThreshold)
             {
@@ -151,8 +152,8 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
             }
             else //stop drawing line once top of line gets to key
             {
-                double newLongDurationX = note->GetLongDurationX() + ((mX2 - mX1)/timeOnTrack)*elapsed;
-                double newLongDurationY = note->GetLongDurationY() + ((mY2 - mY1)/timeOnTrack)*elapsed;
+                double newLongDurationX = note->GetLongDurationX() + ((mX2 - mX1) / timeOnTrack) * elapsed;
+                double newLongDurationY = note->GetLongDurationY() + ((mY2 - mY1) / timeOnTrack) * elapsed;
 
                 note->SetLongDurationX(newLongDurationX);
                 note->SetLongDurationY(newLongDurationY);

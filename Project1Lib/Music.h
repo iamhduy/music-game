@@ -65,7 +65,7 @@ public:
     /**
      * @return number of measures
      */
-    int GetMeasures() { return mBpMeasure; }
+    int GetMeasures() { return mMeasures; }
 
     /**
      * @return backing

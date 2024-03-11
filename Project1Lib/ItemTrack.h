@@ -103,17 +103,22 @@ public:
 
     void UpdateNotes(double elapsed, double timeOnTrack);
 
-    double GetSizeX() {return mSizeX;};
-    double GetSizeY() {return mSizeY;};
-    int GetTrackNum() {return mTrack;};
-    wxString GetImageFile() {return mKeyImageFile;};
+    double GetSizeX() {return mSizeX;}
+
+    double GetSizeY() {return mSizeY;}
+
+    int GetTrackNum() {return mTrack;}
+
+    wxString GetImageFile() {return mKeyImageFile;}
+
+    //ItemSoundBoard* GetSoundBoard() {return mSoundBoard;}
 
 
     void SetBeatSize(double beatSize) {mBeatSize = beatSize;}
 
     /**
-     * Set Y location of the note
-     * @param y Y location in pixels
+     * Set size of the note
+     * @param percent percent of full size
      */
     void SetInitPercentOfSize(double percent) { mInitPercentOfSize = percent;};
 

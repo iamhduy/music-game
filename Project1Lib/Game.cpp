@@ -18,13 +18,17 @@
 #include "SoundboardAddNote.h"
 #include <memory>
 
+using namespace std;
 /// Image Directory
-const std::wstring ImagesDir = L"./images";
+const wstring ImagesDir = L"./images";
+/// level dir
+const wxString levelDir = L"levels/";
 
 ///Seconds in a minute
-double SecondsPerMinute = 60;
+const double SecondsPerMinute = 60;
 
-using namespace std;
+/// Level file names
+const vector<wxString> LevelFileNames {L"level0.xml", L"level1.xml", L"level2.xml", L"level3.xml"};
 
 /**
  * Game Constructor
@@ -105,7 +109,6 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
         }
     }
 
-
     //Draw images that should be on top
     for (auto const declaration : mDeclarations)
     {
@@ -118,7 +121,6 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
             }
         }
     }
-
 }
 
 /**
@@ -128,10 +130,11 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
  *
  * @param filename The filename of the file to load the game from.
  */
-void Game::Load(const wxString &filename)
+void Game::Load(int levelNumber)
 {
+    mLevelNumber = levelNumber;
     wxXmlDocument xmlDoc;
-    if(!xmlDoc.Load(filename))
+    if(!xmlDoc.Load(levelDir + LevelFileNames[levelNumber]))
     {
         wxMessageBox(L"Unable to load Xml file");
         return;
@@ -341,7 +344,19 @@ void Game::SubtractScore(int value)
  */
 void Game::Update(double elapsed)
 {
-    mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
+    if (mState == GameState::Ready)
+    {
+        mAbsoluteBeat = 0;
+    }
+
+    mTimePlaying += elapsed;
+
+    if (mTimePlaying >= 2.0 && mState != GameState::Completed)
+    {
+        mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
+    }
+
+    UpdateState();
 
     double beatsPerSecond = mMusic.GetBpMinute() / SecondsPerMinute;
     double beatSize = 4; //hardcoded
@@ -349,6 +364,22 @@ void Game::Update(double elapsed)
     for (auto item : mItems)
     {
         item->Update(elapsed, timeOnTrack);
+    }
+}
+
+void Game::UpdateState()
+{
+    if(mAbsoluteBeat >= (mMusic.GetMeasures()+1) * mMusic.GetBpMeasure())
+    {
+        mState = GameState::Completed;
+    }
+    else if(wxRound(4 - mAbsoluteBeat) <= 0)
+    {
+        mState = GameState::Playing;
+    }
+    else if(mTimePlaying >= 2.0)
+    {
+        mState = GameState::Countdown;
     }
 }
 
@@ -363,7 +394,7 @@ bool Game::HitTest(int keyCode)
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(keyCode, currentBeat)){
-            AddScore(10);
+
             return true;
         }
     }

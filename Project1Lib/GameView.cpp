@@ -5,6 +5,7 @@
 
 #include "pch.h"
 #include "GameView.h"
+#include "Game.h"
 #include <wx/dcbuffer.h>
 #include <wx/stdpaths.h>
 #include <wx/event.h>
@@ -50,7 +51,7 @@ void GameView::Initialize(wxFrame *parent)
     wxStandardPaths &standardPaths = wxStandardPaths::Get();
     std::wstring resourcesDir = standardPaths.GetResourcesDir().ToStdWstring();
 
-    mGame.Load("levels/level0.xml");
+    mGame.Load(0);
     Refresh();
 
     Bind(wxEVT_PAINT, &GameView::OnPaint, this);
@@ -88,6 +89,12 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 {
     UpdateTime();
     wxChar key = event.GetKeyCode();
+
+    if (mGame.HitTest(key) || mGame.IsAutoPlay()) //autoplay using hit test
+    {
+        mGame.AddScore(10);
+    }
+
 
     if (!mGame.HitTest(key))
     {
@@ -195,7 +202,7 @@ void GameView::OnPaint(wxPaintEvent &event)
     //
     mGame.OnDraw(graphics, size.GetWidth(), size.GetHeight());
 //    mGame.OnDraw(&dc); //< OLD
-    if (mStopWatch.Time() < LevelNoticeDuration*1000)
+    if (mStopWatch.Time() < LevelNoticeDuration*1000 && mGame.GetState() == Game::GameState::Ready)
     {
         wxFont font(wxSize(0, NoticeSize),
                     wxFONTFAMILY_SWISS,
@@ -205,6 +212,31 @@ void GameView::OnPaint(wxPaintEvent &event)
         double wid, hit;
         graphics->GetTextExtent(mLevelBeginText, &wid, &hit);
         graphics->DrawText(mLevelBeginText, (mGame.GetPixelWidth() - wid) / 2, (mGame.GetPixelHeight() - hit) / 2);
+    }
+
+    if (mGame.GetState() == Game::GameState::Completed)
+    {
+        if (mFirstPause)
+        {
+            mCompletedTime = mStopWatch.Time();
+            mFirstPause = !mFirstPause;
+        }
+
+        if (mStopWatch.Time() - mCompletedTime <= LevelNoticeDuration*1000)
+        {
+            wxFont font(wxSize(0, NoticeSize),
+                        wxFONTFAMILY_SWISS,
+                        wxFONTSTYLE_NORMAL,
+                        wxFONTWEIGHT_BOLD);
+            graphics->SetFont(font, LevelNoticeColor);
+            double wid, hit;
+            graphics->GetTextExtent(L"Level Completed!", &wid, &hit);
+            graphics->DrawText(L"Level Completed!", (mGame.GetPixelWidth() - wid) / 2, (mGame.GetPixelHeight() - hit) / 2);
+        }
+        else
+        {
+            OnGoToNextLevel();
+        }
     }
 
     graphics->PopState();
@@ -220,36 +252,34 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
     {
         case IDM_LEVEL0:
             mGame = Game(mAudioEngine);
-            mGame.Load("levels/level0.xml");
-            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
-            mLevelBeginText = L"Level 0 Begin";
+            mGame.Load(0);
+            AddResourceToLevel(0);
             break;
 
         case IDM_LEVEL1:
             mGame = Game(mAudioEngine);
-            mGame.Load("levels/level1.xml");
-            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
-            mLevelBeginText = L"Level 1 Begin";
+            mGame.Load(1);
+            AddResourceToLevel(1);
             break;
 
         case IDM_LEVEL2:
             mGame = Game(mAudioEngine);
-            mGame.Load("levels/level2.xml");
-            keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
-            mLevelBeginText = L"Level 2 Begin";
+            mGame.Load(2);
+            AddResourceToLevel(2);
             break;
 
         case IDM_LEVEL3:
             mGame = Game(mAudioEngine);
-            mGame.Load("levels/level3.xml");
-            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
-            mLevelBeginText = L"Level 3 Begin";
+            mGame.Load(0);
+            AddResourceToLevel(0);
+
             break;
 
         case IDM_AUTOPLAY:
+            mGame.UpdateAutoPlay();
             break;
-
     }
+
     mStopWatch.Start();
     mTime = 0;
     Refresh();
@@ -262,4 +292,47 @@ void GameView::OnGoToLevel(wxCommandEvent &event)
 void GameView::OnTimer(wxTimerEvent& event)
 {
     Refresh();
+}
+
+void GameView::OnGoToNextLevel()
+{
+    int nextLevel = mGame.GetCurrentLevel()+1;
+
+    if (nextLevel == 4) return;//last level is 3
+
+    AddResourceToLevel(nextLevel);
+
+    mGame = Game(mAudioEngine);
+    mGame.Load(nextLevel);
+
+    mStopWatch.Start();
+    mTime = 0;
+    Refresh();
+}
+
+void GameView::AddResourceToLevel(int levelNum)
+{
+    mLevelBeginText = wxString::Format(L"Level %d Begin", levelNum);
+
+    switch(levelNum)
+    {
+        case 0:
+            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            break;
+
+        case 1:
+            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            break;
+
+        case 2:
+            keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
+            break;
+
+        case 3:
+            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            break;
+
+        default:
+            break;
+    }
 }

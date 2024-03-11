@@ -28,6 +28,6 @@ void Music::XmlLoad(wxXmlNode *node)
 {
     node->GetAttribute(L"beats-per-minute").ToInt(&mBpMinute);
     node->GetAttribute(L"beats-per-measure").ToInt(&mBpMeasure);
-    node->GetAttribute(L"measure").ToInt(&mMeasures);
+    node->GetAttribute(L"measures").ToInt(&mMeasures);
     node->GetAttribute(L"backing", &mBack);
 }

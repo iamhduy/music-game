@@ -23,6 +23,8 @@
  */
 class Game
 {
+public:
+    enum class GameState {Ready, Countdown, Playing, Completed};
 private:
 // keep level objects for level 0,1,2,3?
 
@@ -67,11 +69,20 @@ private:
     void XmlDeclaration(wxXmlNode *node);
 
     /// Current beat (absolute) in song
-    double mAbsoluteBeat = -5; //negative to give time to start
+    double mAbsoluteBeat = 0; //negative to give time to start
+
+    /// Current time in this level
+    double mTimePlaying = 0;
+
+    GameState mState = GameState::Ready;
+
+    bool mAutoPlay = false;
+
+    int mLevelNumber = 0;
 public:
     Game(ma_engine *PEngine);
 
-    void Load(const wxString &filename);
+    void Load(int levelNumber);
 
     void Clear();
     void OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int height);
@@ -119,7 +130,21 @@ public:
 
     void SetAbsoluteBeat(double beat) {mAbsoluteBeat = beat;};
 
+    double GetTimePlaying() {return mTimePlaying;}
+
+    GameState GetState() {return mState;}
+
     void Accept(ItemVisitor* visitor);
+
+    //Music* GetMusic() {return mMusic;}
+
+    void UpdateState();
+
+    void UpdateAutoPlay() {mAutoPlay = !mAutoPlay;}
+
+    bool IsAutoPlay() {return mAutoPlay;}
+
+    int GetCurrentLevel() {return mLevelNumber;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H
