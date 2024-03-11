@@ -102,7 +102,7 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
 
         if((currBeat > noteBeat) && (note->GetStopAtKey() == false))
         {
-            double beatsCompleted = currBeat - noteBeat;
+            double beatsCompleted = currBeat j- noteBeat;
             double percent = mInitPercentOfSize + (1 - mInitPercentOfSize) * (beatsCompleted / beatSize);
             note->SetPercentOfFullSize(percent);
 
@@ -113,7 +113,7 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetY(mY1);
                 note->SetFirstUpdate(true);
             }
-            else if(abs(note->GetY() - mY2) <= LocationThreshold) //within threshold of final location
+            else if((mY2 - note->GetY()) <= LocationThreshold) //within threshold of final location
             { //todo should update this one because there are some note going below key in level 1
                 note->SetStopAtKey(true);
                 note->SetContinueDurationLine(true);
