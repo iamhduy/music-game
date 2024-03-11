@@ -90,7 +90,7 @@ public:
      * Handle updates for animation
      * @param elapsed The time since the last update
      */
-    virtual void Update(double elapsed, double timeOnTrack) {};
+    virtual void Update(double elapsed, double beatsPerSecond) {};
 
     virtual bool HitTest(int x, int y);
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);

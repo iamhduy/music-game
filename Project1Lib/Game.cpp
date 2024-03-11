@@ -359,11 +359,9 @@ void Game::Update(double elapsed)
     UpdateState();
 
     double beatsPerSecond = mMusic.GetBpMinute() / SecondsPerMinute;
-    double beatSize = 4; //hardcoded
-    double timeOnTrack = beatSize / beatsPerSecond;
     for (auto item : mItems)
     {
-        item->Update(elapsed, timeOnTrack);
+        item->Update(elapsed, beatsPerSecond);
     }
 }
 

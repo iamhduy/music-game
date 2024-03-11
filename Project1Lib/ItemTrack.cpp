@@ -81,9 +81,10 @@ void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, doub
                          mSizeY);
 }
 
-void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
+void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
 {
     double beatSize = mBeatSize;
+    double timeOnTrack = beatSize / beatsPerSecond;
     double beatsPerMeasure;
 
     for(auto note : mNotes)

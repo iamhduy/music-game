@@ -101,7 +101,7 @@ public:
         return wxString::Format(wxT("t%d"), mTrack);
     }
 
-    void UpdateNotes(double elapsed, double timeOnTrack);
+    void UpdateNotes(double elapsed, double beatsPerSecond);
 
     double GetSizeX() {return mSizeX;}
 
