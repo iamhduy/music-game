@@ -45,6 +45,8 @@ set(SOURCE_FILES
         ItemVisitor.h
         SoundboardAddNote.cpp
         SoundboardAddNote.h
+        SoundBoardVisitor.cpp
+        SoundBoardVisitor.h
 )
 
 set(wxBUILD_PRECOMP OFF)

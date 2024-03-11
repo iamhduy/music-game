@@ -12,6 +12,7 @@
 #include "ids.h"
 #include "Sound.h"
 #include <set>
+#include "SoundBoardVisitor.h"
 
 #include <thread>
 #include <chrono>
@@ -91,13 +92,15 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     UpdateTime();
     wxChar key = event.GetKeyCode();
 
-    if (mGame.HitTest(key))
+    RetrieveKeyPositions(key);
+
+    if (mGame.HitTest(key, mKeyXPos, mKeyYPos))
     {
-        mGame.AddScore(10);
+        //mGame.AddScore(10);
         //play a sound here
     }
 
-    if (!mGame.HitTest(key))
+    if (!mGame.HitTest(key, mKeyXPos, mKeyYPos))
     {
     }
 
@@ -334,5 +337,16 @@ void GameView::AddResourceToLevel(int levelNum)
 
         default:
             break;
+    }
+}
+
+void GameView::RetrieveKeyPositions(wxChar key) {
+    SoundBoardVisitor visitor(key);
+    mGame.Accept(&visitor);
+
+    if (visitor.KeyFound()) {
+        mKeyXPos = visitor.GetKeyXPosition();
+        mKeyYPos = visitor.GetKeyYPosition();
+
     }
 }

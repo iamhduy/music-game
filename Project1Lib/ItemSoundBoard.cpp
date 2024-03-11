@@ -190,6 +190,7 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
             mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
         }
 
+        keyPositions[keyCodes[i]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
         shiftX1 += x1Space;
         shiftX2 += x2Space;
     }
@@ -216,7 +217,23 @@ void ItemSoundBoard::Update(double elapsed, double timeOnTrack)
         track->UpdateNotes(elapsed, timeOnTrack);
     }
 }
+int ItemSoundBoard::GetKeyXPosition(wxChar keycode){
+    auto it = keyPositions.find(keycode);
+    if (it != keyPositions.end()) {
+        return it->second.first;
+    }
+    return 0;
+}
 
+int ItemSoundBoard::GetKeyYPosition(wxChar keycode)
+{
+    auto it = keyPositions.find(keycode);
+    if(it != keyPositions.end())
+    {
+        return it->second.second;
+    }
+    return 0;
+}
 
 
 

@@ -10,6 +10,8 @@
 #include "Item.h"
 #include "ItemTrack.h"
 #include <memory>
+#include <map>
+#include <vector>
 
 /**
  * SoundBoard Class derived from Item
@@ -26,6 +28,11 @@ private:
     double mSoundboardTopWidth;
 
     double mSoundboardBottomWidth;
+
+    std::map<int, std::pair<int, int>> keyPositions;
+
+    std::vector<wxChar> keyCodes = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+
 
 public:
     /// Default constructor (disabled)
@@ -69,6 +76,10 @@ public:
                         double &x1InitRightTrack,
                         double &x2InitRightTrack);
     void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) override;
+
+    int GetKeyXPosition(wxChar keyCode);
+
+    int GetKeyYPosition(wxChar keyCode);
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSOUNDBOARD_H

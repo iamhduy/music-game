@@ -63,6 +63,8 @@ private:
 
     bool mContinueDurationLine = false;
 
+    double mTolerance = .5;
+
 public:
     MusicNote(Game *game);
 
@@ -117,7 +119,7 @@ public:
 
     double GetHitTime() const {return mHitTime;}
 
-    bool CheckIfHit(double currentBeat, double tolerance);
+    bool CheckIfHit(double currentBeat, int keyX, int keyY);
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
 

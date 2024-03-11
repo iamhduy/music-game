@@ -58,6 +58,10 @@ private:
     /// The last stopwatch time
     long mTime = 0;
 
+    int mKeyXPos = 0;
+
+    int mKeyYPos = 0;
+
     wxString mLevelBeginText = L"Level 0 Begin";
 
     std::vector<Sound> currSounds;
@@ -89,6 +93,8 @@ public:
      * Stop the timer so the window can close
      */
     void Stop() {mTimer.Stop();}
+
+    void RetrieveKeyPositions(wxChar key);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAMEVIEW_H
