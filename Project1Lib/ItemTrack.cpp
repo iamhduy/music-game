@@ -12,6 +12,18 @@ using namespace std;
 /// Image Directory
 const std::wstring ImagesDir = L"./images/";
 
+/// How close puck can be to key to stop (in pixels)
+double LocationThreshold = 8;
+
+/// Initial puck offset (in pixels)
+double InitOffset = 20;
+
+/// Max duration for short duration puck
+double MaxDuration = 0.5;
+
+/// Use for percent of full size
+double NoSize = 0;
+
 /**
  * Constructor
  * @param soundBoard The soundboard holding this item
@@ -64,8 +76,6 @@ void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, doub
 
 void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
 {
-    double locationThreshold = 10;
-    double initOffset = 20;
     double beatSize = mBeatSize;
     double beatsPerMeasure;
 
@@ -78,11 +88,17 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
         if (note->GetFirstUpdate() == false)
         {
             note->SetX(mX1);
-            note->SetY(mY1 - initOffset);
+            note->SetY(mY1 - InitOffset);
+            note->SetLongDurationX(mX1);
+            note->SetLongDurationY(mY1);
         }
 
         if (((currBeat + beatSize) >= noteBeat) && (note->GetStopAtKey() == false))
         {
+            double beatsCompleted = beatSize - (noteBeat-currBeat);
+            double percent = mInitPercentOfSize + (1-mInitPercentOfSize)*(beatsCompleted/beatSize);
+            note->SetPercentOfFullSize(percent);
+
             //set initial location at top of track
             if (note->GetFirstUpdate() == false)
             {
@@ -90,11 +106,13 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetY(mY1);
                 note->SetFirstUpdate(true);
             }
-            else if(abs(note->GetY() - mY2) <= locationThreshold) //within threshold of final location
+            else if(abs(note->GetY() - mY2) <= LocationThreshold) //within threshold of final location
             {
                 note->SetStopAtKey(true);
-                note->SetX(mX1);
-                note->SetY(mY1-initOffset);
+                note->SetContinueDurationLine(true);
+                note->SetX(mX2);
+                note->SetY(mY2);
+                note->SetPercentOfFullSize(NoSize);
             }
             else //set new location if already linked to track
             {
@@ -105,10 +123,41 @@ void ItemTrack::UpdateNotes(double elapsed, double timeOnTrack)
                 note->SetY(newPosY);
             }
 
-            double beatsCompleted = beatSize - (noteBeat-currBeat);
+            //Draw long duration line
+            if(note->GetDuration()>MaxDuration)
+            {
+                double longDurationLengthY = (note->GetDuration()/beatSize)*(mY2-mY1);
+                double longDurationLengthX = (note->GetDuration()/beatSize)*(mX2-mX1);
+                if ((note->GetY() - longDurationLengthY) > mY1)
+                {
+                    note->SetLongDurationX(note->GetX() - longDurationLengthX);
+                    note->SetLongDurationY(note->GetY() - longDurationLengthY);
+                }
+            }
+            else //don't draw line if duration for note is under 0.5
+            {
+                note->SetLongDurationX(note->GetX());
+                note->SetLongDurationY(note->GetY());
+            }
+        }
+        else if (note->GetContinueDurationLine() == true && (note->GetDuration()>MaxDuration)) //continue drawing long duration line after puck stops
+        {
+            if(abs(note->GetLongDurationY() - mY2) <= LocationThreshold)
+            {
+                note->SetLongDurationX(mX2);
+                note->SetLongDurationY(mY2);
 
-            double percent = mInitPercentOfSize + (1-mInitPercentOfSize)*(beatsCompleted/beatSize);
-            note->SetPercentOfFullSize(percent);
+                note->SetContinueDurationLine(false);
+            }
+            else //stop drawing line once top of line gets to key
+            {
+                double newLongDurationX = note->GetLongDurationX() + ((mX2 - mX1)/timeOnTrack)*elapsed;
+                double newLongDurationY = note->GetLongDurationY() + ((mY2 - mY1)/timeOnTrack)*elapsed;
+
+                note->SetLongDurationX(newLongDurationX);
+                note->SetLongDurationY(newLongDurationY);
+            }
+
         }
     }
 }

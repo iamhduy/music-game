@@ -8,6 +8,10 @@
 /// Image Directory
 const std::wstring ImagesDir = L"./images/";
 
+/// Width of the long duration lines. These
+/// lines are drawn as wxRED
+const int LongDurationLineWidth = 12;
+
 /**
  * Constructor
  * @param game The game this music is a member of
@@ -39,6 +43,11 @@ void MusicNote::XmlLoad(wxXmlNode *node)
 
 void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
 {
+    wxPen longDurationPen(*wxRED, LongDurationLineWidth);
+    graphics->SetPen(longDurationPen);
+    graphics->StrokeLine(mX, mY, mLongDurationX, mLongDurationY);
+
+
     if (mItemBitmap == nullptr) {
         std::wstring ItemImageFile = ImagesDir + (declaration->GetImageFile()).ToStdWstring();
         mItemImage = std::make_unique<wxImage>(ItemImageFile, wxBITMAP_TYPE_ANY);

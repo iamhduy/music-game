@@ -57,6 +57,12 @@ private:
 
     double mSongBpMeasure;
 
+    double mLongDurationX;
+
+    double mLongDurationY;
+
+    bool mContinueDurationLine = false;
+
 public:
     MusicNote(Game *game);
 
@@ -137,6 +143,18 @@ public:
     void SetX(double x) { mX = x; };
 
     /**
+    * Set long duration x2 to draw
+    * @param x X location in pixels
+    */
+    void SetLongDurationX(double x) { mLongDurationX = x; };
+
+    /**
+    * Set long duration y2 to draw
+    * @param y Y location in pixels
+    */
+    void SetLongDurationY(double y) { mLongDurationY = y; };
+
+    /**
      * Set Y location of the note
      * @param y Y location in pixels
      */
@@ -149,6 +167,14 @@ public:
     bool GetStopAtKey() {return mStopAtKey;};
 
     void SetStopAtKey(bool stop) {mStopAtKey = stop;}
+
+    bool GetContinueDurationLine() {return mContinueDurationLine;};
+
+    double GetLongDurationX() {return mLongDurationX;};
+
+    double GetLongDurationY() {return mLongDurationY;};
+
+    void SetContinueDurationLine(bool continueDraw) {mContinueDurationLine = continueDraw;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H
