@@ -108,7 +108,7 @@ public:
 
     void Update(double elapsed);
 
-    bool HitTest(wxChar keyCode, int keyX, int keyY);
+    bool HitTest(wxChar keyCode, int keyX, int keyY, long duration=0);
 
     /**
      * Use for testing

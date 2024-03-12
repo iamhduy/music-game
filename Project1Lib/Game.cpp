@@ -387,8 +387,9 @@ void Game::UpdateState()
  * @param y location y
  * @return pointer of the item hit.
  */
-bool Game::HitTest(wxChar keyCode, int keyX, int keyY)
+bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
 {
+    int tot_score = 0;
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(currentBeat, keyX, keyY)){
@@ -398,8 +399,16 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY)
             }
             else
             {
-                AddScore(10);
-                return true;
+                if (duration > 0)
+                {
+                    tot_score = currentBeat * 10;
+                    AddScore(tot_score);
+                    return true;
+                }
+                else{
+                    AddScore(10);
+                    return true;
+                }
             }
         }
     }

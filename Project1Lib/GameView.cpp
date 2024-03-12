@@ -90,19 +90,20 @@ void GameView::UpdateTime()
 void GameView::OnKeyDown(wxKeyEvent &event)
 {
     UpdateTime();
+
     wxChar key = event.GetKeyCode();
 
     RetrieveKeyPositions(key);
 
-    if (mGame.HitTest(key, mKeyXPos, mKeyYPos))
+    mDuration = 0;
+
+    if (mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration))
     {
-        //mGame.AddScore(10);
-        //play a sound here
+        mPlayed = true;
     }
 
-    if (!mGame.HitTest(key, mKeyXPos, mKeyYPos))
-    {
-    }
+    mDuration = mStopWatch.Time();
+
 
     // A = 65, S = 83, D = 68, F = 70
     // J = 74, K = 75, L = 76, ; = 59
@@ -154,10 +155,20 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 void GameView::OnKeyUp(wxKeyEvent &event)
 {
     UpdateTime();
+
+    mDuration = mStopWatch.Time() - mDuration;
+
     mCurrentSound.PlayEnd();
     mCurrentSound.~Sound();
     wxChar key = event.GetKeyCode();
     char currKey = char(key);
+
+    RetrieveKeyPositions(key);
+
+    if (mPlayed)
+    {
+        mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration);
+    }
 
     key_pressed.erase(currKey);
 }

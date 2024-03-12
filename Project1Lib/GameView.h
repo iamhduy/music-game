@@ -62,6 +62,10 @@ private:
 
     int mKeyYPos = 0;
 
+    long mDuration = 0;
+
+    bool mPlayed = false;
+
     wxString mLevelBeginText = L"Level 0 Begin";
 
     std::vector<Sound> currSounds;
