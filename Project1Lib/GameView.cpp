@@ -101,8 +101,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     {
         mPlayed = true;
     }
-
-    mDuration = mStopWatch.Time();
+    mDuration = mGame.GetAbsBeat();
 
 
     // A = 65, S = 83, D = 68, F = 70
@@ -126,6 +125,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
         {
             // if true, key has just been used yet, use short tone.
             tone = short_notes[index];
+            mPlayed = false;
         }
         else
         {
@@ -156,7 +156,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
 {
     UpdateTime();
 
-    mDuration = mStopWatch.Time() - mDuration;
+    mDuration = mGame.GetAbsBeat() - mDuration;
 
     mCurrentSound.PlayEnd();
     mCurrentSound.~Sound();
@@ -167,7 +167,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
 
     if (mPlayed)
     {
-        mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration);
+        mGame.DurationScoreBonus(mDuration);
     }
 
     key_pressed.erase(currKey);

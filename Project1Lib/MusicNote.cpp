@@ -68,7 +68,7 @@ bool MusicNote::CheckIfHit(double currentBeat, int keyX, int keyY)
 {
     if (abs(currentBeat - mHitTime) <= mTolerance)
     {
-        if (mX >= (keyX - mTolerance) && (keyY - mTolerance) <= mY)
+        if ((keyY - mTolerance) <= mY)
         {
             return true;
         }

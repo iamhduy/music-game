@@ -393,22 +393,15 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(currentBeat, keyX, keyY)){
+            mActiveNotes.push_back(note);
             if (note == 0){
                 SubtractScore(10);
                 return true;
             }
             else
             {
-                if (duration > 0)
-                {
-                    tot_score = currentBeat * 10;
-                    AddScore(tot_score);
-                    return true;
-                }
-                else{
-                    AddScore(10);
-                    return true;
-                }
+                AddScore(10);
+                return true;
             }
         }
     }
@@ -424,5 +417,22 @@ void Game::Accept(ItemVisitor* visitor)
     for (auto item : mItems)
     {
         item->Accept(visitor);
+    }
+}
+
+int Game::GetAbsBeat()
+{
+    return mAbsoluteBeat;
+}
+
+void Game::DurationScoreBonus(int duration)
+{
+    shared_ptr note = mActiveNotes.front();
+    mActiveNotes.erase(mActiveNotes.begin());
+    int noteDuration = note->GetDuration();
+    if (noteDuration >= duration)
+    {
+        int tot_score = duration * 10;
+        AddScore(tot_score);
     }
 }
