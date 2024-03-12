@@ -13,7 +13,7 @@ using namespace std;
 const std::wstring ImagesDir = L"./images/";
 
 /// How close puck can be to key to stop (in pixels)
-double LocationThreshold = 8;
+double LocationThreshold = 8.0;
 
 /// Initial puck offset (in pixels)
 double InitOffset = 20;
@@ -86,14 +86,14 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
     double beatSize = mBeatSize;
     double timeOnTrack = beatSize / beatsPerSecond;
     double beatsPerMeasure;
-
     for(auto note : mNotes)
     {
         beatsPerMeasure = note->GetBpMeasure();
         double currBeat = note->GetGame()->GetAbsoluteBeat();
         double noteBeat = (note->GetMeasure() - 1) * beatsPerMeasure + (note->GetBeat() - 1); //when is the note dropped
+        double duration = note->GetDuration();
 
-        if(note->GetFirstUpdate() == false)
+        if(!note->GetFirstUpdate())
         {
             note->SetX(mX1);
             note->SetY(mY1 - InitOffset);
@@ -101,26 +101,27 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
             note->SetLongDurationY(mY1);
         }
 
-        if((currBeat > noteBeat) && (note->GetStopAtKey() == false))
+        if((currBeat > noteBeat) && !note->GetStopAtKey())
         {
             double beatsCompleted = currBeat - noteBeat;
             double percent = mInitPercentOfSize + (1 - mInitPercentOfSize) * (beatsCompleted / beatSize);
             note->SetPercentOfFullSize(percent);
 
             //set initial location at top of track
-            if(note->GetFirstUpdate() == false)
+            if(!note->GetFirstUpdate())
             {
                 note->SetX(mX1);
                 note->SetY(mY1);
                 note->SetFirstUpdate(true);
             }
-            else if((mY2 - note->GetY()) <= LocationThreshold) //within threshold of final location
-            { //todo should update this one because there are some note going below key in level 1
+            else if(note->GetY() > (mY2 - LocationThreshold)) //within threshold of final location
+            {
                 note->SetStopAtKey(true);
                 note->SetContinueDurationLine(true);
                 note->SetX(mX2);
                 note->SetY(mY2);
                 note->SetPercentOfFullSize(NoSize);
+
                 if (note->GetGame()->IsAutoPlay())
                 {
                     note->GetGame()->AddScore(GoodSoundScore);
@@ -152,16 +153,19 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
                 note->SetLongDurationY(note->GetY());
             }
         }
-        else if(note->GetContinueDurationLine() == true
+        else if(note->GetContinueDurationLine()
             && (note->GetDuration() > MaxDuration)) //continue drawing long duration line after puck stops
         {
-            if(abs(note->GetLongDurationY() - mY2) <= LocationThreshold)
+            if(note->GetLongDurationY() > mY2)
             {
                 note->SetLongDurationX(mX2);
                 note->SetLongDurationY(mY2);
 
                 note->SetContinueDurationLine(false);
-                note->GetGame()->AddScore(MaxDurationBonus);
+                if (note->GetGame()->IsAutoPlay())
+                {
+                    note->GetGame()->AddScore(MaxDurationBonus);
+                }
             }
             else //stop drawing line once top of line gets to key
             {

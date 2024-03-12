@@ -367,15 +367,15 @@ void Game::Update(double elapsed)
 
 void Game::UpdateState()
 {
-    if(mAbsoluteBeat >= (mMusic.GetMeasures()+1) * mMusic.GetBpMeasure())
+    if(mAbsoluteBeat >= (mMusic.GetMeasures()+1) * mMusic.GetBpMeasure() && mState == GameState::Playing)
     {
         mState = GameState::Completed;
     }
-    else if(wxRound(4 - mAbsoluteBeat) <= 0)
+    else if(wxRound(4 - mAbsoluteBeat) <= 0 && mState == GameState::Countdown)
     {
         mState = GameState::Playing;
     }
-    else if(mTimePlaying >= 2.0)
+    else if(mTimePlaying >= 2.0 & mState == GameState::Ready)
     {
         mState = GameState::Countdown;
     }

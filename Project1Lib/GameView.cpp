@@ -251,31 +251,47 @@ void GameView::OnPaint(wxPaintEvent &event)
  */
 void GameView::OnGoToLevel(wxCommandEvent &event)
 {
+    bool isAutoPlay = mGame.IsAutoPlay();
     switch(event.GetId())
     {
         case IDM_LEVEL0:
             mGame = Game(mAudioEngine);
             mGame.Load(0);
+            if (isAutoPlay)
+            {
+                mGame.UpdateAutoPlay();
+            }
             AddResourceToLevel(0);
             break;
 
         case IDM_LEVEL1:
             mGame = Game(mAudioEngine);
             mGame.Load(1);
+            if (isAutoPlay)
+            {
+                mGame.UpdateAutoPlay();
+            }
             AddResourceToLevel(1);
             break;
 
         case IDM_LEVEL2:
             mGame = Game(mAudioEngine);
             mGame.Load(2);
+            if (isAutoPlay)
+            {
+                mGame.UpdateAutoPlay();
+            }
             AddResourceToLevel(2);
             break;
 
         case IDM_LEVEL3:
             mGame = Game(mAudioEngine);
-            mGame.Load(0);
-            AddResourceToLevel(0);
-
+            mGame.Load(3);
+            if (isAutoPlay)
+            {
+                mGame.UpdateAutoPlay();
+            }
+            AddResourceToLevel(3);
             break;
 
         case IDM_AUTOPLAY:
@@ -300,6 +316,7 @@ void GameView::OnTimer(wxTimerEvent& event)
 void GameView::OnGoToNextLevel()
 {
     int nextLevel = mGame.GetCurrentLevel()+1;
+    bool isAutoPlay = mGame.IsAutoPlay();
 
     if (nextLevel == 4) return;//last level is 3
 
@@ -307,9 +324,13 @@ void GameView::OnGoToNextLevel()
 
     mGame = Game(mAudioEngine);
     mGame.Load(nextLevel);
-
+    if (isAutoPlay)
+    {
+        mGame.UpdateAutoPlay();
+    }
     mStopWatch.Start();
     mTime = 0;
+    Refresh();
     Refresh();
 }
 

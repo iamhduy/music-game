@@ -36,7 +36,7 @@ void Sound::XmlLoad(wxXmlNode* node)
  */
 void Sound::LoadSound(ma_engine* audioEngine)
 {
-    if(audioEngine != nullptr)
+    if(audioEngine != nullptr && !mLoaded)
     {
         auto audioFile = AudioDirectory + L"/" + mAudioFile;
         auto result = ma_sound_init_from_file(audioEngine, wxString(audioFile), 0, NULL, NULL, &mSound);
