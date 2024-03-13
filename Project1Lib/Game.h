@@ -97,6 +97,7 @@ public:
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
     void AddAudio(std::shared_ptr<Sound> sound);
     void AddMusicNote(std::shared_ptr<MusicNote> musicNote);
+    void UpdateMeter();
 
     /**
      * Get the audio engine object
@@ -116,6 +117,8 @@ public:
     void Update(double elapsed);
 
     bool HitTest(wxChar keyCode, int keyX, int keyY, long duration=0);
+
+    void AddNoteHit() {mNotesHit++;}
 
     /**
      * Use for testing

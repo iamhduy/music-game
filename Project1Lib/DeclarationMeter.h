@@ -50,6 +50,8 @@ public:
     void XmlLoad(wxXmlNode *node) override;
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
+
+    void UpdatePercentage(double pct) override { mScorePct = pct; };
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONMETER_H

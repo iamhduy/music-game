@@ -141,6 +141,8 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
                 if (note->GetGame()->IsAutoPlay())
                 {
                     note->GetGame()->AddScore(GoodSoundScore);
+                    note->GetGame()->AddNoteHit();
+                    note->GetGame()->UpdateMeter();
                 }
             }
             else //set new location if already linked to track

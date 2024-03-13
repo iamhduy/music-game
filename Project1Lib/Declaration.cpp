@@ -72,4 +72,8 @@ void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, do
                          int(mSizeX),
                          int(mSizeY));
 }
+void Declaration::UpdatePercentage(double pct)
+{
+
+}
 

@@ -77,6 +77,8 @@ public:
 
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 
+    virtual void UpdatePercentage(double pct);
+
     /**
      * @return the TopWidth of this object (for soundboard)
      */

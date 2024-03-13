@@ -444,6 +444,9 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
                 sound->PlaySound();
                 return true;
             }
+
+            UpdateMeter();
+
         }
     }
     return false;
@@ -508,6 +511,20 @@ int Game::CalculateAccuracy()
 
     return mNotesHit / totalNotesPassed;
 }
+
+void Game::UpdateMeter()
+{
+    wxString targetID = L"i921";
+    for (auto const declaration : mDeclarations)
+    {
+        if(declaration->GetId() == targetID)
+        {
+            declaration->UpdatePercentage(CalculateAccuracy());
+            break;
+        }
+    }
+}
+
 void Game::StopSound(char key)
 {
     for (auto note : mActiveNotes)
