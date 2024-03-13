@@ -155,6 +155,8 @@ public:
 
     void DurationScoreBonus(int duration);
 
+    std::shared_ptr<Sound> FindSoundByName(const wxString &audioName);
+
     int CalculateAccuracy();
 };
 

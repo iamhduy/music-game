@@ -32,7 +32,7 @@ private:
     bool mLong = false;
 
     /// volume of the sound
-    double mVolume = 1.0;
+    float mVolume = 0.5f;
 
     /// The miniaudio sound
     ma_sound mSound;
@@ -79,6 +79,8 @@ public:
     void SetVolume(double volume) {mVolume = volume;}
 
     bool GetLoaded() {return mLoaded;}
+
+    wxString GetSoundName() {return mName;}
 
     void Reset();
 };

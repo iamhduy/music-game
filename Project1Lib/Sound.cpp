@@ -9,7 +9,7 @@
 #include <chrono>
 
 /// Directory that contains the audio files
-const std::wstring AudioDirectory = L"audio";
+const std::wstring AudioDirectory = L"./audio/";
 
 Sound::Sound(Game *game) : mGame(game)
 {
@@ -23,7 +23,6 @@ void Sound::XmlLoad(wxXmlNode* node)
 {
     node->GetAttribute(L"name", &mName);
     node->GetAttribute(L"audio", &mAudioFile);
-    node->GetAttribute(L"volume", L"1.0").ToDouble(&mVolume);
 
     wxString isLong;
     node->GetAttribute(L"long", &isLong);
@@ -38,7 +37,7 @@ void Sound::LoadSound(ma_engine* audioEngine)
 {
     if(audioEngine != nullptr && !mLoaded)
     {
-        auto audioFile = AudioDirectory + L"/" + mAudioFile;
+        auto audioFile = AudioDirectory + mAudioFile;
         auto result = ma_sound_init_from_file(audioEngine, wxString(audioFile), 0, NULL, NULL, &mSound);
         if (result != MA_SUCCESS)
         {
@@ -104,11 +103,11 @@ void Sound::PlayEnd()
         {
             ma_sound_stop(&mSound);
         }
-
-        this->~Sound();
-        this->mLoaded = false;
-        this->mLong = false;
-        this->mVolume = 1.0;
+//
+//        this->~Sound();
+//        this->mLoaded = false;
+//        this->mLong = false;
+//        this->mVolume = 1.0;
     }
 }
 

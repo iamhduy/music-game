@@ -9,6 +9,7 @@
 #define PROJECT1_PROJECT1LIB_MUSICNOTE_H
 #include "Music.h"
 #include "Item.h"
+#include "Sound.h"
 
 class Game;
 
@@ -55,6 +56,8 @@ private:
 
     bool mStopAtKey = false;
 
+    bool mIsPlayed = false;
+
     double mSongBpMeasure;
 
     double mLongDurationX1;
@@ -73,6 +76,9 @@ private:
 
     bool mReadyForDeletion = false;
 
+    std::shared_ptr<Sound> mSound;
+
+    double mBeatAtPlay = 0;
 public:
     MusicNote(Game *game);
 
@@ -88,7 +94,7 @@ public:
      * Get the pointer to the Level object
      * @return Pointer to Level object
      */
-    Game *GetGame() { return mGame;}
+    Game *GetGame() { return mGame; }
 
     int GetTrackNum();
 
@@ -117,15 +123,15 @@ public:
      */
     double GetBpMeasure() { return mSongBpMeasure; }
 
-    void SetBpMeasure(double bpMeasure) {mSongBpMeasure = bpMeasure;}
+    void SetBpMeasure(double bpMeasure) { mSongBpMeasure = bpMeasure; }
 
-    void SetPercentOfFullSize(double percentSize) {mPercentOfFullSize = percentSize;}
+    void SetPercentOfFullSize(double percentSize) { mPercentOfFullSize = percentSize; }
 
     virtual void XmlLoad(wxXmlNode *node);
 
-    void SetHitTime(double hitTime){mHitTime = hitTime;}
+    void SetHitTime(double hitTime) { mHitTime = hitTime; }
 
-    double GetHitTime() const {return mHitTime;}
+    double GetHitTime() const { return mHitTime; }
 
     bool CheckIfHit(double currentBeat, int keyX, int keyY);
 
@@ -142,9 +148,6 @@ public:
      * @returns Y location in pixels
      */
     double GetY() const { return mY; }
-
-
-    wxString GetSoundName() const {return mSoundName;}
 
     /**
     * Set X location of the note
@@ -174,31 +177,39 @@ public:
      */
     void SetY(double y) { mY = y; };
 
-    bool GetFirstUpdate() {return mFirstUpdate;};
+    bool GetFirstUpdate() { return mFirstUpdate; };
 
-    void SetFirstUpdate(bool set) {mFirstUpdate = set;};
+    void SetFirstUpdate(bool set) { mFirstUpdate = set; };
 
-    bool GetStopAtKey() {return mStopAtKey;};
+    bool GetStopAtKey() { return mStopAtKey; };
 
-    void SetStopAtKey(bool stop) {mStopAtKey = stop;}
+    void SetStopAtKey(bool stop) { mStopAtKey = stop; }
 
-    bool GetContinueDurationLine() {return mContinueDurationLine;};
+    bool GetContinueDurationLine() { return mContinueDurationLine; };
 
-    double GetLongDurationX1() {return mLongDurationX1;};
+    double GetLongDurationX1() { return mLongDurationX1; };
 
-    double GetLongDurationY1() {return mLongDurationY1;};
+    double GetLongDurationY1() { return mLongDurationY1; };
 
-    double GetLongDurationX2() {return mLongDurationX2;};
+    double GetLongDurationX2() { return mLongDurationX2; };
 
-    double GetLongDurationY2() {return mLongDurationY2;};
+    double GetLongDurationY2() { return mLongDurationY2; };
 
-    void SetContinueDurationLine(bool continueDraw) {mContinueDurationLine = continueDraw;}
+    void SetContinueDurationLine(bool continueDraw) { mContinueDurationLine = continueDraw; }
 
     void IncrementStoppedTime(double elapsed);
 
     bool IsReadyForDeletion() const;
 
     bool IsLongDuration() const;
+
+    void PlaySound(double beat);
+
+    void PlayEnd();
+
+    bool IsSoundPlayed() { return mIsPlayed; }
+
+    double GetBeatAtPlay() {return mBeatAtPlay;}
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

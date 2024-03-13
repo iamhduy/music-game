@@ -348,7 +348,6 @@ void GameView::OnGoToNextLevel()
     mStopWatch.Start();
     mTime = 0;
     Refresh();
-    Refresh();
 }
 
 void GameView::AddResourceToLevel(int levelNum)

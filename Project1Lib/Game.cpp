@@ -396,7 +396,7 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(currentBeat, keyX, keyY) ){//&& !note->IsReadyForDeletion()){
             mActiveNotes.push_back(note);
-            if (note == 0){
+            if (note == nullptr){
                 SubtractScore(10);
                 return true;
             }
@@ -439,6 +439,19 @@ void Game::DurationScoreBonus(int duration)
         AddScore(tot_score);
     }
 }
+
+shared_ptr<Sound> Game::FindSoundByName(const wxString& audioName)
+{
+    for (auto sound : mAudio)
+    {
+        if (sound->GetSoundName() == audioName)
+        {
+            return sound;
+        }
+    }
+    return nullptr;
+}
+
 
 int Game::CalculateAccuracy()
 {

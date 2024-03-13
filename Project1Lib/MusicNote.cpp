@@ -2,8 +2,9 @@
  * @file MusicNote.cpp
  * @author hduy
  */
-
+#include "pch.h"
 #include "MusicNote.h"
+#include "Game.h"
 
 /// Image Directory
 const std::wstring ImagesDir = L"./images/";
@@ -39,6 +40,8 @@ void MusicNote::XmlLoad(wxXmlNode *node)
     node->GetAttribute(L"measure").ToInt(&mMeasure);
     node->GetAttribute(L"beat").ToDouble(&mBeat);
     node->GetAttribute(L"duration").ToDouble(&mDuration);
+
+    mSound = this->GetGame()->FindSoundByName(mSoundName);
 }
 
 void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
@@ -100,6 +103,14 @@ int MusicNote::GetTrackNum()
     return trackNum;
 }
 
+void MusicNote::PlaySound(double beat)
+{
+    mSound->LoadSound(GetGame()->GetAudioEngine());
+    mSound->PlaySound();
+    mIsPlayed = !mIsPlayed;
+    mBeatAtPlay = beat;
+}
+
 void MusicNote::IncrementStoppedTime(double elapsed)
 {
     if(mStopAtKey)
@@ -120,4 +131,10 @@ bool MusicNote::IsReadyForDeletion() const {
 bool MusicNote::IsLongDuration() const
 {
     return mDuration > .5;
+}
+
+void MusicNote::PlayEnd()
+{
+    mSound->PlayEnd();
+    mBeatAtPlay = 0;
 }
