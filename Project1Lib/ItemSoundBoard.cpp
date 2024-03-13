@@ -184,15 +184,14 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
         if (tracksCount == MinTracks && i > 5)
         {
             mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
+            keyPositions[keyCodes[i-2]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
         }
         else
         {
             mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-        }
-        if (i <= 7)
-        {
             keyPositions[keyCodes[i]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
         }
+
         shiftX1 += x1Space;
         shiftX2 += x2Space;
     }

@@ -63,7 +63,7 @@ private:
 
     bool mContinueDurationLine = false;
 
-    double mTolerance = .5;
+    double mNoteTolerance = 50;
 
 public:
     MusicNote(Game *game);
