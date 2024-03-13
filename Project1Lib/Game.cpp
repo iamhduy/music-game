@@ -371,6 +371,18 @@ void Game::Update(double elapsed)
 
     UpdateState();
 
+    if (mAbsoluteBeat >= 4 && mState == GameState::Playing && !mIsMusicPlayed)
+    {
+        mAudio[0]->LoadSound(mAudioEngine);
+        mAudio[0]->PlaySound();
+        mIsMusicPlayed = !mIsMusicPlayed;
+    }
+    else if (mState == GameState::Completed && mTimePlaying != 0)
+    {
+        mAudio[0]->PlayEnd();
+        mTimePlaying = 0;
+    }
+
     double beatsPerSecond = mMusic.GetBpMinute() / SecondsPerMinute;
     for (auto item : mItems)
     {

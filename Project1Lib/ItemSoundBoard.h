@@ -33,7 +33,6 @@ private:
 
     std::vector<wxChar> keyCodes = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
 
-
 public:
     /// Default constructor (disabled)
     ItemSoundBoard() = delete;

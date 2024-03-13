@@ -8,6 +8,7 @@
 #include "ItemTrack.h"
 #include "MusicNote.h"
 #include <memory>
+#include "Game.h"
 
 using namespace std;
 
@@ -173,6 +174,12 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
 
     double shiftX1 = 0;
     double shiftX2 = 0;
+
+    if (GetGame()->GetCurrentLevel() == 2) //just add to past the out-of-range errors
+    {
+        keyCodes = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
+    }
+
     for (int i = 0; i < MaxTracks; ++i)
     {
         if((i == 4 && tracksCount == MinTracks) || (i == 5 && tracksCount == MinTracks)){

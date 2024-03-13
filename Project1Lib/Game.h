@@ -84,6 +84,8 @@ private:
     bool mAutoPlay = false;
 
     int mLevelNumber = 0;
+
+    bool mIsMusicPlayed = false;
 public:
     Game(ma_engine *PEngine);
 
