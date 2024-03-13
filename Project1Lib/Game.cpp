@@ -487,9 +487,9 @@ int Game::CalculateAccuracy()
     TotalNotesVisitor visitor;
     this->Accept(&visitor);
     totalNotesPassed = visitor.GetTotalNotesPassed();
-    cout << "Accuracy" << endl;
-    cout << totalNotesPassed << endl;
-    cout << mNotesHit << endl;
+//    cout << "Accuracy" << endl;
+//    cout << totalNotesPassed << endl;
+//    cout << mNotesHit << endl;
 
     if(totalNotesPassed == 0)
     {
