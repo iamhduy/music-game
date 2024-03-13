@@ -140,6 +140,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     }
 
     std::string file = folder + "/" + tone;
+    mCurrentSound.SetKey(currKey);
     mCurrentSound.SetAudioFile(file);
     mCurrentSound.SetVolume(0.5);
 

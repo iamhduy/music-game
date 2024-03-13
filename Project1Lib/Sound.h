@@ -40,6 +40,8 @@ private:
     /// Has the sound been loaded?
     bool mLoaded = false;
 
+    char mKey;
+
 public:
     Sound(Game *game);
 
@@ -50,7 +52,7 @@ public:
     Sound(const Sound &) = delete;
 
     /// Assignment operator
-    void operator=(const Sound &) = delete;
+//    void operator=(const Sound &) = delete;
 
     ~Sound();
 
@@ -62,6 +64,8 @@ public:
 
     void XmlLoad(wxXmlNode *node);
 
+    void SetKey(const char key) {mKey = key;}
+
     /**
      * Set audio file directory
      * @param audioFile
@@ -72,7 +76,9 @@ public:
      * Set audio volume directory
      * @param volume
      */
-    void SetVolume(double volume) {mVolume = volume;};
+    void SetVolume(double volume) {mVolume = volume;}
+
+    bool GetLoaded() {return mLoaded;}
 
     void Reset();
 };

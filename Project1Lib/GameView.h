@@ -68,7 +68,7 @@ private:
 
     wxString mLevelBeginText = L"Level 0 Begin";
 
-    std::vector<Sound> currSounds;
+    std::vector<std::shared_ptr<Sound>> currSounds;
 
     Sound mCurrentSound;
 
