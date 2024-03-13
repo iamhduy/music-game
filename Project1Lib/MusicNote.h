@@ -223,6 +223,8 @@ public:
     void SetAssociatedKey(char key) {mAssociatedKey = key;};
 
     void SetSound(std::shared_ptr<Sound> sound) {mSound = sound;};
+
+    bool IsDangerNote() {return GetSoundName() == L"fail";}
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

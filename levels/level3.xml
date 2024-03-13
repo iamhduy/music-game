@@ -98,7 +98,7 @@
 		<sound name="Gb5" audio="piano/Gb5.wav"  volume="0.15"/>
 		<sound name="Gb6-long" audio="piano/Gb6-long.mp3" long="true" volume="0.15"/>
 		<sound name="Gb6" audio="piano/Gb6.wav"  volume="0.15"/>
-		<sound name="fail" audio="chips-ahoyeth/snd_hurt1_ch1.wav" volue="0.3"/>
+		<sound name="fail" audio="chips-ahoyeth/snd_hurt1_ch1.wav" volume="0.3"/>
 	</audio>
 	<declarations>
 		<image id="i600" size="1304,900" image="background1.png" />
