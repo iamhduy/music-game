@@ -69,6 +69,10 @@ private:
 
     double mNoteTolerance = 50;
 
+    double mStoppedTime = 0;
+
+    bool mReadyForDeletion = false;
+
 public:
     MusicNote(Game *game);
 
@@ -189,6 +193,12 @@ public:
     double GetLongDurationY2() {return mLongDurationY2;};
 
     void SetContinueDurationLine(bool continueDraw) {mContinueDurationLine = continueDraw;}
+
+    void IncrementStoppedTime(double elapsed);
+
+    bool IsReadyForDeletion() const;
+
+    bool IsLongDuration() const;
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

@@ -80,6 +80,8 @@ public:
     int GetKeyXPosition(wxChar keyCode);
 
     int GetKeyYPosition(wxChar keyCode);
+
+    int GetTotalNotesPassed() const;
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMSOUNDBOARD_H

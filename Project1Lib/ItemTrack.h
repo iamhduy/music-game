@@ -43,6 +43,8 @@ private:
 
     double mInitPercentOfSize;
 
+    int mNotesPassed;
+
 public:
     /// Default constructor (disabled)
     ItemTrack() = delete;
@@ -121,6 +123,8 @@ public:
      * @param percent percent of full size
      */
     void SetInitPercentOfSize(double percent) { mInitPercentOfSize = percent;};
+
+    int GetNotesPassed(){return mNotesPassed;}
 
 };
 

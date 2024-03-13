@@ -154,6 +154,8 @@ public:
     int GetAbsBeat();
 
     void DurationScoreBonus(int duration);
+
+    int CalculateAccuracy();
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

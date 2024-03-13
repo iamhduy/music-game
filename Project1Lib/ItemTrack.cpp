@@ -193,4 +193,25 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
 
         }
     }
+    int DeletedNotes = 0;
+    for (auto it = mNotes.begin(); it != mNotes.end();)
+    {
+        auto& note = *it;
+        if (note->GetStopAtKey())
+        {
+            note->IncrementStoppedTime(elapsed);
+
+            if (note->IsReadyForDeletion())
+            {
+                DeletedNotes ++;
+                it = mNotes.erase(it);
+                continue;
+            }
+        }
+        ++it;
+    }
+    if (DeletedNotes > mNotesPassed)
+    {
+        mNotesPassed = DeletedNotes;
+    }
 }

@@ -95,13 +95,11 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 
     RetrieveKeyPositions(key);
 
-    mPlayed = false;
-
     if (mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration))
     {
         mPlayed = true;
     }
-    if (mDuration = 0)
+    if (mDuration == 0)
     {
         mDuration = mGame.GetAbsBeat();
     }
@@ -127,7 +125,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
         {
             // if true, key has just been used yet, use short tone.
             tone = short_notes[index];
-            mPlayed = false;
+            //mPlayed = false;
         }
         else
         {
@@ -141,14 +139,14 @@ void GameView::OnKeyDown(wxKeyEvent &event)
         return;
     }
 
-    std::string file = folder + "/" + tone;
-    mCurrentSound.SetKey(currKey);
-    mCurrentSound.SetAudioFile(file);
-    mCurrentSound.SetVolume(0.5);
-
-    mCurrentSound.LoadSound(mGame.GetAudioEngine());
-
-    mCurrentSound.PlaySound();
+//    std::string file = folder + "/" + tone;
+//    mCurrentSound.SetKey(currKey);
+//    mCurrentSound.SetAudioFile(file);
+//    mCurrentSound.SetVolume(0.5);
+//
+//    mCurrentSound.LoadSound(mGame.GetAudioEngine());
+//
+//    mCurrentSound.PlaySound();
 }
 
 /**
@@ -160,18 +158,24 @@ void GameView::OnKeyUp(wxKeyEvent &event)
     UpdateTime();
 
     mDuration = mGame.GetAbsBeat() - mDuration;
-
     mCurrentSound.PlayEnd();
+
     wxChar key = event.GetKeyCode();
     char currKey = char(key);
 
     RetrieveKeyPositions(key);
-
+//    cout << "whats going on" << endl;
+//    cout << mDuration << endl;
+//    cout << mPlayed << endl;
     if (mPlayed)
     {
-        mGame.DurationScoreBonus(mDuration);
+        if (mDuration > 0)
+        {
+            mGame.DurationScoreBonus(mDuration);
+        }
     }
     mDuration = 0;
+    mPlayed = false;
     key_pressed.erase(currKey);
 }
 

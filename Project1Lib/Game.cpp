@@ -16,6 +16,7 @@
 #include "ItemVisitor.h"
 #include "Music.h"
 #include "SoundboardAddNote.h"
+#include "TotalNotesVisitor.h"
 #include <memory>
 
 using namespace std;
@@ -389,10 +390,11 @@ void Game::UpdateState()
  */
 bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
 {
+    CalculateAccuracy();
     int tot_score = 0;
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
-        if (note->CheckIfHit(currentBeat, keyX, keyY)){
+        if (note->CheckIfHit(currentBeat, keyX, keyY) ){//&& !note->IsReadyForDeletion()){
             mActiveNotes.push_back(note);
             if (note == 0){
                 SubtractScore(10);
@@ -436,4 +438,16 @@ void Game::DurationScoreBonus(int duration)
         int tot_score = (duration / noteDuration) * 10;
         AddScore(tot_score);
     }
+}
+
+int Game::CalculateAccuracy()
+{
+    int totalNotesPassed = 0;
+    TotalNotesVisitor visitor;
+    this->Accept(&visitor);
+    totalNotesPassed = visitor.GetTotalNotesPassed();
+    cout << "Accuracy" << endl;
+    cout << totalNotesPassed << endl;
+    cout << mNotesHit << endl;
+    return mNotesHit / totalNotesPassed;
 }

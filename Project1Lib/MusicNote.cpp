@@ -73,7 +73,7 @@ bool MusicNote::CheckIfHit(double currentBeat, int keyX, int keyY)
         std::cout << mY << std::endl;
         std::cout << keyX << std::endl;
         std::cout << mX << std::endl;
-        if (mY >= (keyY - 2*mNoteTolerance) && mY <= (keyY + 2*mNoteTolerance) && mX >= (keyX - mNoteTolerance) && mX <= (keyX + mNoteTolerance))
+        if (mY >= (keyY - mNoteTolerance) && mY <= (keyY + mNoteTolerance) && mX >= (keyX - mNoteTolerance) && mX <= (keyX + mNoteTolerance))
         {
             return true;
         }
@@ -98,4 +98,26 @@ int MusicNote::GetTrackNum()
     }
 
     return trackNum;
+}
+
+void MusicNote::IncrementStoppedTime(double elapsed)
+{
+    if(mStopAtKey)
+    {
+        mStoppedTime += elapsed;
+        if(mStoppedTime >= 2)
+        {
+            mReadyForDeletion = true;
+        }
+    }
+}
+
+
+bool MusicNote::IsReadyForDeletion() const {
+    return mReadyForDeletion;
+}
+
+bool MusicNote::IsLongDuration() const
+{
+    return mDuration > .5;
 }

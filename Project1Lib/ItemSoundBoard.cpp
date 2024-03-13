@@ -236,6 +236,11 @@ int ItemSoundBoard::GetKeyYPosition(wxChar keycode)
     return 0;
 }
 
-
-
-
+int ItemSoundBoard::GetTotalNotesPassed() const
+{
+    int totalPassed = 0;
+    for(const auto& track : mTracks) {
+        totalPassed += track->GetNotesPassed();
+    }
+    return totalPassed;
+}
