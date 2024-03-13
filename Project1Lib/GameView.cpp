@@ -124,6 +124,42 @@ void GameView::OnKeyDown(wxKeyEvent &event)
             }
         }
     }
+//
+//    // A = 65, S = 83, D = 68, F = 70
+//    // J = 74, K = 75, L = 76, ; = 59
+//
+//    // A = 65, S = 83, D = 68, F = 70, G = 71
+//    // H = 72, J = 74, K = 75, L = 76, ; = 59
+//    char currKey = char(key);
+//
+//    auto output = key_pressed.insert(currKey);
+//    // returns by <iterator, bool>, with bool being false if Key was already in list.
+//
+//    auto iter = find(keys_allowed.begin(), keys_allowed.end(), currKey);
+//
+//    std::string tone;
+//
+//    if(iter != keys_allowed.end())
+//    {
+//        int index = iter - keys_allowed.begin();
+//        if(output.second)
+//        {
+//            // if true, key has just been used yet, use short tone.
+//            tone = short_notes[index];
+//            //mPlayed = false;
+//        }
+//        else
+//        {
+//            // if false, key is still in use, use long tone
+//            tone = long_notes[index];
+//        }
+//    }
+//    else
+//    {
+//        // if key is not one that is allowed, don't continue with sounds.
+//        return;
+//    }
+
 }
 
 /**

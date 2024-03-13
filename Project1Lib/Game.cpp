@@ -392,7 +392,7 @@ void Game::Update(double elapsed)
 
 void Game::UpdateState()
 {
-    if(mAbsoluteBeat >= (mMusic.GetMeasures()+1) * mMusic.GetBpMeasure() && mState == GameState::Playing)
+    if(mAbsoluteBeat >= (mMusic.GetMeasures()+2) * mMusic.GetBpMeasure() && mState == GameState::Playing)
     {
         mState = GameState::Completed;
     }
@@ -422,6 +422,16 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
             mActiveNotes.push_back(note);
             if (note == nullptr){
                 SubtractScore(10);
+                return true;
+            }
+            else if(note->GetId().ToStdString().find("tp") != std::string::npos)
+            {
+                SubtractScore(20);
+
+                std::shared_ptr<Sound> sound = note->GetSound();
+                sound->LoadSound(mAudioEngine);
+                sound->PlaySound();
+
                 return true;
             }
             else
@@ -487,9 +497,9 @@ int Game::CalculateAccuracy()
     TotalNotesVisitor visitor;
     this->Accept(&visitor);
     totalNotesPassed = visitor.GetTotalNotesPassed();
-    cout << "Accuracy" << endl;
-    cout << totalNotesPassed << endl;
-    cout << mNotesHit << endl;
+//    cout << "Accuracy" << endl;
+//    cout << totalNotesPassed << endl;
+//    cout << mNotesHit << endl;
 
     if(totalNotesPassed == 0)
     {

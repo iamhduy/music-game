@@ -91,17 +91,19 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
         beatsPerMeasure = note->GetBpMeasure();
         double currBeat = note->GetGame()->GetAbsoluteBeat();
         double noteBeat = (note->GetMeasure() - 1) * beatsPerMeasure + (note->GetBeat() - 1); //when is the note dropped
-        //double duration = note->GetDuration();
 
-        if (note->GetStopAtKey() && note->GetGame()->IsAutoPlay() && !note->IsSoundPlayed())
+        if (!note->IsDangerNote()) // auto play state will avoid playing danger notes
         {
-            note->PlaySound(currBeat); //pass the currBeat in to save time when sound is played
-        }
-        else if (note->GetBeatAtPlay() != 0 && note->IsSoundPlayed())
-        {
-            if (currBeat - note->GetDuration() >= note->GetBeatAtPlay())
+            if(note->GetStopAtKey() && note->GetGame()->IsAutoPlay() && !note->IsSoundPlayed())
             {
-                note->PlayEnd();
+                note->PlaySound(currBeat); //pass the currBeat in to save time when sound is played
+            }
+            else if(note->GetBeatAtPlay() != 0 && note->IsSoundPlayed())
+            {
+                if(currBeat - note->GetDuration() >= note->GetBeatAtPlay())
+                {
+                    note->PlayEnd();
+                }
             }
         }
 
