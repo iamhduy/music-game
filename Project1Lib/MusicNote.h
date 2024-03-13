@@ -79,6 +79,9 @@ private:
     std::shared_ptr<Sound> mSound;
 
     double mBeatAtPlay = 0;
+
+    char mAssociatedKey;
+
 public:
     MusicNote(Game *game);
 
@@ -210,6 +213,16 @@ public:
     bool IsSoundPlayed() { return mIsPlayed; }
 
     double GetBeatAtPlay() {return mBeatAtPlay;}
+
+    std::shared_ptr<Sound> GetSound() {return mSound;};
+
+    wxString GetSoundName() {return mSoundName;};
+
+    char GetAssociatedKey() {return mAssociatedKey;};
+
+    void SetAssociatedKey(char key) {mAssociatedKey = key;};
+
+    void SetSound(std::shared_ptr<Sound> sound) {mSound = sound;};
 };
 
 #endif //PROJECT1_PROJECT1LIB_MUSICNOTE_H

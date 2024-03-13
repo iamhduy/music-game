@@ -205,6 +205,8 @@ void ItemSoundBoard::AddNote(std::shared_ptr<MusicNote> note)
         //cout << track->GetTrackNum() << endl;
         if (track->GetTrackNum() == note->GetTrackNum())
         {
+            char trackKey = track->GetKey();
+            note->SetAssociatedKey(trackKey);
             track->AddNote(note);
         }
     }

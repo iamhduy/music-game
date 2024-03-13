@@ -126,6 +126,8 @@ public:
 
     int GetNotesPassed(){return mNotesPassed;}
 
+    char GetKey() {return mKeyValue[0];};
+
 };
 
 #endif //PROJECT1_PROJECT1LIB_ITEMTRACK_H

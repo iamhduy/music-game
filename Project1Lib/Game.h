@@ -158,6 +158,7 @@ public:
     std::shared_ptr<Sound> FindSoundByName(const wxString &audioName);
 
     int CalculateAccuracy();
+    void StopSound(char key);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H

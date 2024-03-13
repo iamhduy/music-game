@@ -208,6 +208,18 @@ void Game::Load(int levelNumber)
         SoundboardAddNote visitor(note);
         Accept(&visitor);
     }
+
+//    for (auto note : mMusicNotes)
+//    {
+//        for (auto sound : mAudio)
+//        {
+//            if (sound->GetSoundName() == note->GetSoundName())
+//            {
+//                note->SetSound(sound);
+//                break;
+//            }
+//        }
+//    }
 }
 
 /**
@@ -404,6 +416,10 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
             {
                 AddScore(10);
                 mNotesHit += 1;
+
+                std::shared_ptr<Sound> sound = note->GetSound();
+                sound->LoadSound(mAudioEngine);
+                sound->PlaySound();
                 return true;
             }
         }
@@ -463,4 +479,15 @@ int Game::CalculateAccuracy()
     cout << totalNotesPassed << endl;
     cout << mNotesHit << endl;
     return mNotesHit / totalNotesPassed;
+}
+void Game::StopSound(char key)
+{
+    for (auto note : mActiveNotes)
+    {
+        if(note->GetAssociatedKey() == key)
+        {
+            note->GetSound()->PlayEnd();
+            break;
+        }
+    }
 }
