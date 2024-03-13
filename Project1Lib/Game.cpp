@@ -478,6 +478,12 @@ int Game::CalculateAccuracy()
     cout << "Accuracy" << endl;
     cout << totalNotesPassed << endl;
     cout << mNotesHit << endl;
+
+    if(totalNotesPassed == 0)
+    {
+        return 0;
+    }
+
     return mNotesHit / totalNotesPassed;
 }
 void Game::StopSound(char key)
