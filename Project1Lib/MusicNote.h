@@ -57,9 +57,13 @@ private:
 
     double mSongBpMeasure;
 
-    double mLongDurationX;
+    double mLongDurationX1;
 
-    double mLongDurationY;
+    double mLongDurationY1;
+
+    double mLongDurationX2;
+
+    double mLongDurationY2;
 
     bool mContinueDurationLine = false;
 
@@ -148,13 +152,17 @@ public:
     * Set long duration x2 to draw
     * @param x X location in pixels
     */
-    void SetLongDurationX(double x) { mLongDurationX = x; };
+    void SetLongDurationX1(double x) { mLongDurationX1 = x; };
 
     /**
     * Set long duration y2 to draw
     * @param y Y location in pixels
     */
-    void SetLongDurationY(double y) { mLongDurationY = y; };
+    void SetLongDurationY1(double y) { mLongDurationY1 = y; };
+
+    void SetLongDurationX2(double x) { mLongDurationX2 = x; };
+
+    void SetLongDurationY2(double y) { mLongDurationY2 = y; };
 
     /**
      * Set Y location of the note
@@ -172,9 +180,13 @@ public:
 
     bool GetContinueDurationLine() {return mContinueDurationLine;};
 
-    double GetLongDurationX() {return mLongDurationX;};
+    double GetLongDurationX1() {return mLongDurationX1;};
 
-    double GetLongDurationY() {return mLongDurationY;};
+    double GetLongDurationY1() {return mLongDurationY1;};
+
+    double GetLongDurationX2() {return mLongDurationX2;};
+
+    double GetLongDurationY2() {return mLongDurationY2;};
 
     void SetContinueDurationLine(bool continueDraw) {mContinueDurationLine = continueDraw;}
 };

@@ -45,7 +45,7 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
 {
     wxPen longDurationPen(*wxRED, LongDurationLineWidth);
     graphics->SetPen(longDurationPen);
-    graphics->StrokeLine(mX, mY, mLongDurationX, mLongDurationY);
+    graphics->StrokeLine(mLongDurationX1, mLongDurationY1, mLongDurationX2, mLongDurationY2);
 
 
     if (mItemBitmap == nullptr) {

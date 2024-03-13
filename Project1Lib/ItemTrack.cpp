@@ -97,8 +97,10 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
         {
             note->SetX(mX1);
             note->SetY(mY1 - InitOffset);
-            note->SetLongDurationX(mX1);
-            note->SetLongDurationY(mY1);
+            note->SetLongDurationX2(mX1);
+            note->SetLongDurationY2(mY1);
+            note->SetLongDurationX1(mX1);
+            note->SetLongDurationY1(mY1);
         }
 
         if((currBeat > noteBeat) && !note->GetStopAtKey())
@@ -118,8 +120,8 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
             {
                 note->SetStopAtKey(true);
                 note->SetContinueDurationLine(true);
-                note->SetX(mX2);
-                note->SetY(mY2);
+                note->SetX(0);
+                note->SetY(0);
                 note->SetPercentOfFullSize(NoSize);
 
                 if (note->GetGame()->IsAutoPlay())
@@ -137,29 +139,40 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
             }
 
             //Draw long duration line
-            if(note->GetDuration() > MaxDuration)
+            if((note->GetDuration() > MaxDuration) && !note->GetContinueDurationLine())
             {
                 double longDurationLengthY = (note->GetDuration() / beatSize) * (mY2 - mY1);
                 double longDurationLengthX = (note->GetDuration() / beatSize) * (mX2 - mX1);
+                note->SetLongDurationX1(note->GetX());
+                note->SetLongDurationY1(note->GetY());
                 if((note->GetY() - longDurationLengthY) > mY1)
                 {
-                    note->SetLongDurationX(note->GetX() - longDurationLengthX);
-                    note->SetLongDurationY(note->GetY() - longDurationLengthY);
+                    note->SetLongDurationX2(note->GetX() - longDurationLengthX);
+                    note->SetLongDurationY2(note->GetY() - longDurationLengthY);
+                }
+                else
+                {
+                    note->SetLongDurationX2(mX1);
+                    note->SetLongDurationY2(mY1);
                 }
             }
-            else //don't draw line if duration for note is under 0.5
+            else if (note->GetDuration() <= MaxDuration) //don't draw line if duration for note if duration is under 0.5
             {
-                note->SetLongDurationX(note->GetX());
-                note->SetLongDurationY(note->GetY());
+                note->SetLongDurationX2(mX1);
+                note->SetLongDurationY2(mY1);
+                note->SetLongDurationX1(mX1);
+                note->SetLongDurationY1(mY1);
             }
         }
         else if(note->GetContinueDurationLine()
             && (note->GetDuration() > MaxDuration)) //continue drawing long duration line after puck stops
         {
-            if(note->GetLongDurationY() > mY2)
+            if(note->GetLongDurationY2() > mY2)
             {
-                note->SetLongDurationX(mX2);
-                note->SetLongDurationY(mY2);
+                note->SetLongDurationX2(mX1);
+                note->SetLongDurationY2(mY1);
+                note->SetLongDurationX1(mX1);
+                note->SetLongDurationY1(mY1);
 
                 note->SetContinueDurationLine(false);
                 if (note->GetGame()->IsAutoPlay())
@@ -169,11 +182,13 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
             }
             else //stop drawing line once top of line gets to key
             {
-                double newLongDurationX = note->GetLongDurationX() + ((mX2 - mX1) / timeOnTrack) * elapsed;
-                double newLongDurationY = note->GetLongDurationY() + ((mY2 - mY1) / timeOnTrack) * elapsed;
+                double newLongDurationX = note->GetLongDurationX2() + ((mX2 - mX1) / timeOnTrack) * elapsed;
+                double newLongDurationY = note->GetLongDurationY2() + ((mY2 - mY1) / timeOnTrack) * elapsed;
 
-                note->SetLongDurationX(newLongDurationX);
-                note->SetLongDurationY(newLongDurationY);
+                note->SetLongDurationX2(newLongDurationX);
+                note->SetLongDurationY2(newLongDurationY);
+                note->SetLongDurationX1(mX2);
+                note->SetLongDurationY1(mY2);
             }
 
         }
