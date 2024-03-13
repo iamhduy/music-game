@@ -155,7 +155,6 @@ void GameView::OnKeyUp(wxKeyEvent &event)
 {
     UpdateTime();
     mCurrentSound.PlayEnd();
-    mCurrentSound.~Sound();
     wxChar key = event.GetKeyCode();
     char currKey = char(key);
 

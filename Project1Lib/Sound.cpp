@@ -104,6 +104,19 @@ void Sound::PlayEnd()
         {
             ma_sound_stop(&mSound);
         }
+
+        this->~Sound();
+        this->mLoaded = false;
+        this->mLong = false;
+        this->mVolume = 1.0;
     }
 }
 
+void Sound::Reset()
+{
+    wxString mStringNew;
+    mName = mStringNew;
+    mAudioFile = mStringNew;
+    mLong = false;
+    mLoaded = false;
+}

@@ -73,6 +73,8 @@ public:
      * @param volume
      */
     void SetVolume(double volume) {mVolume = volume;};
+
+    void Reset();
 };
 
 #endif //PROJECT1_PROJECT1LIB_SOUND_H
