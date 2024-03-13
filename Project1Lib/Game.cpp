@@ -387,11 +387,13 @@ void Game::UpdateState()
  * @param y location y
  * @return pointer of the item hit.
  */
-bool Game::HitTest(wxChar keyCode, int keyX, int keyY)
+bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
 {
+    int tot_score = 0;
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(currentBeat, keyX, keyY)){
+            mActiveNotes.push_back(note);
             if (note == 0){
                 SubtractScore(10);
                 return true;
@@ -415,5 +417,22 @@ void Game::Accept(ItemVisitor* visitor)
     for (auto item : mItems)
     {
         item->Accept(visitor);
+    }
+}
+
+int Game::GetAbsBeat()
+{
+    return mAbsoluteBeat;
+}
+
+void Game::DurationScoreBonus(int duration)
+{
+    shared_ptr note = mActiveNotes.front();
+    mActiveNotes.erase(mActiveNotes.begin());
+    int noteDuration = note->GetDuration();
+    if (noteDuration >= duration)
+    {
+        int tot_score = duration * 10;
+        AddScore(tot_score);
     }
 }

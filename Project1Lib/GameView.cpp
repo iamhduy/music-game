@@ -90,19 +90,19 @@ void GameView::UpdateTime()
 void GameView::OnKeyDown(wxKeyEvent &event)
 {
     UpdateTime();
+
     wxChar key = event.GetKeyCode();
 
     RetrieveKeyPositions(key);
 
-    if (mGame.HitTest(key, mKeyXPos, mKeyYPos))
-    {
-        //mGame.AddScore(10);
-        //play a sound here
-    }
+    mDuration = 0;
 
-    if (!mGame.HitTest(key, mKeyXPos, mKeyYPos))
+    if (mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration))
     {
+        mPlayed = true;
     }
+    mDuration = mGame.GetAbsBeat();
+
 
     // A = 65, S = 83, D = 68, F = 70
     // J = 74, K = 75, L = 76, ; = 59
@@ -125,6 +125,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
         {
             // if true, key has just been used yet, use short tone.
             tone = short_notes[index];
+            mPlayed = false;
         }
         else
         {
@@ -154,9 +155,19 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 void GameView::OnKeyUp(wxKeyEvent &event)
 {
     UpdateTime();
+
+    mDuration = mGame.GetAbsBeat() - mDuration;
+
     mCurrentSound.PlayEnd();
     wxChar key = event.GetKeyCode();
     char currKey = char(key);
+
+    RetrieveKeyPositions(key);
+
+    if (mPlayed)
+    {
+        mGame.DurationScoreBonus(mDuration);
+    }
 
     key_pressed.erase(currKey);
 }

@@ -43,6 +43,8 @@ private:
     ///holding the music note
     std::vector<std::shared_ptr<MusicNote>> mMusicNotes;
 
+    std::vector<std::shared_ptr<MusicNote>> mActiveNotes;
+
     ///music for level
     Music mMusic;
 
@@ -108,7 +110,7 @@ public:
 
     void Update(double elapsed);
 
-    bool HitTest(wxChar keyCode, int keyX, int keyY);
+    bool HitTest(wxChar keyCode, int keyX, int keyY, long duration=0);
 
     /**
      * Use for testing
@@ -145,6 +147,10 @@ public:
     bool IsAutoPlay() {return mAutoPlay;}
 
     int GetCurrentLevel() {return mLevelNumber;}
+
+    int GetAbsBeat();
+
+    void DurationScoreBonus(int duration);
 };
 
 #endif //PROJECT1_PROJECT1LIB_GAME_H
