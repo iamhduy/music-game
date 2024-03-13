@@ -401,6 +401,7 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
             else
             {
                 AddScore(10);
+                mNotesHit += 1;
                 return true;
             }
         }
@@ -432,7 +433,7 @@ void Game::DurationScoreBonus(int duration)
     int noteDuration = note->GetDuration();
     if (noteDuration >= duration)
     {
-        int tot_score = duration * 10;
+        int tot_score = (duration / noteDuration) * 10;
         AddScore(tot_score);
     }
 }

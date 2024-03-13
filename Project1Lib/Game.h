@@ -51,6 +51,9 @@ private:
     /// Player's score
     int mScore = 0;
 
+    /// Total note hit by player
+    int mNotesHit = 0;
+
     /// Scale of the game
     double mScale;
 

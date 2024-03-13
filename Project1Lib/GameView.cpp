@@ -95,14 +95,16 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 
     RetrieveKeyPositions(key);
 
-    mDuration = 0;
+    mPlayed = false;
 
     if (mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration))
     {
         mPlayed = true;
     }
-    mDuration = mGame.GetAbsBeat();
-
+    if (mDuration = 0)
+    {
+        mDuration = mGame.GetAbsBeat();
+    }
 
     // A = 65, S = 83, D = 68, F = 70
     // J = 74, K = 75, L = 76, ; = 59
@@ -168,7 +170,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
     {
         mGame.DurationScoreBonus(mDuration);
     }
-
+    mDuration = 0;
     key_pressed.erase(currKey);
 }
 
