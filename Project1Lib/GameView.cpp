@@ -139,14 +139,14 @@ void GameView::OnKeyDown(wxKeyEvent &event)
         return;
     }
 
-//    std::string file = folder + "/" + tone;
-//    mCurrentSound.SetKey(currKey);
-//    mCurrentSound.SetAudioFile(file);
-//    mCurrentSound.SetVolume(0.5);
-//
-//    mCurrentSound.LoadSound(mGame.GetAudioEngine());
-//
-//    mCurrentSound.PlaySound();
+    std::string file = folder + "/" + tone;
+    mCurrentSound.SetKey(currKey);
+    mCurrentSound.SetAudioFile(file);
+    mCurrentSound.SetVolume(0.5);
+
+    mCurrentSound.LoadSound(mGame.GetAudioEngine());
+
+    mCurrentSound.PlaySound();
 }
 
 /**

@@ -68,11 +68,11 @@ bool MusicNote::CheckIfHit(double currentBeat, int keyX, int keyY)
 {
     if (abs(currentBeat - mHitTime) <= mNoteTolerance)
     {
-        std::cout << "Note" << std::endl;
-        std::cout << keyY << std::endl;
-        std::cout << mY << std::endl;
-        std::cout << keyX << std::endl;
-        std::cout << mX << std::endl;
+//        std::cout << "Note" << std::endl;
+//        std::cout << keyY << std::endl;
+//        std::cout << mY << std::endl;
+//        std::cout << keyX << std::endl;
+//        std::cout << mX << std::endl;
         if (mY >= (keyY - mNoteTolerance) && mY <= (keyY + mNoteTolerance) && mX >= (keyX - mNoteTolerance) && mX <= (keyX + mNoteTolerance))
         {
             return true;
