@@ -424,6 +424,16 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
                 SubtractScore(10);
                 return true;
             }
+            else if(note->GetId().ToStdString().find("tp") != std::string::npos)
+            {
+                SubtractScore(20);
+
+                std::shared_ptr<Sound> sound = note->GetSound();
+                sound->LoadSound(mAudioEngine);
+                sound->PlaySound();
+
+                return true;
+            }
             else
             {
                 AddScore(10);
