@@ -172,13 +172,13 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
 
     if (GetGame()->GetCurrentLevel() == 2)
     {
-        keyCodes = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
+       keyCodes = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
     }
     else
     {
         keyCodes = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
-    }
 
+    }
 
     int tracksCount = mTracks.size();
 
@@ -186,7 +186,7 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
     double shiftX2 = 0;
 
     double totalWidth = x2InitRightTrack - x2InitLeftTrack;
-    double keySpacing = totalWidth / (MaxTracks - 1);
+    double keySpacing = totalWidth / (MaxTracks-1);
     for (int i = 0; i < MaxTracks; ++i)
     {
         if((i == 4 && tracksCount == MinTracks) || (i == 5 && tracksCount == MinTracks)){
@@ -197,16 +197,26 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
         if (tracksCount == MinTracks && i > 5)
         {
             mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-            //keyPositions[keyCodes[i-2]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
+            if (GetGame()->GetCurrentLevel() != 2)
+            {
+                keyPositions[keyCodes[i - 2]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
+            }
         }
         else
         {
             mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-            //keyPositions[keyCodes[i]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
+            if (GetGame()->GetCurrentLevel() != 2)
+            {
+                keyPositions[keyCodes[i]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
+            }
         }
 
         double keyXPos = x2InitLeftTrack + (keySpacing * i);
-        keyPositions[keyCodes[i]] = std::make_pair(keyXPos, y2Track);
+
+        if (GetGame()->GetCurrentLevel() == 2)
+        {
+            keyPositions[keyCodes[i]] = std::make_pair(keyXPos, y2Track);
+        }
 
         shiftX1 += x1Space;
         shiftX2 += x2Space;
