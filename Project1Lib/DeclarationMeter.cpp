@@ -52,7 +52,7 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
 {
     Declaration::Draw(graphics, x, y);
 
-//    mScorePct = 0.25; //< constant set for now. Need to figure out how to get percentage from scoreboard
+//    mScorePct = 1; //< constant set for now. Need to figure out how to get percentage from scoreboard
 
     if (mNeedleBitmap == nullptr) {
         wstring ItemImageFile = ImagesDir + mNeedleFile;

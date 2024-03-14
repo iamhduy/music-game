@@ -422,6 +422,7 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
             mActiveNotes.push_back(note);
             if (note == nullptr){
                 SubtractScore(10);
+                UpdateMeter();
                 return true;
             }
             else if(note->GetId().ToStdString().find("tp") != std::string::npos)
@@ -431,7 +432,7 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
                 std::shared_ptr<Sound> sound = note->GetSound();
                 sound->LoadSound(mAudioEngine);
                 sound->PlaySound();
-
+                UpdateMeter();
                 return true;
             }
             else
@@ -442,10 +443,9 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
                 std::shared_ptr<Sound> sound = note->GetSound();
                 sound->LoadSound(mAudioEngine);
                 sound->PlaySound();
+                UpdateMeter();
                 return true;
             }
-
-            UpdateMeter();
 
         }
     }

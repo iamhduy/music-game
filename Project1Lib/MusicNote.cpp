@@ -69,7 +69,8 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
 
 bool MusicNote::CheckIfHit(double currentBeat, int keyX, int keyY)
 {
-    if (abs(currentBeat - mHitTime) <= mNoteTolerance)
+//    if (abs(currentBeat - mHitTime) <= mNoteTolerance)
+    if (abs(currentBeat - mBeatAtPlay) <= mNoteTolerance)
     {
 //        std::cout << "Note" << std::endl;
 //        std::cout << keyY << std::endl;
