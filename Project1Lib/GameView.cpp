@@ -183,12 +183,9 @@ void GameView::OnKeyUp(wxKeyEvent &event)
 
     mGame.StopSound(currKey);
 
-    if (mPlayed)
+    if (mPlayed && (mDuration > 0))
     {
-        if (mDuration > 0)
-        {
             mGame.DurationScoreBonus(mDuration);
-        }
     }
     mDuration = 0;
     mPlayed = false;

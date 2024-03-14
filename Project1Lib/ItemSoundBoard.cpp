@@ -170,16 +170,23 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
     GetTrackValues(declaration, y1Track, y2Track, x1Space, x2Space, x1InitLeftTrack, x2InitLeftTrack,
                    x1InitRightTrack, x2InitRightTrack);
 
+    if (GetGame()->GetCurrentLevel() == 2)
+    {
+        keyCodes = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
+    }
+    else
+    {
+        keyCodes = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+    }
+
+
     int tracksCount = mTracks.size();
 
     double shiftX1 = 0;
     double shiftX2 = 0;
 
-    if (GetGame()->GetCurrentLevel() == 2) //just add to past the out-of-range errors
-    {
-        keyCodes = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
-    }
-
+    double totalWidth = x2InitRightTrack - x2InitLeftTrack;
+    double keySpacing = totalWidth / (MaxTracks - 1);
     for (int i = 0; i < MaxTracks; ++i)
     {
         if((i == 4 && tracksCount == MinTracks) || (i == 5 && tracksCount == MinTracks)){
@@ -187,17 +194,19 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
             shiftX2 += x2Space;
             continue;
         }
-
         if (tracksCount == MinTracks && i > 5)
         {
             mTracks[i-2]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-            keyPositions[keyCodes[i-2]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
+            //keyPositions[keyCodes[i-2]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
         }
         else
         {
             mTracks[i]->Draw(graphics, x2InitLeftTrack + shiftX2, y2Track);
-            keyPositions[keyCodes[i]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
+            //keyPositions[keyCodes[i]] = std::make_pair(x2InitLeftTrack + shiftX2, y2Track);
         }
+
+        double keyXPos = x2InitLeftTrack + (keySpacing * i);
+        keyPositions[keyCodes[i]] = std::make_pair(keyXPos, y2Track);
 
         shiftX1 += x1Space;
         shiftX2 += x2Space;
