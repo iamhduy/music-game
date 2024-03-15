@@ -63,15 +63,13 @@ void Declaration::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, do
         mItemBitmap = make_unique<wxBitmap>(*mItemImage);
     }
 
-//    int imgWid = mItemBitmap->GetWidth();
-//    int imgHit = mItemBitmap->GetHeight();
-
     graphics->DrawBitmap(*mItemBitmap,
                    int(x - mSizeX/ 2),
                    int(y - mSizeY / 2),
                          int(mSizeX),
                          int(mSizeY));
 }
+
 void Declaration::UpdatePercentage(double pct)
 {
 

@@ -10,16 +10,13 @@
 class Game;
 
 /**
- * Music Base Class
+ * Music Class
  *
  */
 class Music
 {
 protected:
 private:
-//    /// The game this item is contained in
-//    Game *mGame;
-
     /// Beats per minute in song
     int mBpMinute;
 
@@ -35,19 +32,10 @@ private:
 public:
     Music();
 
-//    /// Default constructor (disabled)
-//    Music() = delete;
-
     /// Copy constructor (disabled)
     Music(const Music &) = delete;
 
     virtual ~Music();
-
-//    /**
-//     * Get the pointer to the Level object
-//     * @return Pointer to Level object
-//     */
-//    Game *GetGame() { return mGame;}
 
 
     virtual void XmlLoad(wxXmlNode *node);

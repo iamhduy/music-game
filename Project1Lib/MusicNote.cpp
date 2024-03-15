@@ -44,6 +44,11 @@ void MusicNote::XmlLoad(wxXmlNode *node)
     mSound = this->GetGame()->FindSoundByName(mSoundName);
 }
 
+/**
+ * Draw this note
+ * @param graphics Device context to draw on
+ * @param declaration declaration of this note
+ */
 void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration)
 {
     wxPen longDurationPen(*wxRED, LongDurationLineWidth);
@@ -57,9 +62,6 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
         mItemBitmap = std::make_unique<wxBitmap>(*mItemImage);
     }
 
-//    int imgWid = mItemBitmap->GetWidth();
-//    int imgHit = mItemBitmap->GetHeight();
-
     graphics->DrawBitmap(*mItemBitmap,
                          int(mX - (declaration->GetSizeX()*mPercentOfFullSize)/ 2),
                          int(mY - (declaration->GetSizeY()*mPercentOfFullSize) / 2),
@@ -67,6 +69,12 @@ void MusicNote::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_pt
                          int(declaration->GetSizeY()*mPercentOfFullSize));
 }
 
+/**
+ * @param currentBeat current beat of the song
+ * @param keyX x pos of the key
+ * @param keyY y pos of the key
+ * @return if this note hit
+ */
 bool MusicNote::CheckIfHit(double currentBeat, int keyX, int keyY)
 {
 //    if (abs(currentBeat - mHitTime) <= mNoteTolerance)
@@ -85,6 +93,9 @@ bool MusicNote::CheckIfHit(double currentBeat, int keyX, int keyY)
     return false;
 }
 
+/**
+ * @return track num of the key
+ */
 int MusicNote::GetTrackNum()
 {
     int trackNum = 0;
@@ -104,6 +115,10 @@ int MusicNote::GetTrackNum()
     return trackNum;
 }
 
+/**
+ * Play this sound corresponding to this note
+ * @param beat beat of the song when played
+ */
 void MusicNote::PlaySound(double beat)
 {
     mSound->LoadSound(GetGame()->GetAudioEngine());
@@ -112,6 +127,19 @@ void MusicNote::PlaySound(double beat)
     mBeatAtPlay = beat;
 }
 
+/**
+ * End the sound
+ */
+void MusicNote::PlayEnd()
+{
+    mSound->PlayEnd();
+    mBeatAtPlay = 0;
+}
+
+/**
+ * Increment stop time
+ * @param elapsed time from last update
+ */
 void MusicNote::IncrementStoppedTime(double elapsed)
 {
     if(mStopAtKey)
@@ -124,18 +152,10 @@ void MusicNote::IncrementStoppedTime(double elapsed)
     }
 }
 
-
+/**
+ * @return if the note is ready for delete
+ */
 bool MusicNote::IsReadyForDeletion() const {
     return mReadyForDeletion;
 }
 
-bool MusicNote::IsLongDuration() const
-{
-    return mDuration > .5;
-}
-
-void MusicNote::PlayEnd()
-{
-    mSound->PlayEnd();
-    mBeatAtPlay = 0;
-}

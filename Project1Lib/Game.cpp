@@ -20,8 +20,6 @@
 #include <memory>
 
 using namespace std;
-/// Image Directory
-const wstring ImagesDir = L"./images";
 /// level dir
 const wxString levelDir = L"levels/";
 
@@ -49,6 +47,9 @@ void Game::Clear()
 {
     mItems.clear();
     mDeclarations.clear();
+    mAudio.clear();
+    mMusicNotes.clear();
+    mActiveNotes.clear();
     mScore = 0;
 }
 
@@ -129,7 +130,7 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
  *
  * Opens the XML file and reads the nodes, creating items as appropriate.
  *
- * @param filename The filename of the file to load the game from.
+ * @param levelNumber number of the level
  */
 void Game::Load(int levelNumber)
 {
@@ -326,7 +327,7 @@ void Game::AddAudio(std::shared_ptr<Sound> sound)
 
 /**
  * Add an music to the game
- * @param music New music to add
+ * @param musicNote music to add
  */
 void Game::AddMusicNote(std::shared_ptr<MusicNote> musicNote)
 {
@@ -407,15 +408,16 @@ void Game::UpdateState()
 }
 
 /**
- * Check if the key hit the notes
- * @param x location x
- * @param y location y
- * @return pointer of the item hit.
+ * @param keyCode
+ * @param keyX location x of the key
+ * @param keyY location y of the key
+ * @param duration
+ * @return if the key hit the notes
  */
 bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
 {
     CalculateAccuracy();
-    int tot_score = 0;
+    //int tot_score = 0;
     double currentBeat = 0;
     for (auto& note : mMusicNotes){
         if (note->CheckIfHit(currentBeat, keyX, keyY) ){//&& !note->IsReadyForDeletion()){
@@ -428,10 +430,7 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
             else if(note->GetId().ToStdString().find("tp") != std::string::npos)
             {
                 SubtractScore(20);
-
-                std::shared_ptr<Sound> sound = note->GetSound();
-                sound->LoadSound(mAudioEngine);
-                sound->PlaySound();
+                note->PlaySound(mAbsoluteBeat);
                 UpdateMeter();
                 return true;
             }
@@ -440,9 +439,7 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
                 AddScore(10);
                 mNotesHit += 1;
 
-                std::shared_ptr<Sound> sound = note->GetSound();
-                sound->LoadSound(mAudioEngine);
-                sound->PlaySound();
+                note->PlaySound(mAbsoluteBeat);
                 UpdateMeter();
                 return true;
             }
@@ -462,11 +459,6 @@ void Game::Accept(ItemVisitor* visitor)
     {
         item->Accept(visitor);
     }
-}
-
-int Game::GetAbsBeat()
-{
-    return mAbsoluteBeat;
 }
 
 void Game::DurationScoreBonus(int duration)
@@ -531,7 +523,7 @@ void Game::StopSound(char key)
     {
         if(note->GetAssociatedKey() == key)
         {
-            note->GetSound()->PlayEnd();
+            note->PlayEnd();
             break;
         }
     }

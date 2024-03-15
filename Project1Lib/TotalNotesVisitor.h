@@ -10,16 +10,26 @@
 
 #include "ItemVisitor.h"
 #include "ItemSoundBoard.h"
-
+/**
+ * Visitor for counting note passed
+ */
 class TotalNotesVisitor : public ItemVisitor {
 private:
+    /// the total note passed
     int mTotalNotesPassed = 0;
 
 public:
+    /**
+     * Counting note passed
+     * @param soundboard where to count the note
+     */
     void VisitSoundboard(ItemSoundBoard* soundboard) override {
         mTotalNotesPassed += soundboard->GetTotalNotesPassed();
     }
 
+    /**
+     * @return how many total note passed
+     */
     int GetTotalNotesPassed() const { return mTotalNotesPassed; }
 };
 

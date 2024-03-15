@@ -74,7 +74,7 @@ private:
     void XmlDeclaration(wxXmlNode *node);
 
     /// Current beat (absolute) in song
-    double mAbsoluteBeat = 0; //negative to give time to start
+    double mAbsoluteBeat = 0;
 
     /// Current time in this level
     double mTimePlaying = 0;
@@ -140,13 +140,12 @@ public:
 
     void SetAbsoluteBeat(double beat) {mAbsoluteBeat = beat;};
 
+
     double GetTimePlaying() {return mTimePlaying;}
 
     GameState GetState() {return mState;}
 
     void Accept(ItemVisitor* visitor);
-
-    //Music* GetMusic() {return mMusic;}
 
     void UpdateState();
 
@@ -156,13 +155,12 @@ public:
 
     int GetCurrentLevel() {return mLevelNumber;}
 
-    int GetAbsBeat();
-
     void DurationScoreBonus(int duration);
 
     std::shared_ptr<Sound> FindSoundByName(const wxString &audioName);
 
     int CalculateAccuracy();
+
     void StopSound(char key);
 };
 

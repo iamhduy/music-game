@@ -37,6 +37,7 @@ const int GoodSoundScore = 10;
 /// holding for the duration for a long sound
 const int MaxDurationBonus = 10;
 
+/// 6 digit display for score
 const int ScoreDisplayDigitCount = 6;
 
 using namespace std;
@@ -47,23 +48,6 @@ using namespace std;
  */
 ItemScoreBoard::ItemScoreBoard(Game *game) : Item(game), mScore(0)
 {
-}
-
-/**
- * Update points during the game
- * @param points
- */
-void ItemScoreBoard::IncrementScore(int points)
-{
-    mScore += points;
-}
-
-/**
- * @return points of the player
- */
-int ItemScoreBoard::GetScore() const
-{
-    return mScore;
 }
 
 /**
@@ -102,6 +86,14 @@ void ItemScoreBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
     }
 }
 
+/**
+ * Draw text inside scoreboard
+ * Support function for draw text
+ * @param graphics Device context to draw on
+ * @param text to draw
+ * @param textSize
+ * @param yOffset y offset from center of the scoreboard
+ */
 void ItemScoreBoard::DrawText(std::shared_ptr<wxGraphicsContext> graphics, wxString text, int textSize, int yOffset)
 {
     wxFont font(wxSize(0, textSize),

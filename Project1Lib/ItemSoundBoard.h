@@ -23,14 +23,10 @@ private:
     /// holding the tracks
     std::vector<std::shared_ptr<ItemTrack>> mTracks;
 
-    double mBeatSize;
-
-    double mSoundboardTopWidth;
-
-    double mSoundboardBottomWidth;
-
+    /// key positions
     std::map<int, std::pair<int, int>> keyPositions;
 
+    ///key codes todo remove these hard codes?
     std::vector<wxChar> keyCodes = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
 
 public:
@@ -60,11 +56,6 @@ public:
 
     void Update(double elapsed, double timeOnTrack) override;
 
-    void SetBeatSize(double beatSize) {mBeatSize = beatSize;}
-
-    void SetSoundboardTopWidth(double topWidth) {mSoundboardTopWidth = topWidth;}
-
-    void SetSoundboardBottomWidth(double bottomWidth) {mSoundboardBottomWidth = bottomWidth;}
     void GetTrackValues(std::shared_ptr<Declaration> declaration,
                         double &y1Track,
                         double &y2Track,

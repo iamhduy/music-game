@@ -53,7 +53,6 @@ ItemSoundBoard::ItemSoundBoard(Game* game) : Item(game)
  */
 void ItemSoundBoard::Add(std::shared_ptr<ItemTrack> itemTrack)
 {
-    itemTrack->SetBeatSize(mBeatSize);
     mTracks.push_back(itemTrack);
 }
 
@@ -74,8 +73,21 @@ void ItemSoundBoard::XmlLoad(wxXmlNode *node)
     }
 }
 
-void ItemSoundBoard::GetTrackValues(std::shared_ptr<Declaration> declaration, double& y1Track, double& y2Track, double& x1Space,
-                                    double& x2Space, double& x1InitLeftTrack, double& x2InitLeftTrack, double& x1InitRightTrack, double& x2InitRightTrack)
+/**
+ * Set the track values
+ * @param declaration the declaration of this soundboard
+ * @param y1Track y1 pos of the track
+ * @param y2Track y2 pos of the track
+ * @param x1Space space between track
+ * @param x2Space space between track
+ * @param x1InitLeftTrack
+ * @param x2InitLeftTrack
+ * @param x1InitRightTrack
+ * @param x2InitRightTrack
+ */
+void ItemSoundBoard::GetTrackValues(std::shared_ptr<Declaration> declaration, double& y1Track, double& y2Track,
+                                    double& x1Space, double& x2Space, double& x1InitLeftTrack, double& x2InitLeftTrack,
+                                    double& x1InitRightTrack, double& x2InitRightTrack)
 {
     double xSoundBoardSize = declaration->GetSizeX();
     double ySoundBoardSize = declaration->GetSizeY();
@@ -160,7 +172,7 @@ void ItemSoundBoard::Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shar
 }
 
 /**
- * Draw keys
+ * Draw keys on top
  * @param graphics Device context to draw on
  * @param declaration Declaration object associated with
  */
@@ -223,6 +235,10 @@ void ItemSoundBoard::DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std:
     }
 }
 
+/**
+ * Add note to tracks
+ * @param note to add
+ */
 void ItemSoundBoard::AddNote(std::shared_ptr<MusicNote> note)
 {
     //add note to its track
@@ -238,6 +254,11 @@ void ItemSoundBoard::AddNote(std::shared_ptr<MusicNote> note)
     }
 }
 
+/**
+ * Update the soundboard during the game
+ * @param elapsed time from last update
+ * @param timeOnTrack how long the notes played
+ */
 void ItemSoundBoard::Update(double elapsed, double timeOnTrack)
 {
     //update each note in all tracks
@@ -246,6 +267,11 @@ void ItemSoundBoard::Update(double elapsed, double timeOnTrack)
         track->UpdateNotes(elapsed, timeOnTrack);
     }
 }
+
+/**
+ * @param keycode key code
+ * @return the key X pos
+ */
 int ItemSoundBoard::GetKeyXPosition(wxChar keycode){
     auto it = keyPositions.find(keycode);
     if (it != keyPositions.end()) {
@@ -254,6 +280,10 @@ int ItemSoundBoard::GetKeyXPosition(wxChar keycode){
     return 0;
 }
 
+/**
+ * @param keycode key code
+ * @return the key Y pos
+ */
 int ItemSoundBoard::GetKeyYPosition(wxChar keycode)
 {
     auto it = keyPositions.find(keycode);
@@ -264,6 +294,9 @@ int ItemSoundBoard::GetKeyYPosition(wxChar keycode)
     return 0;
 }
 
+/**
+ * @return total note passed
+ */
 int ItemSoundBoard::GetTotalNotesPassed() const
 {
     int totalPassed = 0;

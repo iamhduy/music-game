@@ -32,19 +32,26 @@ private:
     /// Key value for this Track
     wxString mKeyValue;
 
+    /// x1 pos of this track
     double mX1;
+    /// x2 pos of this track
     double mX2;
+    /// y1 pos of this track
     double mY1;
+    /// y2 pos of this track
     double mY2;
 
+    ///the notes play on this track
     std::vector<std::shared_ptr<MusicNote>> mNotes;
 
+    ///beat size
     double mBeatSize;
 
+    ///size of the note at the start
     double mInitPercentOfSize;
 
+    ///number of note passed
     int mNotesPassed;
-
 public:
     /// Default constructor (disabled)
     ItemTrack() = delete;
@@ -63,29 +70,27 @@ public:
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 
-    //void Update(double elapsed);
-
     /**
      * Set Y location of the note
-     * @param y Y location in pixels
+     * @param y1 Y location in pixels
      */
     void SetY1(double y1) { mY1 = y1; };
 
     /**
      * Set Y location of the note
-     * @param y Y location in pixels
+     * @param y2 Y location in pixels
      */
     void SetY2(double y2) { mY2 = y2; };
 
     /**
-     * Set Y location of the note
-     * @param y Y location in pixels
+     * Set X location of the note
+     * @param x1 X location in pixels
      */
     void SetX1(double x1) { mX1 = x1; };
 
     /**
-     * Set Y location of the note
-     * @param y Y location in pixels
+     * Set X location of the note
+     * @param x2 X location in pixels
      */
     void SetX2(double x2) { mX2 = x2; };
 
@@ -98,24 +103,32 @@ public:
         mNotes.push_back(note);
     }
 
-    wxString GetId()
-    {
-        return wxString::Format(wxT("t%d"), mTrack);
-    }
-
     void UpdateNotes(double elapsed, double beatsPerSecond);
 
+    /**
+     * @return size x of the key
+     */
     double GetSizeX() {return mSizeX;}
 
+    /**
+     * @return size y of the key
+     */
     double GetSizeY() {return mSizeY;}
 
+    /**
+     * @return track number
+     */
     int GetTrackNum() {return mTrack;}
 
+    /**
+     * @return key's image file
+     */
     wxString GetImageFile() {return mKeyImageFile;}
 
-    //ItemSoundBoard* GetSoundBoard() {return mSoundBoard;}
-
-
+    /**
+     * Set beat size
+     * @param beatSize
+     */
     void SetBeatSize(double beatSize) {mBeatSize = beatSize;}
 
     /**
@@ -124,8 +137,14 @@ public:
      */
     void SetInitPercentOfSize(double percent) { mInitPercentOfSize = percent;};
 
+    /**
+     * @return number of the notes passed
+     */
     int GetNotesPassed(){return mNotesPassed;}
 
+    /**
+     * @return the key of this track
+     */
     char GetKey() {return mKeyValue[0];};
 
 };

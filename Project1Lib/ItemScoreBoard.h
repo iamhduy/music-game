@@ -19,12 +19,6 @@ class ItemScoreBoard : public Item
 private:
     /// Score displayed on the scoreboard
     int mScore;
-
-    //int mPossible;
-
-    double mTimePlaying = 0;
-
-
 public:
     /// Default constructor (disabled)
     ItemScoreBoard() = delete;
@@ -36,10 +30,6 @@ public:
     void operator=(const ItemScoreBoard &) = delete;
 
     ItemScoreBoard(Game* game);
-
-    void IncrementScore(int points);
-
-    int GetScore() const;
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) override;
 

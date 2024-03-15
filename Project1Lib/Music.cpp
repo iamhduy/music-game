@@ -4,9 +4,9 @@
  */
 
 #include "Music.h"
+
 /**
  * Constructor
- * @param game The game this music is a member of
  *
  */
 Music::Music()

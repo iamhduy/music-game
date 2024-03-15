@@ -81,6 +81,11 @@ void ItemTrack::Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, doub
                          mSizeY);
 }
 
+/**
+ * Update the notes play on this track
+ * @param elapsed time from last update
+ * @param beatsPerSecond bps
+ */
 void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
 {
     double beatSize = mBeatSize;

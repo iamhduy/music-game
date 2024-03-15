@@ -39,10 +39,11 @@ private:
 
     /// Has the sound been loaded?
     bool mLoaded = false;
-
-    char mKey;
-
 public:
+    /**
+     * Constructor
+     * @param game the game contains this sound
+     */
     Sound(Game *game);
 
     /// Default constructor (disabled)
@@ -50,9 +51,6 @@ public:
 
     /// Copy constructor (disabled)
     Sound(const Sound &) = delete;
-
-    /// Assignment operator
-//    void operator=(const Sound &) = delete;
 
     ~Sound();
 
@@ -64,25 +62,10 @@ public:
 
     void XmlLoad(wxXmlNode *node);
 
-    void SetKey(const char key) {mKey = key;}
-
     /**
-     * Set audio file directory
-     * @param audioFile
+     * @return this sound's name
      */
-    void SetAudioFile(wxString audioFile) {mAudioFile = audioFile;};
-
-    /**
-     * Set audio volume directory
-     * @param volume
-     */
-    void SetVolume(double volume) {mVolume = volume;}
-
-    bool GetLoaded() {return mLoaded;}
-
     wxString GetSoundName() {return mName;}
-
-    void Reset();
 };
 
 #endif //PROJECT1_PROJECT1LIB_SOUND_H

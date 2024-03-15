@@ -87,14 +87,19 @@ public:
     virtual void XmlLoad(wxXmlNode *node);
 
     /**
-     * Handle updates for animation
+     * Virtual function handle updates for animation
      * @param elapsed The time since the last update
+     * @param beatsPerSecond bps
      */
     virtual void Update(double elapsed, double beatsPerSecond) {};
 
-    virtual bool HitTest(int x, int y);
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration);
 
+    /**
+     * Draw keys on top
+     * @param graphics Device context to draw on
+     * @param declaration Declaration object associated with
+     */
     virtual void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, std::shared_ptr<Declaration> declaration) {};
 
     /**

@@ -27,12 +27,16 @@ private:
     /// Note's id
     wxString mId;
 
+    ///Note's sound name
     wxString mSoundName;
 
+    ///which beat does this note appear
     int mMeasure;
 
+    ///which beat does this note appear
     double mBeat;
 
+    ///Duration of this note's sound
     double mDuration;
 
     /// Declaration's image dir
@@ -44,44 +48,52 @@ private:
     /// Declaration's bitmap
     std::unique_ptr<wxBitmap> mItemBitmap;
 
-    // Item location in the game
     double mX = 0;     ///< X location for the center of the item
     double mY = 0;     ///< Y location for the center of the item
 
+    /// does the note appear
     bool mFirstUpdate = false;
 
+    /// size of this note display
     double mPercentOfFullSize = 0;
 
-    double mHitTime;
-
+    /// is this note pass the key
     bool mStopAtKey = false;
 
+    /// is this note played
     bool mIsPlayed = false;
 
+    /// beat per measure of this song
     double mSongBpMeasure;
 
-    double mLongDurationX1;
+    double mLongDurationX1; ///< X1 locations for the track contains this note
 
-    double mLongDurationY1;
+    double mLongDurationY1; ///< Y1 locations for the track contains this note
 
-    double mLongDurationX2;
+    double mLongDurationX2; ///< X2 locations for the track contains this note
 
-    double mLongDurationY2;
+    double mLongDurationY2; ///< Y2 locations for the track contains this note
 
+    /// to draw line for long duration note
     bool mContinueDurationLine = false;
 
+    ///note's tolerance
     double mNoteTolerance = 50;
 
+    ///note stop time
     double mStoppedTime = 0;
 
+    ///if the note ready for delete
     bool mReadyForDeletion = false;
 
+    /// the sound of this note
     std::shared_ptr<Sound> mSound;
 
+    ///When does the note played
     double mBeatAtPlay = 0;
 
+    ///the key associated with this note
     char mAssociatedKey;
-
 public:
     MusicNote(Game *game);
 
@@ -126,15 +138,19 @@ public:
      */
     double GetBpMeasure() { return mSongBpMeasure; }
 
+    /**
+     * to get the song bpm
+    * @param bpMeasure
+    */
     void SetBpMeasure(double bpMeasure) { mSongBpMeasure = bpMeasure; }
 
+    /**
+     * Set the note's size
+    * @param percentSize
+    */
     void SetPercentOfFullSize(double percentSize) { mPercentOfFullSize = percentSize; }
 
     virtual void XmlLoad(wxXmlNode *node);
-
-    void SetHitTime(double hitTime) { mHitTime = hitTime; }
-
-    double GetHitTime() const { return mHitTime; }
 
     bool CheckIfHit(double currentBeat, int keyX, int keyY);
 
@@ -159,19 +175,27 @@ public:
     void SetX(double x) { mX = x; };
 
     /**
-    * Set long duration x2 to draw
+    * Set long duration x1 to draw
     * @param x X location in pixels
     */
     void SetLongDurationX1(double x) { mLongDurationX1 = x; };
 
     /**
-    * Set long duration y2 to draw
+    * Set long duration y1 to draw
     * @param y Y location in pixels
     */
     void SetLongDurationY1(double y) { mLongDurationY1 = y; };
 
+    /**
+    * Set long duration x2 to draw
+    * @param x X location in pixels
+    */
     void SetLongDurationX2(double x) { mLongDurationX2 = x; };
 
+    /**
+    * Set long duration y2 to draw
+    * @param y Y location in pixels
+    */
     void SetLongDurationY2(double y) { mLongDurationY2 = y; };
 
     /**
@@ -180,50 +204,83 @@ public:
      */
     void SetY(double y) { mY = y; };
 
+    /**
+    * @return does the note appear
+    */
     bool GetFirstUpdate() { return mFirstUpdate; };
 
+    /**
+    * @param set the note first update status
+    */
     void SetFirstUpdate(bool set) { mFirstUpdate = set; };
 
+    /**
+    * @return does the note stop
+    */
     bool GetStopAtKey() { return mStopAtKey; };
 
+    /**
+    * @param stop the note first play status
+    */
     void SetStopAtKey(bool stop) { mStopAtKey = stop; }
 
-    bool GetContinueDurationLine() { return mContinueDurationLine; };
+    /**
+    * @return to continue drawing red line
+    */
+    bool GetContinueDurationLine() { return mContinueDurationLine; }
 
-    double GetLongDurationX1() { return mLongDurationX1; };
-
-    double GetLongDurationY1() { return mLongDurationY1; };
-
+    /**
+    * @return red line x location
+    */
     double GetLongDurationX2() { return mLongDurationX2; };
 
+    /**
+    * @return red line y location
+    */
     double GetLongDurationY2() { return mLongDurationY2; };
 
+    /**
+    * @param continueDraw set red line status
+    */
     void SetContinueDurationLine(bool continueDraw) { mContinueDurationLine = continueDraw; }
 
     void IncrementStoppedTime(double elapsed);
 
     bool IsReadyForDeletion() const;
 
-    bool IsLongDuration() const;
-
     void PlaySound(double beat);
 
     void PlayEnd();
 
+    /**
+    * @return if this note played
+    */
     bool IsSoundPlayed() { return mIsPlayed; }
 
+    /**
+    * @return the beat when this note played
+    */
     double GetBeatAtPlay() {return mBeatAtPlay;}
 
-    std::shared_ptr<Sound> GetSound() {return mSound;};
-
+    /**
+    * @return this note's sound name
+    */
     wxString GetSoundName() {return mSoundName;};
 
+    /**
+    * @return this note's associated key
+    */
     char GetAssociatedKey() {return mAssociatedKey;};
 
+    /**
+     * Set the note's associated key
+    * @param key
+    */
     void SetAssociatedKey(char key) {mAssociatedKey = key;};
 
-    void SetSound(std::shared_ptr<Sound> sound) {mSound = sound;};
-
+    /**
+    * @return if this note danger
+    */
     bool IsDangerNote() {return GetSoundName() == L"fail";}
 };
 

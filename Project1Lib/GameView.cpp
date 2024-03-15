@@ -120,7 +120,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
             }
             if (mDuration == 0)
             {
-                mDuration = mGame.GetAbsBeat();
+                mDuration = mGame.GetAbsoluteBeat();
             }
         }
     }
@@ -170,7 +170,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
 {
     UpdateTime();
 
-    mDuration = mGame.GetAbsBeat() - mDuration;
+    mDuration = mGame.GetAbsoluteBeat() - mDuration;
 
 
     wxChar key = event.GetKeyCode();
@@ -366,6 +366,7 @@ void GameView::OnGoToNextLevel()
 void GameView::AddResourceToLevel(int levelNum)
 {
     mLevelBeginText = wxString::Format(L"Level %d Begin", levelNum);
+    mCompletedTime = 0;
 
     switch(levelNum)
     {
