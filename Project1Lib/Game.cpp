@@ -494,7 +494,7 @@ shared_ptr<Sound> Game::FindSoundByName(const wxString& audioName)
 }
 
 
-int Game::CalculateAccuracy()
+double Game::CalculateAccuracy()
 {
     int totalNotesPassed = 0;
     TotalNotesVisitor visitor;
@@ -507,6 +507,11 @@ int Game::CalculateAccuracy()
     if(totalNotesPassed == 0)
     {
         return 0;
+    }
+
+    if (mNotesHit / totalNotesPassed > 1)
+    {
+        return 1.0;
     }
 
     return mNotesHit / totalNotesPassed;
