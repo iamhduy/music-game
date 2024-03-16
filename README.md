@@ -4,10 +4,14 @@
 
 https://facweb.cse.msu.edu/cbowen/cse335/project1-ss24/description.php
 
-# Levels and levels file format:
+# New feature for level 3:
 
-https://facweb.cse.msu.edu/cbowen/cse335/project1-ss24/levels.php
+- Implement danger notes which minus 20 points and play on off-beat sound if played.
+- This how danger note looks like:
 
-# Game Sequencing:
+![Danger notes](img/pipis.png)
+- New song credit: FNF - Vs Rouxls Kaard - Chips Ahoyeth (by Seek)
+  
+- https://youtu.be/vMQi6hsA3aA?feature=shared
 
-https://facweb.cse.msu.edu/cbowen/cse335/project1-ss24/sequencing.php
+
