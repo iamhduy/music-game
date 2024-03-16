@@ -140,7 +140,6 @@ public:
 
     void SetAbsoluteBeat(double beat) {mAbsoluteBeat = beat;};
 
-
     double GetTimePlaying() {return mTimePlaying;}
 
     GameState GetState() {return mState;}
@@ -159,8 +158,7 @@ public:
 
     std::shared_ptr<Sound> FindSoundByName(const wxString &audioName);
 
-    int CalculateAccuracy();
-
+    double CalculateAccuracy();
     void StopSound(char key);
 };
 
