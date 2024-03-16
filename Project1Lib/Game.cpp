@@ -37,9 +37,9 @@ Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 }
 
 /**
- * Clear the aquarium data.
+ * Clear the game data.
  *
- * Deletes all known items in the aquarium.
+ * Deletes all known items in the game.
  */
 void Game::Clear()
 {

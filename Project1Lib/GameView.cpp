@@ -41,7 +41,7 @@ GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine), mAudioEngine(au
 }
 
 /**
- * Initialize the aquarium view class.
+ * Initialize the game view class.
  * @param parent The parent window for this class
  */
 void GameView::Initialize(wxFrame *parent)

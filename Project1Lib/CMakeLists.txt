@@ -19,8 +19,6 @@ set(SOURCE_FILES
         ItemMeter.h
         ItemScoreBoard.cpp
         ItemScoreBoard.h
-        Audio.cpp
-        Audio.h
         ItemImage.cpp
         ItemImage.h
         ItemTrack.cpp
