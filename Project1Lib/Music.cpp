@@ -3,6 +3,7 @@
  * @author hduy
  */
 
+#include "pch.h"
 #include "Music.h"
 
 /**
