@@ -24,10 +24,9 @@
 class Game
 {
 public:
+    /// Game state object for levels
     enum class GameState {Ready, Countdown, Playing, Completed};
 private:
-// keep level objects for level 0,1,2,3?
-
     /// Audio Engine of the Game
     ma_engine* mAudioEngine;
 
@@ -43,6 +42,7 @@ private:
     ///holding the music note
     std::vector<std::shared_ptr<MusicNote>> mMusicNotes;
 
+    ///holding the active notes
     std::vector<std::shared_ptr<MusicNote>> mActiveNotes;
 
     ///music for level
@@ -50,6 +50,9 @@ private:
 
     /// Player's score
     int mScore = 0;
+
+    ///Player's accuracy
+    double mAccuracy = 0.0;
 
     /// Total note hit by player
     int mNotesHit = 0;
@@ -79,12 +82,16 @@ private:
     /// Current time in this level
     double mTimePlaying = 0;
 
+    /// current game state
     GameState mState = GameState::Ready;
 
+    /// autoplay state of the game
     bool mAutoPlay = false;
 
+    /// current level number
     int mLevelNumber = 0;
 
+    /// check if the music played
     bool mIsMusicPlayed = false;
 public:
     Game(ma_engine *PEngine);
@@ -97,7 +104,6 @@ public:
     void AddDeclaration(std::shared_ptr<Declaration> declaration);
     void AddAudio(std::shared_ptr<Sound> sound);
     void AddMusicNote(std::shared_ptr<MusicNote> musicNote);
-    void UpdateMeter();
 
     /**
      * Get the audio engine object
@@ -110,6 +116,11 @@ public:
      */
     int GetScore() {return mScore;};
 
+    /**
+     * @return Player's current accuracy
+     */
+    double GetAccuracy() {return mAccuracy;}
+
     void AddScore(int value);
 
     void SubtractScore(int value);
@@ -118,6 +129,9 @@ public:
 
     bool HitTest(wxChar keyCode, int keyX, int keyY, long duration=0);
 
+    /**
+     * count for note hit
+     */
     void AddNoteHit() {mNotesHit++;}
 
     /**
@@ -132,33 +146,51 @@ public:
      */
     size_t GetDeclarationsSize() {return mDeclarations.size();}
 
+    /**
+     * @return pixel width of the window
+     */
     int GetPixelWidth() {return mPixelWidth;}
 
+    /**
+     * @return pixel height of the window
+     */
     int GetPixelHeight() {return mPixelHeight;}
 
+    /**
+     * @return current beat
+     */
     double GetAbsoluteBeat() {return mAbsoluteBeat;};
 
-    void SetAbsoluteBeat(double beat) {mAbsoluteBeat = beat;};
-
-    double GetTimePlaying() {return mTimePlaying;}
-
+    /**
+     * @return current level state
+     */
     GameState GetState() {return mState;}
 
     void Accept(ItemVisitor* visitor);
 
     void UpdateState();
 
+    /**
+     * Update autoplay state
+     */
     void UpdateAutoPlay() {mAutoPlay = !mAutoPlay;}
 
+    /**
+     * @return is autoplay on?
+     */
     bool IsAutoPlay() {return mAutoPlay;}
 
+    /**
+     * @return current level number
+     */
     int GetCurrentLevel() {return mLevelNumber;}
 
     void DurationScoreBonus(int duration);
 
     std::shared_ptr<Sound> FindSoundByName(const wxString &audioName);
 
-    double CalculateAccuracy();
+    void CalculateAccuracy();
+
     void StopSound(char key);
 };
 

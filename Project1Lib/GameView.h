@@ -22,32 +22,30 @@ private:
     /// An object that describes the game
     Game mGame;
 
+    /// Audio engine to play sound
     ma_engine *mAudioEngine;
 
     ///used to handle repeating key down events
-    std::set <char> key_pressed;
-    std::vector <char> keys_allowed;
-    /// keys_allowed changes based on the level chosen.
+    std::set <char> mKeyPressed;
+    std::vector <char> mKeysAllowed; ///< keys_allowed changes based on the level chosen.
+
 
     /// Sets of ten sound waves from the trumpet files, for use with keys.
     /// Ten for all characters, including the sometimes used G and H keys.
     /// Separate sets for short and long waves, in same order of note and pitch.
     /// Uses iterator position of original list in keys_allowed.
-
-    std::string folder = "trumpet";
     std::vector<std::string> short_notes = {"C4.wav", "C5.wav",
         "C6.wav", "D4.wav",
         "Db4.wav", "Db5.wav",
         "E4.wav", "E5.wav",
         "Eb4.wav", "Eb5.wav"};
+
+    /// vector of long notes
     std::vector<std::string> long_notes = {"C4-long.wav", "C5-long.wav",
         "C6-long.wav", "D4-long.wav",
         "Db4-long.wav", "Db5-long.wav",
         "E4-long.wav", "E5-long.wav",
         "Eb4-long.wav", "Eb5-long.wav"};
-
-    /// Placeholder score value to test keydown events.
-    int mScoreValue = 2;
 
     /// The timer that allows for animation
     wxTimer mTimer;
@@ -58,22 +56,25 @@ private:
     /// The last stopwatch time
     long mTime = 0;
 
+    ///Key X position
     int mKeyXPos = 0;
 
+    ///Key Y position
     int mKeyYPos = 0;
 
+    /// duration to record
     long mDuration = 0;
 
+    /// if the sound played
     bool mPlayed = false;
 
+    /// Level begin text
     wxString mLevelBeginText = L"Level 0 Begin";
 
-    std::vector<std::shared_ptr<Sound>> currSounds;
-
-    Sound mCurrentSound;
-
+    /// first pause for level completed
     bool mFirstPause = true;
 
+    /// record for level completed time
     double mCompletedTime = 0;
 
     void OnTimer(wxTimerEvent &event);

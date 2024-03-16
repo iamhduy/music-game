@@ -51,7 +51,7 @@ private:
     double mInitPercentOfSize;
 
     ///number of note passed
-    int mNotesPassed;
+    int mNotesPassed = 0;
 public:
     /// Default constructor (disabled)
     ItemTrack() = delete;

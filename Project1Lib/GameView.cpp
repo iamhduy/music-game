@@ -36,7 +36,7 @@ const auto LevelNoticeColor = wxColour(192, 252, 207);
  * Constructor
  * @param audioEngine The audio engine to use
  */
-GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine), mAudioEngine(audioEngine), mCurrentSound( &mGame )
+GameView::GameView(ma_engine *audioEngine) : mGame(audioEngine), mAudioEngine(audioEngine)
 {
 }
 
@@ -89,6 +89,7 @@ void GameView::UpdateTime()
  */
 void GameView::OnKeyDown(wxKeyEvent &event)
 {
+    if (mGame.IsAutoPlay()) return; // no need to press key when autoplay is on
     UpdateTime();
 
     wxChar key = event.GetKeyCode();
@@ -102,16 +103,16 @@ void GameView::OnKeyDown(wxKeyEvent &event)
     // H = 72, J = 74, K = 75, L = 76, ; = 59
     char currKey = char(key);
 
-    auto output = key_pressed.insert(currKey);
+    auto output = mKeyPressed.insert(currKey);
     // returns by <iterator, bool>, with bool being false if Key was already in list.
 
-    auto iter = find(keys_allowed.begin(), keys_allowed.end(), currKey);
+    auto iter = find(mKeysAllowed.begin(), mKeysAllowed.end(), currKey);
 
     std::string tone;
 
-    if(iter != keys_allowed.end())
+    if(iter != mKeysAllowed.end())
     {
-        int index = iter - keys_allowed.begin();
+        int index = iter - mKeysAllowed.begin();
         if(output.second)
         {
             if (mGame.HitTest(key, mKeyXPos, mKeyYPos, mDuration))
@@ -132,7 +133,7 @@ void GameView::OnKeyDown(wxKeyEvent &event)
 //    // H = 72, J = 74, K = 75, L = 76, ; = 59
 //    char currKey = char(key);
 //
-//    auto output = key_pressed.insert(currKey);
+//    auto output = mKeyPressed.insert(currKey);
 //    // returns by <iterator, bool>, with bool being false if Key was already in list.
 //
 //    auto iter = find(keys_allowed.begin(), keys_allowed.end(), currKey);
@@ -189,7 +190,7 @@ void GameView::OnKeyUp(wxKeyEvent &event)
     }
     mDuration = 0;
     mPlayed = false;
-    key_pressed.erase(currKey);
+    mKeyPressed.erase(currKey);
 }
 
 /**
@@ -343,6 +344,9 @@ void GameView::OnTimer(wxTimerEvent& event)
     Refresh();
 }
 
+/**
+ * Handle the level sequencing
+ */
 void GameView::OnGoToNextLevel()
 {
     int nextLevel = mGame.GetCurrentLevel()+1;
@@ -363,6 +367,10 @@ void GameView::OnGoToNextLevel()
     Refresh();
 }
 
+/**
+ * Add resources for level initialization
+ * @param levelNum level number
+ */
 void GameView::AddResourceToLevel(int levelNum)
 {
     mLevelBeginText = wxString::Format(L"Level %d Begin", levelNum);
@@ -371,19 +379,19 @@ void GameView::AddResourceToLevel(int levelNum)
     switch(levelNum)
     {
         case 0:
-            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            mKeysAllowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             break;
 
         case 1:
-            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            mKeysAllowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             break;
 
         case 2:
-            keys_allowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
+            mKeysAllowed = {'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';'};
             break;
 
         case 3:
-            keys_allowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
+            mKeysAllowed = {'A', 'S', 'D', 'F', 'J', 'K', 'L', ';'};
             break;
 
         default:
@@ -391,6 +399,10 @@ void GameView::AddResourceToLevel(int levelNum)
     }
 }
 
+/**
+ * Take key pos
+ * @param key key value
+ */
 void GameView::RetrieveKeyPositions(wxChar key) {
     SoundBoardVisitor visitor(key);
     mGame.Accept(&visitor);

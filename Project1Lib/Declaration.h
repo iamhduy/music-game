@@ -77,7 +77,11 @@ public:
 
     virtual void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y);
 
-    virtual void UpdatePercentage(double pct);
+    /**
+     * Virtual function for meter percentage
+     * @param pct percentage
+     */
+    virtual void UpdatePercentage(double pct) {}
 
     /**
      * @return the TopWidth of this object (for soundboard)
@@ -89,7 +93,13 @@ public:
      */
     virtual int GetBeatSize() {return 0;};
 
-    virtual void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) {};
+    /**
+     * Virtual function for priority drawing
+     * @param graphics draw device
+     * @param x x pos
+     * @param y y pos
+     */
+    virtual void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) {}
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATION_H

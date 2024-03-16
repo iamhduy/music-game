@@ -32,9 +32,6 @@ private:
 
     /// Needle's bitmap
     std::unique_ptr<wxBitmap> mNeedleBitmap;
-
-    /// Score Accuracy
-    double mScorePct;
 public:
     /// Default constructor (disabled)
     DeclarationMeter() = delete;
@@ -50,8 +47,6 @@ public:
     void XmlLoad(wxXmlNode *node) override;
 
     void Draw(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;
-
-    void UpdatePercentage(double pct) override { mScorePct = pct; };
 };
 
 #endif //PROJECT1_PROJECT1LIB_DECLARATIONMETER_H

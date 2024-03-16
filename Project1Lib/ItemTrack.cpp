@@ -147,7 +147,6 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
                 {
                     note->GetGame()->AddScore(GoodSoundScore);
                     note->GetGame()->AddNoteHit();
-                    note->GetGame()->UpdateMeter();
                 }
             }
             else //set new location if already linked to track
@@ -224,15 +223,12 @@ void ItemTrack::UpdateNotes(double elapsed, double beatsPerSecond)
 
             if (note->IsReadyForDeletion())
             {
-                DeletedNotes ++;
+                if (!note->IsDangerNote()) DeletedNotes ++;
                 it = mNotes.erase(it);
                 continue;
             }
         }
         ++it;
     }
-    if (DeletedNotes > mNotesPassed)
-    {
-        mNotesPassed = DeletedNotes;
-    }
+    mNotesPassed += DeletedNotes;
 }

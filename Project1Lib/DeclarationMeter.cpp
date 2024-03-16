@@ -66,7 +66,7 @@ void DeclarationMeter::Draw(std::shared_ptr<wxGraphicsContext> graphics, double 
 
     graphics->PushState();
     graphics->Translate(x, y + needlePivotY - hit/2);
-    graphics->Rotate(-MaxNeedleRotation + (mScorePct * MaxNeedleRotation * 2));
+    graphics->Rotate(min(-MaxNeedleRotation + (this->GetGame()->GetAccuracy() * MaxNeedleRotation * 2), MaxNeedleRotation));
     graphics->DrawBitmap(*mNeedleBitmap, -wid/2, -needlePivotY,
                          wid, hit);
 

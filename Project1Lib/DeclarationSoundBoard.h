@@ -54,6 +54,9 @@ public:
      */
     wxString GetCoverFile() { return mCoverFile; };
 
+    /**
+     * @return the size beats of this soundboard
+     */
     int GetBeatSize() override { return mSizeBeats; };
 
     void DrawOnTop(std::shared_ptr<wxGraphicsContext> graphics, double x, double y) override;

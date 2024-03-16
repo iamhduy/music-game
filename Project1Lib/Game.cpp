@@ -14,7 +14,6 @@
 #include "DeclarationMeter.h"
 #include "DeclarationNote.h"
 #include "ItemVisitor.h"
-#include "Music.h"
 #include "SoundboardAddNote.h"
 #include "TotalNotesVisitor.h"
 #include <memory>
@@ -27,7 +26,7 @@ const wxString levelDir = L"levels/";
 const double SecondsPerMinute = 60;
 
 /// Level file names
-const vector<wxString> LevelFileNames {L"level0.xml", L"level1.xml", L"level2.xml", L"level3.xml"};
+const vector <wxString> LevelFileNames{L"level0.xml", L"level1.xml", L"level2.xml", L"level3.xml"};
 
 /**
  * Game Constructor
@@ -35,7 +34,6 @@ const vector<wxString> LevelFileNames {L"level0.xml", L"level1.xml", L"level2.xm
  */
 Game::Game(ma_engine *PEngine) : mAudioEngine(PEngine)
 {
-    //mBackground = wxBitmap(L"images/background1.png", wxBITMAP_TYPE_ANY);
 }
 
 /**
@@ -70,12 +68,12 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
 
     mXOffset = (width - mPixelWidth * mScale) / 2.0;
     mYOffset = 0;
-    if (height > mPixelHeight * mScale)
+    if(height > mPixelHeight * mScale)
     {
         mYOffset = (double)((height - mPixelHeight * mScale) / 2.0);
     }
 
-    mYOffset = mYOffset + (15*mScale); //< Offset in the Y direction to account for NAV bar.
+    mYOffset = mYOffset + (15 * mScale); //< Offset in the Y direction to account for NAV bar.
 
     graphics->PushState();
 
@@ -85,11 +83,11 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     //
     // Draw in virtual pixels on the graphics context
     //
-    for (auto const declaration : mDeclarations)
+    for(auto const declaration : mDeclarations)
     {
-        for (auto const item : mItems)
+        for(auto const item : mItems)
         {
-            if (declaration->GetId() == item->GetId())
+            if(declaration->GetId() == item->GetId())
             {
                 declaration->Draw(graphics, item->GetX(), item->GetY());
                 item->Draw(graphics, declaration);
@@ -99,11 +97,11 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     }
 
     //draw every note
-    for (auto const note : mMusicNotes)
+    for(auto const note : mMusicNotes)
     {
-        for (auto const declaration : mDeclarations)
+        for(auto const declaration : mDeclarations)
         {
-            if (declaration->GetId() == note->GetId())
+            if(declaration->GetId() == note->GetId())
             {
                 note->Draw(graphics, declaration);
                 break;
@@ -112,11 +110,11 @@ void Game::OnDraw(std::shared_ptr<wxGraphicsContext> graphics, int width, int he
     }
 
     //Draw images that should be on top
-    for (auto const declaration : mDeclarations)
+    for(auto const declaration : mDeclarations)
     {
-        for (auto const item : mItems)
+        for(auto const item : mItems)
         {
-            if (declaration->GetId() == item->GetId())
+            if(declaration->GetId() == item->GetId())
             {
                 declaration->DrawOnTop(graphics, item->GetX(), item->GetY());
                 item->DrawOnTop(graphics, declaration);
@@ -136,7 +134,7 @@ void Game::Load(int levelNumber)
 {
     mLevelNumber = levelNumber;
     wxXmlDocument xmlDoc;
-    if(!xmlDoc.Load(levelDir + LevelFileNames[levelNumber]))
+    if(!xmlDoc.Load(wxString::Format(levelDir + L"level%d.xml", mLevelNumber)))
     {
         wxMessageBox(L"Unable to load Xml file");
         return;
@@ -154,46 +152,46 @@ void Game::Load(int levelNumber)
     // node of the XML document in memory!!!!
     //
     auto child = root->GetChildren();
-    for( ; child; child=child->GetNext())
+    for(; child; child = child->GetNext())
     {
         auto name = child->GetName();
         if(name == L"items")
         {
             auto childItem = child->GetChildren();
-            for( ; childItem; childItem=childItem->GetNext())
+            for(; childItem; childItem = childItem->GetNext())
             {
                 XmlItem(childItem);
             }
         }
-        else if (name == L"declarations")
+        else if(name == L"declarations")
         {
             auto childDeclaration = child->GetChildren();
-            for( ; childDeclaration; childDeclaration=childDeclaration->GetNext())
+            for(; childDeclaration; childDeclaration = childDeclaration->GetNext())
             {
                 XmlDeclaration(childDeclaration);
             }
         }
-        else if (name == L"audio")
+        else if(name == L"audio")
         {
             auto childAudio = child->GetChildren();
-            for( ; childAudio; childAudio=childAudio->GetNext())
+            for(; childAudio; childAudio = childAudio->GetNext())
             {
-                shared_ptr<Sound> sound = make_shared<Sound>(this);
-                if (sound != nullptr)
+                shared_ptr <Sound> sound = make_shared<Sound>(this);
+                if(sound != nullptr)
                 {
                     sound->XmlLoad(childAudio);
                     AddAudio(sound);
                 }
             }
         }
-        else if (name == L"music")
+        else if(name == L"music")
         {
             mMusic.XmlLoad(child);
             auto childMusic = child->GetChildren();
-            for( ; childMusic; childMusic=childMusic->GetNext())
+            for(; childMusic; childMusic = childMusic->GetNext())
             {
-                shared_ptr<MusicNote> musicNote = make_shared<MusicNote>(this);
-                if (musicNote != nullptr)
+                shared_ptr <MusicNote> musicNote = make_shared<MusicNote>(this);
+                if(musicNote != nullptr)
                 {
                     musicNote->XmlLoad(childMusic);
                     musicNote->SetBpMeasure(mMusic.GetBpMeasure());
@@ -204,23 +202,12 @@ void Game::Load(int levelNumber)
     }
 
     //this will add notes to the track it is associated with
-    for (auto note: mMusicNotes)
+    for(auto note : mMusicNotes)
     {
         SoundboardAddNote visitor(note);
         Accept(&visitor);
     }
 
-//    for (auto note : mMusicNotes)
-//    {
-//        for (auto sound : mAudio)
-//        {
-//            if (sound->GetSoundName() == note->GetSoundName())
-//            {
-//                note->SetSound(sound);
-//                break;
-//            }
-//        }
-//    }
 }
 
 /**
@@ -229,29 +216,29 @@ void Game::Load(int levelNumber)
  */
 void Game::XmlItem(wxXmlNode *node)
 {
-    shared_ptr<Item> item;
+    shared_ptr <Item> item;
 
     // We have an item. What type?
     auto name = node->GetName();
 
-    if (name == L"image")
+    if(name == L"image")
     {
         item = make_shared<ItemImage>(this);
     }
-    else if (name == L"sound-board")
+    else if(name == L"sound-board")
     {
         item = make_shared<ItemSoundBoard>(this);
     }
-    else if (name == L"score-board")
+    else if(name == L"score-board")
     {
         item = make_shared<ItemScoreBoard>(this);
     }
-    else if (name == L"meter")
+    else if(name == L"meter")
     {
         item = make_shared<ItemMeter>(this);
     }
 
-    if (item != nullptr)
+    if(item != nullptr)
     {
         item->XmlLoad(node);
         AddItem(item);
@@ -262,35 +249,35 @@ void Game::XmlItem(wxXmlNode *node)
  * Handle a node of type declaration.
  * @param node XML node
  */
-void Game::XmlDeclaration(wxXmlNode* node)
+void Game::XmlDeclaration(wxXmlNode *node)
 {
-    shared_ptr<Declaration> declaration;
+    shared_ptr <Declaration> declaration;
 
     // We have an item. What type?
     auto name = node->GetName();
 
-    if (name == L"image")
+    if(name == L"image")
     {
         declaration = make_shared<DeclarationImage>(this);
     }
-    else if (name == L"sound-board")
+    else if(name == L"sound-board")
     {
         declaration = make_shared<DeclarationSoundBoard>(this);
     }
-    else if (name == L"score-board")
+    else if(name == L"score-board")
     {
         declaration = make_shared<DeclarationScoreBoard>(this);
     }
-    else if (name == L"meter")
+    else if(name == L"meter")
     {
         declaration = make_shared<DeclarationMeter>(this);
     }
-    else if (name == L"note")
+    else if(name == L"note")
     {
         declaration = make_shared<DeclarationNote>(this);
     }
 
-    if (declaration != nullptr)
+    if(declaration != nullptr)
     {
         declaration->XmlLoad(node);
         AddDeclaration(declaration);
@@ -305,7 +292,6 @@ void Game::AddItem(std::shared_ptr<Item> item)
 {
     mItems.push_back(item);
 }
-
 
 /**
  * Add an declaration to the game
@@ -358,42 +344,47 @@ void Game::SubtractScore(int value)
  */
 void Game::Update(double elapsed)
 {
-    if (mState == GameState::Ready)
+    if(mState == GameState::Ready)
     {
         mAbsoluteBeat = 0;
     }
 
     mTimePlaying += elapsed;
 
-    if (mTimePlaying >= 2.0 && mState != GameState::Completed)
+    if(mTimePlaying >= 2.0 && mState != GameState::Completed)
     {
         mAbsoluteBeat += elapsed * mMusic.GetBpMinute() / SecondsPerMinute;
     }
 
     UpdateState();
+    CalculateAccuracy();
 
-    if (mAbsoluteBeat >= 4 && mState == GameState::Playing && !mIsMusicPlayed)
+    if(mAbsoluteBeat >= 4 && mState == GameState::Playing && !mIsMusicPlayed)
     {
         mAudio[0]->LoadSound(mAudioEngine);
         mAudio[0]->PlaySound();
         mIsMusicPlayed = !mIsMusicPlayed;
     }
-    else if (mState == GameState::Completed && mTimePlaying != 0)
+    else if(mState == GameState::Completed && mTimePlaying != 0)
     {
         mAudio[0]->PlayEnd();
         mTimePlaying = 0;
     }
 
     double beatsPerSecond = mMusic.GetBpMinute() / SecondsPerMinute;
-    for (auto item : mItems)
+    for(auto item : mItems)
     {
         item->Update(elapsed, beatsPerSecond);
     }
 }
 
+/**
+ * Handle updates for Game state
+ * Called inside Update()
+ */
 void Game::UpdateState()
 {
-    if(mAbsoluteBeat >= (mMusic.GetMeasures()+2) * mMusic.GetBpMeasure() && mState == GameState::Playing)
+    if(mAbsoluteBeat >= (mMusic.GetMeasures() + 2) * mMusic.GetBpMeasure() && mState == GameState::Playing)
     {
         mState = GameState::Completed;
     }
@@ -419,19 +410,20 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
     CalculateAccuracy();
     //int tot_score = 0;
     double currentBeat = 0;
-    for (auto& note : mMusicNotes){
-        if (note->CheckIfHit(currentBeat, keyX, keyY) ){//&& !note->IsReadyForDeletion()){
+    for(auto &note : mMusicNotes)
+    {
+        if(note->CheckIfHit(currentBeat, keyX, keyY))
+        {//&& !note->IsReadyForDeletion()){
             mActiveNotes.push_back(note);
-            if (note == nullptr){
+            if(note == nullptr)
+            {
                 SubtractScore(10);
-                UpdateMeter();
                 return true;
             }
             else if(note->GetId().ToStdString().find("tp") != std::string::npos)
             {
                 SubtractScore(20);
                 note->PlaySound(mAbsoluteBeat);
-                UpdateMeter();
                 return true;
             }
             else
@@ -440,7 +432,6 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
                 mNotesHit += 1;
 
                 note->PlaySound(mAbsoluteBeat);
-                UpdateMeter();
                 return true;
             }
 
@@ -453,31 +444,40 @@ bool Game::HitTest(wxChar keyCode, int keyX, int keyY, long duration)
  * Accept a visitor for the collection
  * @param visitor The visitor for the collection
  */
-void Game::Accept(ItemVisitor* visitor)
+void Game::Accept(ItemVisitor *visitor)
 {
-    for (auto item : mItems)
+    for(auto item : mItems)
     {
         item->Accept(visitor);
     }
 }
 
+/**
+ * Add bonus point for long notes
+ * @param duration key press duration
+ */
 void Game::DurationScoreBonus(int duration)
 {
     shared_ptr note = mActiveNotes.front();
     mActiveNotes.erase(mActiveNotes.begin());
     int noteDuration = note->GetDuration();
-    if (noteDuration >= duration)
+    if(noteDuration >= duration)
     {
         int tot_score = (duration / noteDuration) * 10;
         AddScore(tot_score);
     }
 }
 
-shared_ptr<Sound> Game::FindSoundByName(const wxString& audioName)
+/**
+ * Map the sound to the corresponding note
+ * @param audioName audio name
+ * @return the sound has that audio name
+ */
+shared_ptr <Sound> Game::FindSoundByName(const wxString &audioName)
 {
-    for (auto sound : mAudio)
+    for(auto sound : mAudio)
     {
-        if (sound->GetSoundName() == audioName)
+        if(sound->GetSoundName() == audioName)
         {
             return sound;
         }
@@ -485,46 +485,33 @@ shared_ptr<Sound> Game::FindSoundByName(const wxString& audioName)
     return nullptr;
 }
 
-
-double Game::CalculateAccuracy()
+/**
+ * Update accuracy of the game
+ */
+void Game::CalculateAccuracy()
 {
-    int totalNotesPassed = 0;
+    double totalNotesPassed = 0;
     TotalNotesVisitor visitor;
-    this->Accept(&visitor);
+    Accept(&visitor);
     totalNotesPassed = visitor.GetTotalNotesPassed();
-//    cout << "Accuracy" << endl;
-//    cout << totalNotesPassed << endl;
-//    cout << mNotesHit << endl;
-
+    double maxRotation = 0.9;
     if(totalNotesPassed == 0)
     {
-        return 0;
+        mAccuracy = maxRotation;
     }
-
-    if (mNotesHit / totalNotesPassed > 1)
+    else
     {
-        return 1.0;
-    }
-
-    return mNotesHit / totalNotesPassed;
-}
-
-void Game::UpdateMeter()
-{
-    wxString targetID = L"i921";
-    for (auto const declaration : mDeclarations)
-    {
-        if(declaration->GetId() == targetID)
-        {
-            declaration->UpdatePercentage(CalculateAccuracy());
-            break;
-        }
+        mAccuracy = mNotesHit / totalNotesPassed;
     }
 }
 
+/**
+ * Stop the sound with key up event
+ * @param key key value
+ */
 void Game::StopSound(char key)
 {
-    for (auto note : mActiveNotes)
+    for(auto note : mActiveNotes)
     {
         if(note->GetAssociatedKey() == key)
         {
